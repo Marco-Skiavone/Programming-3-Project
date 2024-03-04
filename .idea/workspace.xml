@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b2ff8eba-33c4-4f05-aac3-ba1a1d2fc584" name="Changes" comment="" />
+    <list default="true" id="b2ff8eba-33c4-4f05-aac3-ba1a1d2fc584" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -62,10 +64,39 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.client.HelloApplication">
-    <configuration name="client.HelloApplication" type="Application" factoryName="Application" singleton="false">
+  <component name="RunManager" selected="Application.server.HelloApplication">
+    <configuration name="client.1.HelloApplication" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="com.example.client.HelloApplication" />
       <module name="client" />
+      <option name="PROGRAM_PARAMETERS" value="marco.schiavone@github.com" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.main.client.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="client.2.HelloApplication" type="Application" factoryName="Application" singleton="false">
+      <option name="MAIN_CLASS_NAME" value="com.example.client.HelloApplication" />
+      <module name="client" />
+      <option name="PROGRAM_PARAMETERS" value="ivan.lusso@unito.it" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.main.client.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="client.3.HelloApplication" type="Application" factoryName="Application" singleton="false">
+      <option name="MAIN_CLASS_NAME" value="com.example.client.HelloApplication" />
+      <module name="client" />
+      <option name="PROGRAM_PARAMETERS" value="riccardo.saccu@unilo.en" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.main.client.*" />
@@ -83,37 +114,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Unnamed" type="MavenRunConfiguration" factoryName="Maven">
-      <MavenSettings>
-        <option name="myGeneralSettings" />
-        <option name="myRunnerSettings" />
-        <option name="myRunnerParameters">
-          <MavenRunnerParameters>
-            <option name="cmdOptions" />
-            <option name="profiles">
-              <set />
-            </option>
-            <option name="goals">
-              <list />
-            </option>
-            <option name="pomFileName" />
-            <option name="profilesMap">
-              <map />
-            </option>
-            <option name="projectsCmdOptionValues">
-              <list />
-            </option>
-            <option name="resolveToWorkspace" value="false" />
-            <option name="workingDirPath" value="$PROJECT_DIR$/client" />
-          </MavenRunnerParameters>
-        </option>
-      </MavenSettings>
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Application.server.HelloApplication" />
-      <item itemvalue="Application.client.HelloApplication" />
-      <item itemvalue="Maven.Unnamed" />
+      <item itemvalue="Application.client.1.HelloApplication" />
+      <item itemvalue="Application.client.2.HelloApplication" />
+      <item itemvalue="Application.client.3.HelloApplication" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -135,7 +140,9 @@
       <workItem from="1709485115599" duration="139000" />
       <workItem from="1709485258278" duration="182000" />
       <workItem from="1709485453965" duration="304000" />
-      <workItem from="1709485762931" duration="562000" />
+      <workItem from="1709485762931" duration="1129000" />
+      <workItem from="1709543886022" duration="1838000" />
+      <workItem from="1709562770260" duration="527000" />
     </task>
     <servers />
   </component>
