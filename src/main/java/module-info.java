@@ -3,6 +3,6 @@ module com.example.client {
     requires javafx.fxml;
 
 
-    opens com.example.client to javafx.fxml;
-    exports com.example.client;
+    opens server to javafx.fxml;
+    exports server;
 }

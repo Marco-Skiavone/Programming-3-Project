@@ -4,10 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b2ff8eba-33c4-4f05-aac3-ba1a1d2fc584" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/example/client/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/example/client/HelloApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/resources/com/example/client/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/resources/com/example/client/hello-view.fxml" afterDir="false" />
+    <list default="true" id="3d9dccc2-db06-422b-88ad-baee0e7e7987" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/example/client/HelloApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/example/client/HelloController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/module-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/resources/com/example/client/hello-view.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/server/HelloApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/server/HelloController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/module-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/resources/com/example/server/hello-view.fxml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,135 +38,56 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
       </MavenGeneralSettings>
     </option>
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="jdkForImporter" value="19 (2)" />
-      </MavenImportingSettings>
-    </option>
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 8
-}</component>
-  <component name="ProjectId" id="2dBUsotj3kVw0N8SnMk65kJpsw7" />
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="2kFB3AN2iOYsrvwK34Ri4zUuSsO" />
   <component name="ProjectViewState">
+    <option name="flattenModules" value="true" />
+    <option name="flattenPackages" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+    <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;19 (2)&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/marko/Desktop/GitHub/Programming-3-Project/client&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.28850573&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.importing&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager" selected="Application.client.1.HelloApplication">
-    <configuration name="client.1.HelloApplication" type="Application" factoryName="Application" singleton="false">
-      <option name="MAIN_CLASS_NAME" value="com.example.client.HelloApplication" />
-      <module name="client" />
-      <option name="PROGRAM_PARAMETERS" value="marco.schiavone@github.com" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.main.client.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="client.2.HelloApplication" type="Application" factoryName="Application" singleton="false">
-      <option name="MAIN_CLASS_NAME" value="com.example.client.HelloApplication" />
-      <module name="client" />
-      <option name="PROGRAM_PARAMETERS" value="ivan.lusso@unito.it" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.main.client.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="client.3.HelloApplication" type="Application" factoryName="Application" singleton="false">
-      <option name="MAIN_CLASS_NAME" value="com.example.client.HelloApplication" />
-      <module name="client" />
-      <option name="PROGRAM_PARAMETERS" value="riccardo.saccu@unilo.en" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.main.client.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="server.HelloApplication" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="com.example.server.HelloApplication" />
-      <module name="server" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <list>
-      <item itemvalue="Application.server.HelloApplication" />
-      <item itemvalue="Application.client.1.HelloApplication" />
-      <item itemvalue="Application.client.2.HelloApplication" />
-      <item itemvalue="Application.client.3.HelloApplication" />
-    </list>
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.17011.79" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.17011.79" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="b2ff8eba-33c4-4f05-aac3-ba1a1d2fc584" name="Changes" comment="" />
-      <created>1709481174747</created>
+      <changelist id="3d9dccc2-db06-422b-88ad-baee0e7e7987" name="Changes" comment="" />
+      <created>1722869243476</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1709481174747</updated>
-      <workItem from="1709481175780" duration="308000" />
-      <workItem from="1709481490886" duration="195000" />
-      <workItem from="1709481687751" duration="225000" />
-      <workItem from="1709481914664" duration="801000" />
-      <workItem from="1709482717119" duration="45000" />
-      <workItem from="1709482789715" duration="1999000" />
-      <workItem from="1709484806022" duration="135000" />
-      <workItem from="1709484954197" duration="160000" />
-      <workItem from="1709485115599" duration="139000" />
-      <workItem from="1709485258278" duration="182000" />
-      <workItem from="1709485453965" duration="304000" />
-      <workItem from="1709485762931" duration="1129000" />
-      <workItem from="1709543886022" duration="1838000" />
-      <workItem from="1709562770260" duration="1023000" />
-      <workItem from="1710168509779" duration="2316000" />
+      <updated>1722869243476</updated>
+      <workItem from="1722869245883" duration="316000" />
     </task>
     <servers />
   </component>
