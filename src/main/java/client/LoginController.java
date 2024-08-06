@@ -9,6 +9,6 @@ public class LoginController {
 
     @FXML
     protected void onHelloButtonClick() {
-        welcomeText.setText("Sesso?");
+        welcomeText.setText("Login?");
     }
 }
