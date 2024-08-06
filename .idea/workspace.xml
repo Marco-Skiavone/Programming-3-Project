@@ -5,15 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d9dccc2-db06-422b-88ad-baee0e7e7987" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/client/MailController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/client/MailModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/ClientApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/ServerApplication.java" afterDir="false" />
-    </list>
-    <list id="01236c04-f859-4efd-906e-a75f9668e036" name="Changes by ric" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/ClientApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/ClientApplication.java" afterDir="false" />
     </list>
     <list id="efd7fcb3-83e1-4863-a494-5bccd8d2ff3e" name="Changes by testa" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,14 +25,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/src/main/java/client/LoginController.java">
-      <ranges>
-        <range start1="5" end1="6" start2="5" end2="6" changelist="3d9dccc2-db06-422b-88ad-baee0e7e7987" />
-        <range start1="11" end1="12" start2="11" end2="12" changelist="01236c04-f859-4efd-906e-a75f9668e036" />
-      </ranges>
-    </file>
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -64,7 +51,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/marko/Desktop/GitHub/Programming-3-Project/src/main/resources/utilities",
+    "last_opened_file_path": "C:/Users/marko/Desktop/GitHub/Programming-3-Project/src/main/resources/client",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -78,8 +65,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\marko\Desktop\GitHub\Programming-3-Project\src\main\resources\utilities" />
       <recent name="C:\Users\marko\Desktop\GitHub\Programming-3-Project\src\main\resources\client" />
+      <recent name="C:\Users\marko\Desktop\GitHub\Programming-3-Project\src\main\resources\utilities" />
       <recent name="C:\Users\marko\Desktop\GitHub\Programming-3-Project\src\main\java\utilities" />
       <recent name="C:\Users\marko\Desktop\GitHub\Programming-3-Project\src\main\java\client" />
     </key>
@@ -119,7 +106,7 @@
       <option name="presentableId" value="Default" />
       <updated>1722869243476</updated>
       <workItem from="1722869245883" duration="995000" />
-      <workItem from="1722949511188" duration="3828000" />
+      <workItem from="1722949511188" duration="5731000" />
     </task>
     <servers />
   </component>
