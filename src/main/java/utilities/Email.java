@@ -45,4 +45,16 @@ public class Email implements Serializable {
     public LocalDateTime getDate() {
         return date;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Email email)) return false;
+        return getID() == email.getID();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getID());
+    }
 }
