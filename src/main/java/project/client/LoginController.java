@@ -1,14 +1,14 @@
-package server;
+package project.client;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class ServerController {
+public class LoginController {
     @FXML
     private Label welcomeText;
 
     @FXML
     protected void onHelloButtonClick() {
-        welcomeText.setText("Server!");
+        welcomeText.setText("Login?");
     }
 }

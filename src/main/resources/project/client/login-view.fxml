@@ -22,10 +22,6 @@
             <Insets bottom="15.0" />
          </VBox.margin>
       </Label>
-      <Button alignment="CENTER" disable="true" mnemonicParsing="false" text="Log In">
-         <padding>
-            <Insets top="10.0" />
-         </padding>
-      </Button>
+      <Button alignment="CENTER" disable="true" mnemonicParsing="false" text="Log In" />
    </children>
 </VBox>
