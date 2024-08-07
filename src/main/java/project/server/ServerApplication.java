@@ -14,6 +14,7 @@ public class ServerApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ServerApplication.class.getResource("log-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1024, 576);
+        ServerController controller = new ServerController(69420, 0);
         stage.setTitle("Server:");
         stage.setScene(scene);
         stage.setResizable(false);
