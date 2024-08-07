@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d9dccc2-db06-422b-88ad-baee0e7e7987" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/client/MailboxController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/client/MailboxModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utilities/Email.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utilities/Email.java" afterDir="false" />
     </list>
     <list id="efd7fcb3-83e1-4863-a494-5bccd8d2ff3e" name="Changes by testa" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -91,7 +90,7 @@
       <updated>1722869243476</updated>
       <workItem from="1722869245883" duration="995000" />
       <workItem from="1722949511188" duration="6328000" />
-      <workItem from="1723036769242" duration="436000" />
+      <workItem from="1723036769242" duration="2710000" />
     </task>
     <servers />
   </component>
