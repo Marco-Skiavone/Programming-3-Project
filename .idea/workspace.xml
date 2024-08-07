@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3d9dccc2-db06-422b-88ad-baee0e7e7987" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/client/MailController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/client/MailModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/ClientApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/ClientApplication.java" afterDir="false" />
-    </list>
+    <list default="true" id="3d9dccc2-db06-422b-88ad-baee0e7e7987" name="Changes" comment="" />
     <list id="efd7fcb3-83e1-4863-a494-5bccd8d2ff3e" name="Changes by testa" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +101,7 @@
       <option name="presentableId" value="Default" />
       <updated>1722869243476</updated>
       <workItem from="1722869245883" duration="995000" />
-      <workItem from="1722949511188" duration="5731000" />
+      <workItem from="1722949511188" duration="6328000" />
     </task>
     <servers />
   </component>
