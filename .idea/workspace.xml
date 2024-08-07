@@ -4,25 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3d9dccc2-db06-422b-88ad-baee0e7e7987" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/project/client/ClientApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/mvnw" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/ClientApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/client/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/MailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/client/MailController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/MailModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/client/MailModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/MailboxController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/client/MailboxController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/MailboxModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/client/MailboxModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/ServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/server/ServerApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/ServerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/server/ServerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/ServerModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/server/ServerModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utilities/Email.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/utilities/Email.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/project/client/login-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/client/login-view.fxml" afterDir="false" />
-    </list>
+    <list default="true" id="3d9dccc2-db06-422b-88ad-baee0e7e7987" name="Changes" comment="" />
     <list id="efd7fcb3-83e1-4863-a494-5bccd8d2ff3e" name="Changes by testa" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +54,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
+    "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.0",
     "vue.rearranger.settings.migration": "true"
   }
@@ -133,7 +115,7 @@
       <updated>1722869243476</updated>
       <workItem from="1722869245883" duration="995000" />
       <workItem from="1722949511188" duration="6328000" />
-      <workItem from="1723036769242" duration="7037000" />
+      <workItem from="1723036769242" duration="7318000" />
     </task>
     <servers />
   </component>
