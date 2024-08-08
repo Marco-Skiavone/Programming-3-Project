@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -62,4 +63,30 @@ public class ServerController {
             }
         }
     }
+
+    /**
+     *  This method retrieves the header-file of a client and return it
+     *
+     * @param clientName is a string containing the username of the client (mail address). It will be used as fileName
+     * @return the file content. @todo: should we return a list of Headers? Or just a string that will be parsed by the client?
+     *
+     * @todo: should I throw an error on a erroneous clientName?
+     */
+    public String headersRequest(String clientName) {
+        String response = "";
+        /*
+         retrieves header file in Programming-3-Project/persistence/headers/<clientName>.txt
+        */
+
+        /*
+         parses the file
+        */
+
+        /*
+         send the data
+        */
+        return response;
+    }
+
+
 }
