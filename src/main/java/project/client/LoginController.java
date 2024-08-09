@@ -27,12 +27,13 @@ public class LoginController {
             // Above, we ensured the string is trimmed and lowercase
             if (!checkSyntax(emailString))
                 errorText.setText("Invalid email format.");
-            else if (true)  // @todo forward the check request to the server
+            else if (!loginConnection(emailString))
                 errorText.setText("Unknown email address.");
             else {
                 openMailboxView(emailString);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             errorText.setText("Invalid email format.");
         }
     }
@@ -70,27 +71,23 @@ public class LoginController {
         }
     }
 
-
-/*
- * 
- *      "127.0.0.1" is an IP used for connections between a client and a server runnig in the same host.
- * 
- *      to do:
- *      - All the logic of the login
- * 
- */
-
- public void getConnection(String login)
- {
-     try{
-        Socket clientSocket = new Socket("127.0.0.1",69420);
-        ObjectOutputStream output = new ObjectOutputStream(clientSocket.getOutputStream());
-        ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
-        output.writeObject(login);
+    /**
+     * "127.0.0.1" is an IP used for connections between a client and a server running in the same host.
+     * @param login The string representing the email to check.
+     */
+    public boolean loginConnection(String login) {
+        try {
+            Socket clientSocket = new Socket("127.0.0.1",69420);
+            ObjectOutputStream output = new ObjectOutputStream(clientSocket.getOutputStream());
+            ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
+            output.writeObject("CHECK_ADDR.-/" + login);
+            output.flush();
+            return (boolean) input.readObject();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        }
     }
-    catch(Exception e)
-    {
-        e.printStackTrace();
-    }
- }
 }

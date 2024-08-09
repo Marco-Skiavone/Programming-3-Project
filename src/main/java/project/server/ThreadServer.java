@@ -15,36 +15,44 @@ public class ThreadServer implements Runnable
       this.socket = socket; 
     }
 
-    /* -- @todo
-     * 
-     *        this should be the main logic:
-     *        -: Logs in a user.
-     *        -: Fetches emails for a user.
-     *        -: Refreshes emails since a certain ID for a user.
-     *        -: Deletes specified emails for a user.
-     *        -: Verifies the existence of specified email receivers.
-     *        -: Indicates readiness to handle incoming data.
-     * 
-    */
-   public void run() 
-   {
-    try 
-    { 
-      ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
-      ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
-
-      /*                    debugging purpose                                */
-      System.out.println("i am a thread :D\n");
-
-      
-      output.flush();
-      output.reset();
-    } 
-    catch (Exception e) 
-    {
-      e.printStackTrace();
+    /** @todo
+     * this should be the main logic:
+     * - CHECK_ADDR: Verifies the existence of specified email receivers.
+     * - DEL: Deletes specified emails for a user.
+     * - FETCH: Fetches emails from server to an user.
+     * - REF: Refreshes emails since a certain ID for an user.
+     * - ___: Indicates readiness to handle incoming data. (?)
+     *
+     * @example "CHECK_ADDR.-/my-email@dom.it"
+     */
+    public void run() {
+        try {
+            ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
+            ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
+            String[] request = input.readUTF().split(".-/");
+            String[] accountList;   // @todo gain the information about the mailing list
+            switch(request[0]) {
+                case "CHECK_ADDR":
+                    output.writeBoolean(true); // @todo end up this part
+                    break;
+                case "DEL":
+                    // @todo
+                    break;
+                case "FETCH":
+                    // @todo
+                    break;
+                case "REF":
+                    // @todo
+                    break;
+                default:
+            }
+            output.flush();
+            output.reset();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            // log error in the log-view.
+        }
     }
-    
-     
-   }
 }
