@@ -8,8 +8,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/client/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/client/LoginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/server/ServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/server/ServerApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/server/ThreadServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/server/ThreadServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/project/client/login-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/client/login-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/server/ServerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/server/ServerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/server/ServerModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/server/ServerModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/project/server/log-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/server/log-view.fxml" afterDir="false" />
     </list>
     <list id="efd7fcb3-83e1-4863-a494-5bccd8d2ff3e" name="Changes by testa" comment="" />
@@ -51,6 +51,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.ClientApplication.executor": "Run",
+    "Application.ServerApplication.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "login-client-implementation",
     "kotlin-language-version-configured": "true",

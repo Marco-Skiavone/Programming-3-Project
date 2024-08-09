@@ -4,16 +4,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml" fx:controller="project.server.ServerController">
    <children>
-      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0">
+      <VBox alignment="CENTER" prefHeight="500.0" prefWidth="900.0">
          <children>
-            <ListView fixedCellSize="0.0" prefHeight="400.0" prefWidth="600.0" />
+            <ListView fx:id="logList" prefHeight="490.0" prefWidth="880.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+               </VBox.margin></ListView>
          </children>
       </VBox>
    </children>
-   <padding>
-      <Insets bottom="2.0" left="10.0" right="10.0" />
-   </padding>
 </AnchorPane>

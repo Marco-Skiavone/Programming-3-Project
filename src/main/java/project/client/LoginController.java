@@ -76,8 +76,7 @@ public class LoginController {
      * @param login The string representing the email to check.
      */
     public boolean loginConnection(String login) {
-        try {
-            Socket clientSocket = new Socket("127.0.0.1",69420);
+        try (Socket clientSocket = new Socket("127.0.0.1", project.server.ServerModel.getPORT())) {
             ObjectOutputStream output = new ObjectOutputStream(clientSocket.getOutputStream());
             ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
             output.writeObject("CHECK_ADDR.-/" + login);
