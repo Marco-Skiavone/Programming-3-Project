@@ -6,15 +6,26 @@ import javafx.scene.control.Label;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ServerController {
     @FXML
     private Label welcomeText;
-    private ServerSocket serverSocket;
-    private ExecutorService threadGen;
+    private final ServerSocket serverSocket;
+    private final ExecutorService pool;
+
+    /*
+     *  @param poolSize: how many clients it is possible to manage in the same time, it is provided from the server app
+     * 
+     */
+
+   public ServerController(int port, int poolSize) throws IOException 
+   {
+     serverSocket = new ServerSocket(port);
+     pool = Executors.newFixedThreadPool(poolSize);
+   }
+
 
     @FXML
     protected void onHelloButtonClick() {
@@ -34,33 +45,32 @@ public class ServerController {
     {
         try
         {
-            serverSocket = new ServerSocket(69420);
-            threadGen = Executors.newFixedThreadPool(0); /*it rappresents the maximum number of connection that the server can possibly maintain*/
             System.out.println("Server is up at port "+ serverSocket.getLocalPort() + "!!\n");
 
 
             while (!Thread.currentThread().isInterrupted()) 
             {
                 Socket clientSocket = serverSocket.accept();
-                Runnable serverThread = () -> threadStart(clientSocket);
-                threadGen.execute(serverThread);
+                pool.execute(new ThreadServer(serverSocket.accept()));
             }
         }
         catch(IOException e)
         {
             e.printStackTrace();
         }
-        finally
-        {
-            try
-            {
+    }
+
+    public void ServerStop()
+    {
+        try {
+            if(!pool.isShutdown())
+                pool.shutdown();
+            if(!serverSocket.isClosed())
                 serverSocket.close();
-            }
-            catch(IOException e)
-            {
-                System.out.println("Socket NOT closed\n");
-                e.printStackTrace();
-            }
+
+        } catch (Exception e) {
+            System.out.println("not shut down correctly");
+            e.printStackTrace();
         }
     }
 
