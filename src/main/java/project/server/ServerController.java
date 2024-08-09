@@ -49,8 +49,13 @@ public class ServerController {
         {
             while (!Thread.currentThread().isInterrupted())
             {
-                Socket clientSocket = serverSocket.accept();
-                pool.execute(new ThreadServer(clientSocket));
+                try {
+                    Socket clientSocket = serverSocket.accept();
+                    pool.execute(new ThreadServer(clientSocket));
+                } catch (Exception e) {
+                    serverStop(); // @todo correctly shutdown the server!
+                    break;
+                }
             }
         }
         catch(Exception e)

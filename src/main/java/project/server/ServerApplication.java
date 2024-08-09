@@ -22,7 +22,8 @@ public class ServerApplication extends Application {
             stage.show();
 
             // Starting the server
-            serverController.serverStart();
+            Runnable runner = serverController::serverStart; // setting the function sign to call in a new Thread.
+            new Thread(runner).start();
         } catch (Exception e) {
             e.printStackTrace();
         }
