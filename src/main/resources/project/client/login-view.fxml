@@ -5,23 +5,23 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="228.0" prefWidth="402.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="228.0" prefWidth="402.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml" fx:controller="project.client.LoginController">
    <children>
       <Label text="Insert your email address:" textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField alignment="CENTER" prefHeight="26.0" prefWidth="360.0">
+      <TextField alignment="CENTER" prefHeight="26.0" prefWidth="360.0" fx:id="emailInput">
          <VBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </VBox.margin>
       </TextField>
-      <Label textAlignment="CENTER" textFill="RED">
+      <Label textAlignment="CENTER" textFill="RED"  fx:id="errorText">
          <VBox.margin>
             <Insets bottom="15.0" />
          </VBox.margin>
       </Label>
-      <Button alignment="CENTER" disable="true" mnemonicParsing="false" text="Log In" />
+      <Button onAction="#onLoginButtonClick" alignment="CENTER" disable="true" mnemonicParsing="false" text="Log In" />
    </children>
 </VBox>

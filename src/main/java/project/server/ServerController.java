@@ -42,8 +42,8 @@ public class ServerController {
             while (!Thread.currentThread().isInterrupted()) 
             {
                 Socket clientSocket = serverSocket.accept();
-                Runnable serverThread = () -> threadStart(clientSocket);
-                threadGen.execute(serverThread);
+                //Runnable serverThread = () -> threadStart(clientSocket);
+                //threadGen.execute(serverThread);
             }
         }
         catch(IOException e)
