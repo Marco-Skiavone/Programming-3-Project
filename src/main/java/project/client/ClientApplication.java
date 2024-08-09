@@ -19,7 +19,7 @@ public class ClientApplication extends Application {
             stage.setScene(scene);
             stage.setResizable(false);
             LoginController loginController = fxmlLoader.getController();
-            //stage.setOnCloseRequest(event -> loginController.shutdownController());
+            //stage.setOnCloseRequest(event -> loginController.shutdownController()); @todo
             stage.sizeToScene();
             stage.show();
         } catch (Exception e) {
