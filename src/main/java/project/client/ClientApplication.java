@@ -6,8 +6,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class ClientApplication extends Application {
-    private String userEmail;
-
     @Override
     public void start(Stage stage) {
         try {
@@ -20,7 +18,7 @@ public class ClientApplication extends Application {
             stage.sizeToScene();
             stage.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 

@@ -10,17 +10,24 @@ import java.util.concurrent.*;
 public class ServerController {
     @FXML
     private ListView<String> logList;
-    // logMsgList is used to automatically add messages into the log (ListView)
-    private ObservableList<String> logMsgList = FXCollections.observableArrayList();
+    /* logMsgList is used to automatically add messages into the log (ListView) */
+    private final ObservableList<String> logMsgList = FXCollections.observableArrayList();
+
     private ServerSocket serverSocket;
     private ExecutorService pool;
     private final ServerModel model;
+
+    /** Function called by FXML to bind the ListView to the logMsgList */
+    @FXML
+    public void initialize() {
+        logList.setItems(logMsgList);
+    }
 
     public ServerController() {
         try {
             serverSocket = new ServerSocket(ServerModel.getPORT());
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         } finally {
             model = new ServerModel();
         }
@@ -37,12 +44,11 @@ public class ServerController {
     public void serverStart()
     {
         try {
-
             pool = Executors.newFixedThreadPool(10);
-            writeOnLog("Server Started");
+            writeOnLog("Server Started.");
             System.out.println("Server is up at port " + serverSocket.getLocalPort() + ".\n");
         } catch(Exception e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
         try
@@ -52,15 +58,14 @@ public class ServerController {
                 try {
                     Socket clientSocket = serverSocket.accept();
                     pool.execute(new ThreadServer(clientSocket));
-                } catch (Exception e) {
-                    serverStop(); // @todo correctly shutdown the server!
+                } catch (Exception ignored) {
                     break;
                 }
             }
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 
@@ -75,9 +80,11 @@ public class ServerController {
             if(!serverSocket.isClosed())
                 serverSocket.close();
             writeOnLog("Server Stopped");
+            System.out.println("Server stopped correctly.");
         } catch (Exception e) {
-            System.out.println("Error during server shut down.");
-            e.printStackTrace();
+            writeOnLog("Error occurred while stopping server.");
+            System.out.println("Error occurred while stopping server.");
+            System.err.println(e.getMessage());
         }
     }
 
