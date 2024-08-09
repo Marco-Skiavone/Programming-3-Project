@@ -5,13 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class ClientApplication extends Application {
     private String userEmail;
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("login-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 400, 300);
@@ -19,7 +17,6 @@ public class ClientApplication extends Application {
             stage.setScene(scene);
             stage.setResizable(false);
             LoginController loginController = fxmlLoader.getController();
-            //stage.setOnCloseRequest(event -> loginController.shutdownController()); @todo
             stage.sizeToScene();
             stage.show();
         } catch (Exception e) {

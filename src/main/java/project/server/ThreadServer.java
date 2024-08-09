@@ -1,9 +1,7 @@
 package project.server;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-
+import java.io.*;
+import java.net.*;
 
 /* class that permits the running of the server using multi-thread.*/
 

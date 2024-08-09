@@ -1,18 +1,19 @@
 package project.server;
 
+import javafx.collections.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-import java.io.*;
 import java.net.*;
 import java.util.concurrent.*;
 
 public class ServerController {
     @FXML
     private ListView<String> logList;
+    // logMsgList is used to automatically add messages into the log (ListView)
+    private ObservableList<String> logMsgList = FXCollections.observableArrayList();
     private ServerSocket serverSocket;
     private ExecutorService pool;
-
     private final ServerModel model;
 
     public ServerController() {
@@ -38,6 +39,7 @@ public class ServerController {
         try {
 
             pool = Executors.newFixedThreadPool(10);
+            writeOnLog("Server Started");
             System.out.println("Server is up at port " + serverSocket.getLocalPort() + ".\n");
         } catch(Exception e) {
             e.printStackTrace();
@@ -67,6 +69,7 @@ public class ServerController {
                 pool.shutdown();
             if(!serverSocket.isClosed())
                 serverSocket.close();
+            writeOnLog("Server Stopped");
         } catch (Exception e) {
             System.out.println("Error during server shut down.");
             e.printStackTrace();
@@ -97,5 +100,11 @@ public class ServerController {
         return response;
     }
 
-
+    /** Function used to write on the server "log-view".
+     * @param msg The string message to show in the view.
+     * @note This function will add the message to {@link ServerController#logMsgList} that will automatically add the messages. */
+    public void writeOnLog(String msg) {
+        if (msg != null && !msg.isEmpty())
+            logMsgList.add(msg);
+    }
 }
