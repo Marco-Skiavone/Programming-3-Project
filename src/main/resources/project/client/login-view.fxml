@@ -22,6 +22,6 @@
             <Insets bottom="15.0" />
          </VBox.margin>
       </Label>
-      <Button onAction="#onLoginButtonClick" alignment="CENTER" disable="true" mnemonicParsing="false" text="Log In" />
+      <Button onAction="#onLoginButtonClick" alignment="CENTER" mnemonicParsing="false" text="Log In" />
    </children>
 </VBox>

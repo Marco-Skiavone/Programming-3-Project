@@ -1,35 +1,36 @@
 package project.server;
 
+import javafx.collections.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.net.*;
+import java.util.concurrent.*;
 
 public class ServerController {
     @FXML
-    private Label welcomeText;
-    private final ServerSocket serverSocket;
-    private final ExecutorService pool;
+    private ListView<String> logList;
+    /* logMsgList is used to automatically add messages into the log (ListView) */
+    private final ObservableList<String> logMsgList = FXCollections.observableArrayList();
 
-    /*
-     *  @param poolSize: how many clients it is possible to manage in the same time, it is provided from the server app
-     * 
-     */
+    private ServerSocket serverSocket;
+    private ExecutorService pool;
+    private final ServerModel model;
 
-   public ServerController(int port, int poolSize) throws IOException 
-   {
-     serverSocket = new ServerSocket(port);
-     pool = Executors.newFixedThreadPool(poolSize);
-   }
-
-
+    /** Function called by FXML to bind the ListView to the logMsgList */
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Server!");
+    public void initialize() {
+        logList.setItems(logMsgList);
+    }
+
+    public ServerController() {
+        try {
+            serverSocket = new ServerSocket(ServerModel.getPORT());
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        } finally {
+            model = new ServerModel();
+        }
     }
 
     /*
@@ -39,38 +40,51 @@ public class ServerController {
      *          -Socket : to create the real connection between a "server-thread" and the client
      *          -ExecutorService: to create threads with the goal to manage different connections for the almost certain possibility
      *                             to communicate with multiple clients at the same time
-     *          
      */
     public void serverStart()
     {
+        try {
+            pool = Executors.newFixedThreadPool(10);
+            writeOnLog("Server Started.");
+            System.out.println("Server is up at port " + serverSocket.getLocalPort() + ".\n");
+        } catch(Exception e) {
+            System.err.println(e.getMessage());
+        }
+
         try
         {
-            System.out.println("Server is up at port "+ serverSocket.getLocalPort() + "!!\n");
-
-
-            while (!Thread.currentThread().isInterrupted()) 
+            while (!Thread.currentThread().isInterrupted())
             {
-                Socket clientSocket = serverSocket.accept();
-                pool.execute(new ThreadServer(serverSocket.accept()));
+                try {
+                    Socket clientSocket = serverSocket.accept();
+                    pool.execute(new ThreadServer(clientSocket));
+                } catch (Exception ignored) {
+                    break;
+                }
             }
         }
-        catch(IOException e)
+        catch(Exception e)
         {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 
-    public void ServerStop()
+    /** Function called by the {@link ServerApplication} when closing event is fired for the server.
+     * @note It ENSURES all server services being properly closed before exiting the program.
+     * */
+    public void serverStop()
     {
         try {
             if(!pool.isShutdown())
                 pool.shutdown();
             if(!serverSocket.isClosed())
                 serverSocket.close();
-
+            writeOnLog("Server Stopped");
+            System.out.println("Server stopped correctly.");
         } catch (Exception e) {
-            System.out.println("not shut down correctly");
-            e.printStackTrace();
+            writeOnLog("Error occurred while stopping server.");
+            System.out.println("Error occurred while stopping server.");
+            System.err.println(e.getMessage());
         }
     }
 
@@ -98,5 +112,11 @@ public class ServerController {
         return response;
     }
 
-
+    /** Function used to write on the server "log-view".
+     * @param msg The string message to show in the view.
+     * @note This function will add the message to {@link ServerController#logMsgList} that will automatically add the messages. */
+    public void writeOnLog(String msg) {
+        if (msg != null && !msg.isEmpty())
+            logMsgList.add(msg);
+    }
 }
