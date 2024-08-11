@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3d9dccc2-db06-422b-88ad-baee0e7e7987" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/client/ClientApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/client/ClientApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/server/ServerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/server/ServerController.java" afterDir="false" />
-    </list>
+    <list default="true" id="3d9dccc2-db06-422b-88ad-baee0e7e7987" name="Changes" comment="" />
     <list id="efd7fcb3-83e1-4863-a494-5bccd8d2ff3e" name="Changes by testa" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +133,7 @@
       <workItem from="1723036769242" duration="7318000" />
       <workItem from="1723117751670" duration="5767000" />
       <workItem from="1723193895652" duration="5304000" />
-      <workItem from="1723221699493" duration="2953000" />
+      <workItem from="1723221699493" duration="3769000" />
     </task>
     <servers />
   </component>
