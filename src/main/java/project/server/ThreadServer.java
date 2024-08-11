@@ -8,18 +8,21 @@ import java.net.*;
 public class ThreadServer implements Runnable
 {
     private final Socket socket;
-    ThreadServer(Socket socket)
-    { 
-      this.socket = socket; 
+    private final ServerController controller;
+    private final ServerModel model;
+
+    ThreadServer(Socket socket, ServerController controller, ServerModel model)
+    {
+        this.socket = socket;
+        this.controller = controller;
+        this.model = model;
     }
 
-    /** @todo
-     * this should be the main logic:
+    /** This should be the main logic: (Still WIP)
      * - CHECK_ADDR: Verifies the existence of specified email receivers.
      * - DEL: Deletes specified emails for a user.
-     * - FETCH: Fetches emails from server to an user.
-     * - REF: Refreshes emails since a certain ID for an user.
-     * - ___: Indicates readiness to handle incoming data. (?)
+     * - FETCH: Fetches emails from server to a user.
+     * - REFRESH: Refreshes emails since a certain ID for a user.
      *
      * @example "CHECK_ADDR.-/my-email@dom.it"
      */
@@ -28,29 +31,49 @@ public class ThreadServer implements Runnable
             ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
             String[] request = input.readUTF().split(".-/");
-            String[] accountList;   // @todo gain the information about the mailing list
             switch(request[0]) {
                 case "CHECK_ADDR":
-                    output.writeBoolean(true); // @todo end up this part
+                    try {
+                        controller.writeOnLog("Check-Address request arrived.");
+                        output.writeBoolean(model.checkAddress(request[1]));
+                    } catch (Exception e) {
+                        controller.writeOnLog("Check-Address request failed because: " + e.getCause());
+                    }
                     break;
                 case "DEL":
-                    // @todo
+                    try {
+                        controller.writeOnLog("Email deletion request arrived.");
+                        // @todo the deletion of 1 or more mails, take care of 1-side delete
+                    }  catch (Exception e) {
+                        controller.writeOnLog("Email deletion request failed because: " + e.getCause());
+                    }
                     break;
                 case "FETCH":
-                    // @todo
+                    try {
+                        controller.writeOnLog("Email fetch request arrived.");
+                        // @todo the fetch of an email from a sender to the receivers list
+                    }  catch (Exception e) {
+                        controller.writeOnLog("Email fetch request failed because: " + e.getCause());
+                    }
                     break;
-                case "REF":
-                    // @todo
+                case "REFRESH":
+                    try {
+                        controller.writeOnLog("Refresh request arrived.");
+                        // @todo the refresh request
+                    }  catch (Exception e) {
+                        controller.writeOnLog("Refresh request failed because: " + e.getCause());
+                    }
                     break;
                 default:
+                    throw new RuntimeException("Unknown request: " + request[0]);
             }
             output.flush();
             output.reset();
         }
         catch (Exception e)
         {
+            controller.writeOnLog("Error occurred: " + e.getMessage());
             e.printStackTrace();
-            // log error in the log-view.
         }
     }
 }

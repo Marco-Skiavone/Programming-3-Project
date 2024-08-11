@@ -57,7 +57,7 @@ public class ServerController {
             {
                 try {
                     Socket clientSocket = serverSocket.accept();
-                    pool.execute(new ThreadServer(clientSocket));
+                    pool.execute(new ThreadServer(clientSocket, this, this.model));
                 } catch (Exception ignored) {
                     break;
                 }
