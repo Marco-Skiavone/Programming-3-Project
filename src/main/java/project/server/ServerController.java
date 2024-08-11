@@ -9,7 +9,7 @@ import java.util.concurrent.*;
 
 public class ServerController {
     @FXML
-    private ListView<String> logList;
+    private ListView<String> logList = new ListView<>();
     /* logMsgList is used to automatically add messages into the log (ListView) */
     private final ObservableList<String> logMsgList = FXCollections.observableArrayList();
 

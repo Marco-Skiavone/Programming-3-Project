@@ -52,7 +52,7 @@ public class LoginController {
      * @param emailName The string representing the formatted email of the user. */
     private void openMailboxView(String emailName){
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(MailboxController.class.getResource("Account-view.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(MailboxController.class.getResource("mailbox-view.fxml"));
             // Following line allows us to get the login-view window and replace the content inside.
             Stage stage = (Stage) emailInput.getScene().getWindow();
 
@@ -81,7 +81,7 @@ public class LoginController {
             ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
             output.writeObject("CHECK_ADDR.-/" + login);
             output.flush();
-            return (boolean) input.readObject();
+            return input.readBoolean();
         }
         catch(Exception e)
         {
