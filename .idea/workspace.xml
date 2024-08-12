@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="3d9dccc2-db06-422b-88ad-baee0e7e7987" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/client/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/client/LoginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/server/ServerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/server/ServerController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/server/ThreadServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/server/ThreadServer.java" afterDir="false" />
     </list>
@@ -83,7 +82,7 @@
       <recent name="client" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ServerApplication">
+  <component name="RunManager" selected="Application.ClientApplication">
     <configuration name="ClientApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="project.client.ClientApplication" />
       <module name="project" />
@@ -112,8 +111,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.ServerApplication" />
         <item itemvalue="Application.ClientApplication" />
+        <item itemvalue="Application.ServerApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -140,6 +139,8 @@
       <workItem from="1723193895652" duration="5304000" />
       <workItem from="1723221699493" duration="3769000" />
       <workItem from="1723365668008" duration="9861000" />
+      <workItem from="1723382845165" duration="271000" />
+      <workItem from="1723469198118" duration="4475000" />
     </task>
     <servers />
   </component>

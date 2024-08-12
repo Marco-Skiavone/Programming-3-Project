@@ -11,8 +11,7 @@ public class ThreadServer implements Runnable
     private final ServerController controller;
     private final ServerModel model;
 
-    ThreadServer(Socket socket, ServerController controller, ServerModel model)
-    {
+    public ThreadServer(Socket socket, ServerController controller, ServerModel model) {
         this.socket = socket;
         this.controller = controller;
         this.model = model;
@@ -33,38 +32,42 @@ public class ThreadServer implements Runnable
             Object inObject = input.readObject();
             if (!(inObject instanceof String))
                 throw new IOException("Read of input failed.");
-            String[] request = ((String)inObject).split(".-/");
+            String[] request = ((String) inObject).split(".-/");
             switch(request[0]) {
                 case "CHECK_ADDR":
                     try {
-                        controller.writeOnLog("Check-Address request arrived.");
                         output.writeBoolean(model.checkAddress(request[1]));
+                        controller.writeOnLog("Check-Address request served.");
                     } catch (Exception e) {
                         controller.writeOnLog("Check-Address request failed because: " + e.getCause());
+                        throw e;
                     }
                     break;
                 case "DEL":
                     try {
-                        controller.writeOnLog("Email deletion request arrived.");
                         // @todo the deletion of 1 or more mails, take care of 1-side delete
+                        controller.writeOnLog("Email deletion request served.");
                     }  catch (Exception e) {
                         controller.writeOnLog("Email deletion request failed because: " + e.getCause());
+                        throw e;
                     }
                     break;
                 case "FETCH":
                     try {
-                        controller.writeOnLog("Email fetch request arrived.");
                         // @todo the fetch of an email from a sender to the receivers list
+                        controller.writeOnLog("Email fetch request served.");
                     }  catch (Exception e) {
                         controller.writeOnLog("Email fetch request failed because: " + e.getCause());
+                        throw e;
                     }
                     break;
                 case "REFRESH":
                     try {
-                        controller.writeOnLog("Refresh request arrived.");
                         // @todo the refresh request
+                        controller.writeOnLog("Refresh request served.");
                     }  catch (Exception e) {
                         controller.writeOnLog("Refresh request failed because: " + e.getCause());
+                        throw e;
                     }
                     break;
                 default:
@@ -72,11 +75,9 @@ public class ThreadServer implements Runnable
             }
             output.flush();
             output.reset();
-        }
-        catch (Exception e)
-        {
-            controller.writeOnLog("Error occurred: " + e.getMessage());
-            e.printStackTrace();
+        } catch (Exception e) {
+            controller.writeOnLog("Exception caught: " + e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 }

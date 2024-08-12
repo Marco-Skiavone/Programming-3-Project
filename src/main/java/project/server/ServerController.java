@@ -1,5 +1,6 @@
 package project.server;
 
+import javafx.application.Platform;
 import javafx.collections.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -114,9 +115,11 @@ public class ServerController {
 
     /** Function used to write on the server "log-view".
      * @param msg The string message to show in the view.
-     * @note This function will add the message to {@link ServerController#logMsgList} that will automatically add the messages. */
+     * @Note: This function will add the message to {@link ServerController#logMsgList} that will automatically add the messages.
+     * Also, we need to ENSURE that any updates to JavaFX UI components, such as updating the log view, are done on the JavaFX Application Thread.
+     * Achieved using Platform.runLater(), which schedules the provided code to run on the JavaFX Application Thread. */
     public void writeOnLog(String msg) {
         if (msg != null && !msg.isEmpty())
-            logMsgList.add(msg);
+            Platform.runLater(() -> logMsgList.add(msg));
     }
 }
