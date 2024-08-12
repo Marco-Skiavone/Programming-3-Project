@@ -51,7 +51,6 @@ public class ServerController {
         } catch(Exception e) {
             System.err.println(e.getMessage());
         }
-
         try
         {
             while (!Thread.currentThread().isInterrupted())
