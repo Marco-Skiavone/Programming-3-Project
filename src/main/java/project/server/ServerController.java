@@ -56,14 +56,10 @@ public class ServerController {
         {
             while (!Thread.currentThread().isInterrupted())
             {
-                try {
-                    Socket clientSocket = serverSocket.accept();
-                    pool.execute(new ThreadServer(clientSocket, this, this.model));
-                } catch (Exception ignored) {
-                    break;
-                }
+                Socket clientSocket = serverSocket.accept();
+                pool.execute(new ThreadServer(clientSocket, this, this.model));
             }
-        }
+        } catch (SocketException ignored) { }
         catch(Exception e)
         {
             System.err.println(e.getMessage());
@@ -80,7 +76,7 @@ public class ServerController {
                 pool.shutdown();
             if(!serverSocket.isClosed())
                 serverSocket.close();
-            writeOnLog("Server Stopped");
+            writeOnLog("Server Stopped.");
             System.out.println("Server stopped correctly.");
         } catch (Exception e) {
             writeOnLog("Error occurred while stopping server.");

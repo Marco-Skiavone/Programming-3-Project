@@ -4,155 +4,45 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3d9dccc2-db06-422b-88ad-baee0e7e7987" name="Changes" comment="">
+    <list default="true" id="b3cd24a2-57f6-4f2f-b582-b6f8adc98109" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/client/ClientApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/client/ClientApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/server/ServerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/server/ServerController.java" afterDir="false" />
     </list>
-    <list id="efd7fcb3-83e1-4863-a494-5bccd8d2ff3e" name="Changes by testa" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
-      </MavenGeneralSettings>
-    </option>
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 8
-}</component>
-  <component name="ProjectId" id="2kFB3AN2iOYsrvwK34Ri4zUuSsO" />
-  <component name="ProjectViewState">
-    <option name="flattenModules" value="true" />
-    <option name="flattenPackages" value="true" />
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
-    <option name="showMembers" value="true" />
-    <option name="showVisibilityIcons" value="true" />
-  </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.ClientApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Application.ServerApplication.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;serverModel-implementation&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/marko/Desktop/GitHub/Programming-3-Project/src/main/resources/client&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.ClientApplication.executor": "Run",
+    "Application.ServerApplication.executor": "Run",
+    "git-widget-placeholder": "main",
+    "node.js.selected.package.tslint": "(autodetect)"
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\marko\Desktop\GitHub\Programming-3-Project\src\main\resources\client" />
-      <recent name="C:\Users\marko\Desktop\GitHub\Programming-3-Project\src\main\resources\utilities" />
-      <recent name="C:\Users\marko\Desktop\GitHub\Programming-3-Project\src\main\java\utilities" />
-      <recent name="C:\Users\marko\Desktop\GitHub\Programming-3-Project\src\main\java\client" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\marko\Desktop\GitHub\Programming-3-Project\src\main\resources\project" />
-      <recent name="C:\Users\marko\Desktop\GitHub\Programming-3-Project\src\main\resources\project\server" />
-    </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="project" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="client" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Application.ClientApplication">
-    <configuration name="ClientApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.Client">
+    <configuration name="Client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="project.client.ClientApplication" />
       <module name="project" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="project.client.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ServerApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="Server" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="project.server.ServerApplication" />
       <module name="project" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="project.server.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.ClientApplication" />
-        <item itemvalue="Application.ServerApplication" />
-      </list>
-    </recent_temporary>
+    <list>
+      <item itemvalue="Application.Server" />
+      <item itemvalue="Application.Client" />
+    </list>
   </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.17011.79" />
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.17011.79" />
-      </set>
-    </attachedChunks>
-  </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="3d9dccc2-db06-422b-88ad-baee0e7e7987" name="Changes" comment="" />
-      <created>1722869243476</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1722869243476</updated>
-      <workItem from="1722869245883" duration="995000" />
-      <workItem from="1722949511188" duration="6328000" />
-      <workItem from="1723036769242" duration="7318000" />
-      <workItem from="1723117751670" duration="5767000" />
-      <workItem from="1723193895652" duration="5304000" />
-      <workItem from="1723221699493" duration="3769000" />
-      <workItem from="1723365668008" duration="9861000" />
-      <workItem from="1723382845165" duration="271000" />
-      <workItem from="1723469198118" duration="5302000" />
-    </task>
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <breakpoint enabled="true" type="java-exception">
-          <properties class="java.lang.IllegalStateException" package="java.lang" />
-          <option name="timeStamp" value="1" />
-        </breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
