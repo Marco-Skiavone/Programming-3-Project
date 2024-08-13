@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import project.utilities.requests.*;
 
 import java.io.*;
 
@@ -79,7 +80,7 @@ public class LoginController {
         try (Socket clientSocket = new Socket("127.0.0.1", project.server.ServerModel.getPORT())) {
             ObjectOutputStream output = new ObjectOutputStream(clientSocket.getOutputStream());
             ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
-            output.writeObject("CHECK_ADDR.-/" + login);
+            output.writeObject(new CheckAddress(login));
             output.flush();
             return input.readBoolean();
         }
