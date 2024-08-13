@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3cd24a2-57f6-4f2f-b582-b6f8adc98109" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/server/ServerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/server/ServerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/client/ClientApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/client/ClientApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/client/MailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/client/MailController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/project/client/mail-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/client/mail-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,7 +21,7 @@
     "Application.ClientApplication.executor": "Run",
     "Application.Server.executor": "Run",
     "Application.ServerApplication.executor": "Run",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "mail-view-implementation",
     "node.js.selected.package.tslint": "(autodetect)"
   }
 }]]></component>
