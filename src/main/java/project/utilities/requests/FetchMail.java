@@ -1,9 +1,7 @@
 package project.utilities.requests;
 
-import project.server.ServerController;
-import project.server.ServerModel;
-
-import java.io.ObjectOutputStream;
+import project.server.*;
+import java.io.*;
 
 public class FetchMail extends RequestObj {
     public FetchMail(String sender) {

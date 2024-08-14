@@ -1,11 +1,7 @@
 package project.utilities.requests;
 
-
-import project.server.ServerController;
-import project.server.ServerModel;
-
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import project.server.*;
+import java.io.*;
 import java.sql.Timestamp;
 
 public abstract class RequestObj implements Serializable {

@@ -8,13 +8,15 @@ import java.util.*;
 public class Email implements Serializable {
     /* the ID is generated in base of the ID of the sender and the timestamp of the email to gnerate. */
 
-    public final MailHeader header;
-    public final String text;
+    private final MailHeader header;
+    private final String text;
 
     public Email(String sender, List<String> receivers, String subject, String text, LocalDateTime date) {
         this.header = new MailHeader(sender, receivers, subject, Timestamp.from(date.toInstant(ZoneOffset.UTC)));
         this.text = text;
     }
+
+    public MailHeader getHeader() {return this.header;}
 
     public String getSender() {
         return header.sender();
