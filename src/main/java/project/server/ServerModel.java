@@ -1,5 +1,7 @@
 package project.server;
 
+import project.utilities.MailHeader;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -46,5 +48,18 @@ public class ServerModel {
 
     public static int getPORT() {
         return PORT;
+    }
+
+    /**
+     * This method returns the List of MailHeader of a user, reading it by a file in the directory "/persistence/headers"
+     * @param targetUser : the name of the user, the same of his file in "/persistence/headers"
+     * @return An ArrayList containing all the MailHeaders related to his received emails
+     */
+    public static ArrayList<MailHeader> getMailHeaders(String targetUser) { //@todo: write the method
+        ArrayList<MailHeader> mailHeaders = null;
+
+
+
+        return mailHeaders;
     }
 }
