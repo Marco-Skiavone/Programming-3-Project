@@ -1,15 +1,14 @@
 package project.client;
 
-import java.net.Socket;
-
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import javafx.fxml.*;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import project.utilities.*;
 import project.utilities.requests.*;
-
-import java.io.*;
 
 public class LoginController {
     /** Check out {@link project.client.LoginController#checkSyntax(String)} method to gain further information. */
@@ -19,6 +18,8 @@ public class LoginController {
     private TextField emailInput;  // the email input
     @FXML
     private Label errorText;    // the label string to show error messages
+
+    private List<MailHeader> headersList;
 
     /** Function called when login button is pressed in the login view. */
     @FXML
@@ -44,7 +45,7 @@ public class LoginController {
      * @return true if input matches the regex, false otherwise.
      * @note It'll let you insert 24 chars before '@', '-' and '_' (but not strictly before '@'), needs at least 2 letters after domain. */
     public static boolean checkSyntax(String input){
-        if(input == null || input.length() < 9)     //e.g: at least ma@dom.it
+        if (input == null || input.length() < 9)     //e.g: at least ma@dom.it
             return false;
         return input.matches(SYNTAX_PATTERN);
     }
@@ -65,7 +66,7 @@ public class LoginController {
             MailboxController mailboxController = fxmlLoader.getController();
             // stage.setOnCloseRequest(event -> mailboxController.shutdownController());    @todo
             stage.show();
-            // mailboxController.initModel(emailName);  @todo
+            // mailboxController.initModel(emailName, this.headersList);  @todo
         } catch (IOException e) {
             e.printStackTrace();
             errorText.setText("Error occurred while opening the mailbox.");
@@ -80,9 +81,14 @@ public class LoginController {
         try (Socket clientSocket = new Socket("127.0.0.1", project.server.ServerModel.getPORT())) {
             ObjectOutputStream output = new ObjectOutputStream(clientSocket.getOutputStream());
             ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
-            output.writeObject(new CheckAddress(login));
+            output.writeObject(new LogIn(login));
             output.flush();
-            return input.readBoolean();
+            boolean result = input.readBoolean();
+            if (result) {
+                headersList = (List<MailHeader>) input.readObject();
+                return true;
+            }
+            return false;
         }
         catch(Exception e)
         {

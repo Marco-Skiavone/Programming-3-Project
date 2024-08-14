@@ -1,9 +1,8 @@
 package project.utilities.requests;
 
-import project.server.ServerController;
-import project.server.ServerModel;
 
-import java.io.ObjectOutputStream;
+import project.server.*;
+import java.io.*;
 
 public class DeleteMail extends RequestObj {
     public DeleteMail(String sender) {
