@@ -10,19 +10,46 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="600.0">
                <children>
-                  <Label prefHeight="26.0" prefWidth="20.0" text="RE:" textAlignment="CENTER" />
-                  <TextField fx:id="subjectText" prefHeight="26.0" prefWidth="200.0" />
-                  <FlowPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                  <Label prefHeight="18.0" prefWidth="36.0" text="From:" />
+                  <Label fx:id="sender" prefHeight="18.0" prefWidth="547.0" />
+               </children>
+               <padding>
+                  <Insets bottom="2.0" left="8.0" right="8.0" top="2.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="600.0">
+               <children>
+                  <Label prefHeight="26.0" prefWidth="17.0" text="RE:" textAlignment="CENTER" />
+                  <TextField fx:id="subjectField" prefHeight="26.0" prefWidth="200.0" />
+                  <FlowPane prefHeight="26.0" prefWidth="9.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="errorText" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="140.0" textAlignment="CENTER" textFill="RED" />
+                     </children></FlowPane>
+                  <Button fx:id="replyBtn" mnemonicParsing="false" text="Reply" textAlignment="CENTER">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="replyAllBtn" mnemonicParsing="false" text="Reply All" textAlignment="CENTER">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="forwardBtn" mnemonicParsing="false" text="Forward" textAlignment="CENTER">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
                   <Button fx:id="sendBtn" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#sendMail" style="-fx-background-color: #40c;" text="Send" textAlignment="CENTER" textFill="WHITE" />
                </children>
                <padding>
                   <Insets bottom="2.0" left="8.0" right="8.0" top="2.0" />
                </padding>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="600.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="600.0">
                <children>
                   <Label prefHeight="26.0" prefWidth="22.0" text="To:" />
-                  <TextField prefHeight="26.0" prefWidth="404.0">
+                  <TextField fx:id="receiversField" prefHeight="26.0" prefWidth="404.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -37,7 +64,10 @@
                   <Insets bottom="2.0" left="8.0" right="8.0" top="2.0" />
                </padding>
             </HBox>
-            <TextArea prefHeight="333.0" prefWidth="600.0" />
+            <TextArea fx:id="mailText" prefHeight="330.0" prefWidth="600.0">
+               <VBox.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" />
+               </VBox.margin></TextArea>
          </children>
       </VBox>
    </children>
