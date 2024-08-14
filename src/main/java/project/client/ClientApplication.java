@@ -11,8 +11,15 @@ public class ClientApplication extends Application {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("login-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 400, 300);
-            stage.setTitle("Client - LogIn");
             stage.setScene(scene);
+            /*
+            FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("mail-view.fxml"));  // DEB
+            Scene scene = new Scene(fxmlLoader.load(), 600, 400); // DEB
+            stage.setTitle("Mail - New Mail");  // DEB
+            MailController controller = fxmlLoader.getController();   // DEB
+            controller.setUpNewMail(new MailModel(), "riccardo.saccu@prog3.edu");     // DEB
+            */
+            stage.setTitle("Client - LogIn");
             stage.setResizable(false);
             stage.sizeToScene();
             stage.show();

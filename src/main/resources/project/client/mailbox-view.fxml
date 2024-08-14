@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -58,7 +59,10 @@
                   </Button>
                </children>
             </HBox>
-            <ListView prefHeight="449.0" prefWidth="800.0" />
+            <ListView prefHeight="449.0" prefWidth="800.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></ListView>
          </children>
       </VBox>
    </children>

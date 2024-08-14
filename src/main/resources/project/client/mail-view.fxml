@@ -3,39 +3,72 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-
- <GridPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="523.0" prefWidth="786.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
-     <columnConstraints>
-         <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="120.60000762939453" />
-         <ColumnConstraints hgrow="SOMETIMES" maxWidth="627.4000000000001" minWidth="10.0" prefWidth="627.4000000000001" />
-         <ColumnConstraints hgrow="SOMETIMES" maxWidth="111.0" minWidth="0.0" prefWidth="0.0" />
-     </columnConstraints>
-     <rowConstraints>
-         <RowConstraints maxHeight="95.4" minHeight="0.0" prefHeight="31.200000000000003" vgrow="SOMETIMES" />
-         <RowConstraints maxHeight="200.8" minHeight="10.0" prefHeight="46.39999999999999" vgrow="SOMETIMES" />
-         <RowConstraints maxHeight="423.4" minHeight="10.0" prefHeight="417.4" vgrow="SOMETIMES" />
-         <RowConstraints maxHeight="51.39999999999998" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
-     </rowConstraints>
-     <Pane prefHeight="30.0" prefWidth="394.0" style="-fx-background-color: #3549FE;" GridPane.columnSpan="3" />
-     <ListView prefHeight="346.0" prefWidth="127.0" GridPane.rowIndex="2" GridPane.rowSpan="2147483647" />
-     <Pane layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="394.0" style="-fx-background-color: #ffffff; -fx-border-style: solid; -fx-border-width: 1px;" GridPane.columnIndex="1" GridPane.rowIndex="1">
-         <GridPane.margin>
-             <Insets left="3.0" top="3.0" />
-         </GridPane.margin>
-     </Pane>
-     <Label alignment="CENTER" contentDisplay="CENTER" style="-fx-font-weight: BOLD;" text="CLIENT:" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
-         <font>
-             <Font size="16.0" />
-         </font>
-         <GridPane.margin>
-             <Insets right="10.0" />
-         </GridPane.margin>
-     </Label>
-      <Label prefHeight="27.0" prefWidth="303.0" style="-fx-underline: true;" text="email_address" textFill="WHITE" GridPane.columnIndex="1">
-          <font>
-            <Font size="16.0" />
-          </font>
-      </Label>
- </GridPane>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.client.MailController">
+   <children>
+      <VBox prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="600.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="36.0" text="From:" />
+                  <Label fx:id="sender" prefHeight="18.0" prefWidth="547.0" />
+               </children>
+               <padding>
+                  <Insets bottom="2.0" left="8.0" right="8.0" top="2.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="600.0">
+               <children>
+                  <Label prefHeight="26.0" prefWidth="17.0" text="RE:" textAlignment="CENTER" />
+                  <TextField fx:id="subjectField" prefHeight="26.0" prefWidth="200.0" />
+                  <FlowPane prefHeight="26.0" prefWidth="9.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="errorText" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="140.0" textAlignment="CENTER" textFill="RED" />
+                     </children></FlowPane>
+                  <Button fx:id="replyBtn" mnemonicParsing="false" text="Reply" textAlignment="CENTER">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="replyAllBtn" mnemonicParsing="false" text="Reply All" textAlignment="CENTER">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="forwardBtn" mnemonicParsing="false" text="Forward" textAlignment="CENTER">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="sendBtn" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#sendMail" style="-fx-background-color: #40c;" text="Send" textAlignment="CENTER" textFill="WHITE" />
+               </children>
+               <padding>
+                  <Insets bottom="2.0" left="8.0" right="8.0" top="2.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="600.0">
+               <children>
+                  <Label prefHeight="26.0" prefWidth="22.0" text="To:" />
+                  <TextField fx:id="receiversField" prefHeight="26.0" prefWidth="404.0">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </TextField>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="169.0" text="(Comma separated addresses)">
+                     <HBox.margin>
+                        <Insets left="2.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="2.0" left="8.0" right="8.0" top="2.0" />
+               </padding>
+            </HBox>
+            <TextArea fx:id="mailText" prefHeight="330.0" prefWidth="600.0">
+               <VBox.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" />
+               </VBox.margin></TextArea>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
