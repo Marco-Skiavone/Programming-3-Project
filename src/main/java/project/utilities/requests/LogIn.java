@@ -5,7 +5,6 @@ import java.io.*;
 import java.util.*;
 
 public class LogIn extends RequestObj {
-
     public LogIn(String sender) {
         super(sender);
     }
@@ -17,12 +16,15 @@ public class LogIn extends RequestObj {
         try {
             boolean result = model.checkAddress(this.getSender());
             if (result) {
-                output.writeBoolean(result);
+                output.writeBoolean(true);
                 output.flush();
                 output.reset();
                 // @todo it sends back a {@link project.utilities.MailHeader} list
                 output.writeObject(new ArrayList<>());
                 controller.writeOnLog("LogIn request served.");
+            } else {
+                output.writeBoolean(false);
+                controller.writeOnLog("LogIn request denied. (Unknown user)");
             }
         } catch (Exception e) {
             controller.writeOnLog("LogIn request failed because: " + e.getCause());
