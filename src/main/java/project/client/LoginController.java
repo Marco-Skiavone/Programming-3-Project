@@ -57,16 +57,15 @@ public class LoginController {
             FXMLLoader fxmlLoader = new FXMLLoader(MailboxController.class.getResource("mailbox-view.fxml"));
             // Following line allows us to get the login-view window and replace the content inside.
             Stage stage = (Stage) emailInput.getScene().getWindow();
-
             Scene scene = new Scene(fxmlLoader.load(), 800, 530);
             stage.setTitle("MailBox - " + emailName);
             stage.setScene(scene);
             stage.setResizable(false);
 
             MailboxController mailboxController = fxmlLoader.getController();
-            // stage.setOnCloseRequest(event -> mailboxController.shutdownController());    @todo
+            stage.setOnCloseRequest(event -> mailboxController.shutdownController());
             stage.show();
-            // mailboxController.initModel(emailName, this.headersList);  @todo
+            mailboxController.initModel(emailName, this.headersList);
         } catch (IOException e) {
             e.printStackTrace();
             errorText.setText("Error occurred while opening the mailbox.");

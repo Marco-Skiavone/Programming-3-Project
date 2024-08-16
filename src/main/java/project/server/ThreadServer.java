@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 import project.utilities.requests.*;
 
-/* class that permits the running of the server using multi-thread.*/
+/** Class that permits the running of the server using multi-thread.*/
 
 public class ThreadServer implements Runnable
 {
@@ -19,12 +19,11 @@ public class ThreadServer implements Runnable
     }
 
     /** This should be the main logic: (Still WIP)
+     * - LOGIN: Verifies the existence of specified email and logs in the user.
      * - CHECK_ADDR: Verifies the existence of specified email receivers.
      * - DEL: Deletes specified emails for a user.
      * - FETCH: Fetches emails from server to a user.
      * - REFRESH: Refreshes emails since a certain ID for a user.
-     *
-     * @example "CHECK_ADDR.-/my-email@dom.it"
      */
     public void run() {
         try {
