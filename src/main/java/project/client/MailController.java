@@ -27,13 +27,7 @@ public class MailController {
     private Button sendBtn;
 
     private MailModel model;
-    private String user;    // The client address linked to this controller-view
-
-    /** Function called by FXML to bind the ListView to the logMsgList */
-    @FXML
-    public void initialize() {
-
-    }
+    private String userAddress;    // The client address linked to this controller-view
 
     /** Function that sets the response button to "disabled".
      * @Note: The 3 response buttons are:<br>
@@ -44,58 +38,6 @@ public class MailController {
         forwardBtn.setDisable(disabled);
         replyBtn.setDisable(disabled);
         replyAllBtn.setDisable(disabled);
-    }
-
-    public void setUpForward (MailModel model, String userAddress, Email email) {
-
-    }
-
-    public void setUpReply (MailModel model, String userAddress, Email email, boolean replyAll) {
-
-    }
-
-    public void setUpNewMail (MailModel model, String userAddress) {
-        try {
-            this.user = userAddress;    // @todo check
-            sender.setText(user);
-            /* We remove the common part of the title and extract the type of editing we want to do. */
-            String type = ((Stage) sender.getScene().getWindow()).getTitle().split(" ")[2];
-            if (!type.equals("View") && user != null)
-                sender.setText(user);
-            switch (type) {
-                case "View":
-                    // Can NOT modify anything, but can trigger "response" buttons
-                    subjectField.setDisable(true);
-                    receiversField.setDisable(true);
-                    mailText.setDisable(true);
-                    sendBtn.setDisable(true);
-                    break;
-                case "Forward":
-                    // can modify Receivers
-                    sendBtn.setDisable(true);
-                    subjectField.setDisable(true);
-                    mailText.setDisable(true);
-                    setDisableResponseButton(true);
-                    break;
-                case "Reply":
-                case "Reply All":
-                    // can modify Text (and trigger Send)
-                    subjectField.setDisable(true);
-                    receiversField.setDisable(true);
-                    setDisableResponseButton(true);
-                    break;
-                case "New":
-                    // can modify everything, but the "response" buttons
-                    setDisableResponseButton(true);
-                    break;
-                default:
-                    throw new RuntimeException("Unknown Email Type.");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            this.model = model;
-        }
     }
 
     /** Function called when the "send" button is pressed in the "mail-view".
@@ -118,9 +60,14 @@ public class MailController {
         if (!condition) return false;
         for (String field : receiversField.getText().split(",")) {
             String adr = field.trim();
-            if (!LoginController.checkSyntax(adr.trim()) || !this.model.checkAddress(adr))
+            if (!LoginController.checkSyntax(adr) || !this.model.checkAddress(adr))
                 return false;
         }
         return true;
+    }
+
+    /** Function that closes the window, without saving the email, if it is in "write-mode". */
+    public void closeWindow() {
+        ((Stage) subjectField.getScene().getWindow()).close();
     }
 }

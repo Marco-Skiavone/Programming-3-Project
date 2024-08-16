@@ -1,6 +1,7 @@
 package project.client;
 
 import project.utilities.*;
+import project.utilities.requests.*;
 
 import java.io.*;
 import java.net.*;
@@ -14,10 +15,10 @@ public class MailModel {
     public boolean checkAddress(String adr) {
         try (Socket clientSocket = new Socket("127.0.0.1", project.server.ServerModel.getPORT())) {
             if ( adr == null || adr.isBlank())
-                throw new RuntimeException("Subject field is empty");
+                throw new RuntimeException("Invalid \"To:\" field.");
             ObjectOutputStream output = new ObjectOutputStream(clientSocket.getOutputStream());
             ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
-            output.writeObject("CHECK_ADDR.-/" + adr);  // @todo refactor this line
+            output.writeObject(new CheckAddress(adr));  // @todo refactor this line
             output.flush();
             return input.readBoolean();
         } catch(Exception e) {
