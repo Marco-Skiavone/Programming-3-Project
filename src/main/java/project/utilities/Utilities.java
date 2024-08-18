@@ -7,7 +7,7 @@ public interface Utilities {
 
     int PORT = 42069;
 
-    static ArrayList<MailHeader> checkMailHeadersType(Object obj) throws ClassCastException {
+    static ArrayList<MailHeader> castToMailHeadersList(Object obj) throws ClassCastException {
         if (obj instanceof ArrayList<?> headerList) {
             for(Object o : headerList)
                 if (!(o instanceof MailHeader))
@@ -17,5 +17,5 @@ public interface Utilities {
         }
         return null;
     }
-    
+
 }
