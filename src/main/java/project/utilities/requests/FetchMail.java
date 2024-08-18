@@ -15,7 +15,7 @@ public class FetchMail extends RequestObj {
     @Override
     public void resolve(ObjectOutputStream output, ServerModel model, ServerController controller) throws Exception {
         try {
-            // @todo the fetch of an email from a sender and returns it back.
+            // @todo it gets an email from the persistence and returns it to the request sender.
             controller.writeOnLog("Email fetch request served.");
         }  catch (Exception e) {
             controller.writeOnLog("Email fetch request failed because: " + e.getCause());
