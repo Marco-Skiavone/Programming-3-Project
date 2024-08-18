@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3cd24a2-57f6-4f2f-b582-b6f8adc98109" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/server/ServerModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/server/ServerModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/utilities/requests/FetchMail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/utilities/requests/FetchMail.java" afterDir="false" />
-    </list>
+    <list default="true" id="b3cd24a2-57f6-4f2f-b582-b6f8adc98109" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -96,7 +92,7 @@
       <workItem from="1723824814294" duration="5479000" />
       <workItem from="1723882374265" duration="1126000" />
       <workItem from="1723902685251" duration="335000" />
-      <workItem from="1723970267057" duration="4078000" />
+      <workItem from="1723970267057" duration="5255000" />
     </task>
     <servers />
   </component>
