@@ -49,4 +49,12 @@ public class Email implements Serializable {
     public int hashCode() {
         return Objects.hash(header, text);
     }
+
+    @Override
+    public String toString() {
+        return "Email{" +
+                "header=" + header +
+                "\n text='" + text + '\'' +
+                '}';
+    }
 }
