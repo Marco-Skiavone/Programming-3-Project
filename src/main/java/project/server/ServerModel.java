@@ -1,7 +1,7 @@
 package project.server;
 
-import project.utilities.MailHeader;
-
+import project.utilities.*;
+import project.utilities.requests.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -55,11 +55,24 @@ public class ServerModel {
      * @param targetUser : the name of the user, the same of his file in "/persistence/headers"
      * @return An ArrayList containing all the MailHeaders related to his received emails
      */
-    public static ArrayList<MailHeader> getMailHeaders(String targetUser) { //@todo: write the method
-        ArrayList<MailHeader> mailHeaders = null;
+    public static ArrayList<MailHeader> getMailHeaders(String targetUser) throws Exception { //@todo: da eseguire in sezione critica
+        try (FileInputStream fileInput = new FileInputStream("persistence/headers/" + targetUser)) {
+            ObjectInputStream input = new ObjectInputStream(fileInput);
+            Object inObject = input.readObject();
 
+            ArrayList<MailHeader> mailHeaders = Utilities.castToMailHeadersList(inObject);
+            if (mailHeaders == null)
+                throw new IOException("Erroneous content of headers fIle");
+            return mailHeaders;
+        } catch (FileNotFoundException fileNotFoundException) {
+            return new ArrayList<MailHeader>();
+        }
+    }
 
-
-        return mailHeaders;
+    public static void writeHeaderFile(String targetUser, ArrayList<MailHeader> mailHeaders) throws Exception { //@todo: eseguire in sezione critica
+        try (FileOutputStream fileOutput = new FileOutputStream("persistence/headers/" + targetUser)) {
+            ObjectOutputStream output = new ObjectOutputStream(fileOutput);
+            output.writeObject(mailHeaders);
+        }
     }
 }
