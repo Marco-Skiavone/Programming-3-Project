@@ -83,11 +83,9 @@ public class LoginController {
             output.writeObject(new LogIn(login));
             output.flush();
             boolean result = input.readBoolean();
-            if (result) {
+            if (result)
                 headersList = (List<MailHeader>) input.readObject();
-                return true;
-            }
-            return false;
+            return result;
         }
         catch(Exception e)
         {

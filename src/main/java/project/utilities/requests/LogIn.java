@@ -13,22 +13,26 @@ public class LogIn extends RequestObj {
      * Furthermore, it sends back a {@link project.utilities.MailHeader} list. */
     @Override
     public void resolve(ObjectOutputStream output, ServerModel model, ServerController controller) throws Exception {
+        boolean result = false;
         try {
-            boolean result = model.checkAddress(this.getSender());
+            result = model.checkAddress(this.getSender());
             if (result) {
                 output.writeBoolean(true);
                 output.flush();
                 output.reset();
                 // @todo it sends back a {@link project.utilities.MailHeader} list
+                //output.writeObject(ServerModel.getMailHeaders(getSender()));  // + Exceptions handling
                 output.writeObject(new ArrayList<>());
                 controller.writeOnLog("LogIn request served.");
-            } else {
-                output.writeBoolean(false);
-                controller.writeOnLog("LogIn request denied. (Unknown user)");
             }
         } catch (Exception e) {
             controller.writeOnLog("LogIn request failed because: " + e.getCause());
             throw e;
+        } finally {
+            if (!result) {
+                output.writeBoolean(false);
+                controller.writeOnLog("LogIn request denied. (Unknown user)");
+            }
         }
     }
 }
