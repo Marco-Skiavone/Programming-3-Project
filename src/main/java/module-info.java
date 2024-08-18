@@ -7,4 +7,5 @@ module project {
     exports project.client;
     opens project.server to javafx.fxml;
     exports project.server;
+    exports project.utilities;
 }
