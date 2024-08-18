@@ -46,6 +46,7 @@ public class ServerModel {
         return address != null && accountSet.contains(address);
     }
 
+    /*@todo move the port retrieval */
     public static int getPORT() {
         return PORT;
     }

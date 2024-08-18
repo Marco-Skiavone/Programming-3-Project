@@ -1,10 +1,8 @@
 package project.utilities;
 
-import java.io.Serializable;
+import java.io.*;
 import java.sql.Timestamp;
-import java.time.ZoneOffset;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public record MailHeader(
         String sender,
