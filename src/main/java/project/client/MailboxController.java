@@ -46,7 +46,7 @@ public class MailboxController {
         // @todo it could be necessary to start a delayed refresh session for the user!
     }
 
-    /** Private function called to crete a CUSTOM cell for the ListView. */
+    /** Private function called to create a CUSTOM cell for the ListView. */
     private ListCell<MailHeader> createListCell () {
         return new ListCell<>() {
             private final CheckBox checkBox = new CheckBox();
@@ -87,14 +87,14 @@ public class MailboxController {
     @FXML
     public void newMailBtnPressed () {
         System.out.println("newBtn clicked");     // DEBUG
-        openNewMailView();
+        // openNewMailView(); @todo implementation
     }
 
     /** Function called when "Refresh" button is pressed. */
     @FXML
     public void sendRefreshRequest () {
         System.out.println("refreshBtn clicked");     // DEBUG
-        model.sendRefreshRequest();
+        // model.sendRefreshRequest(); @todo implementation
     }
 
     /** Function called when "Select All" button is pressed. */
