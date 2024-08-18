@@ -51,7 +51,7 @@ public class SendMail extends RequestObj {
         }
     }
 
-    private void updateReceiversHeaders(String receiver) throws Exception { //@todo: handle sezione critica
+    private void updateReceiversHeaders(String receiver) throws Exception {
         ArrayList<MailHeader> headers = ServerModel.getMailHeaders(receiver);
         headers.add(mail.getHeader());
 
