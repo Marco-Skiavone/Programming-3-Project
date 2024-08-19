@@ -11,6 +11,9 @@ public class ServerModel {
     /** A {@link HashSet} used to maintain all the usable accounts as strings.
      * Initialized by the constructor through {@link ServerModel#readAccountsFile}. */
     private HashSet<String> accountSet;
+    /** A {@link HashMap} containing a series of locks, one for each file of the persistence.
+     * Used to correctly update files with Threads.*/
+    private final HashMap<String, ReentrantReadWriteLock> fileLocks;
 
     public ServerModel() {
         try {
@@ -20,6 +23,8 @@ public class ServerModel {
             accountSet = new HashSet<>(starterSet);
         } catch (Exception e) {
             System.err.println(e.getMessage());
+        } finally {
+            fileLocks = new HashMap<>();
         }
     }
 
@@ -49,7 +54,9 @@ public class ServerModel {
      * @param targetUser : the name of the user, the same of his file in "/persistence/headers"
      * @return An ArrayList containing all the MailHeaders related to his received emails
      */
-    public static ArrayList<MailHeader> getMailHeaders(String targetUser) throws Exception { //@todo: da eseguire in sezione critica
+    public ArrayList<MailHeader> readHeaderFile(String targetUser) throws Exception {
+        ReentrantReadWriteLock rwl = getFileLock("persistence/headers/" + targetUser);
+        rwl.readLock().lock();
         try (FileInputStream fileInput = new FileInputStream("persistence/headers/" + targetUser)) {
             ObjectInputStream input = new ObjectInputStream(fileInput);
             Object inObject = input.readObject();
@@ -60,13 +67,71 @@ public class ServerModel {
             return mailHeaders;
         } catch (FileNotFoundException fileNotFoundException) {
             return new ArrayList<MailHeader>();
+        } finally {
+            rwl.readLock().unlock();
         }
     }
 
-    public static void writeHeaderFile(String targetUser, ArrayList<MailHeader> mailHeaders) throws Exception { //@todo: eseguire in sezione critica
-        try (FileOutputStream fileOutput = new FileOutputStream("persistence/headers/" + targetUser)) {
-            ObjectOutputStream output = new ObjectOutputStream(fileOutput);
-            output.writeObject(mailHeaders);
+    /** Function used to overwrite headers file using locks on {@link ServerModel#fileLocks}.<br>
+     * todo -> could be generalized to all the files, passing a function as argument!
+     * @param targetUser The string representing the name of the file to update.
+     *                   It must be only the final name with its extension.
+     * @throws IOException If the content of the file passed is unparsable as a list of {@link project.utilities.MailHeader}.
+     * @throws Exception Or any other of its extenders is launched if something goes wrong.
+     * These have to be handled by its caller! */
+    public void updateHeaderFile(String targetUser) throws Exception {
+        ReentrantReadWriteLock rwl = getFileLock("persistence/headers/" + targetUser);
+        ArrayList<MailHeader> mailHeaders;
+
+        // Reading...
+        rwl.readLock().lock();
+        try {
+            if (!rwl.isWriteLocked()) {             // --> condition to make the Thread read the file
+                try (FileInputStream fileInput = new FileInputStream("persistence/headers/" + targetUser)) {
+                    ObjectInputStream input = new ObjectInputStream(fileInput);
+                    Object inObject = input.readObject();
+
+                    mailHeaders = Utilities.castToMailHeadersList(inObject);
+                    if (mailHeaders == null)
+                        throw new IOException("Erroneous content of headers fIle");
+                } catch (FileNotFoundException fileNotFoundException) {
+                    mailHeaders = new ArrayList<MailHeader>();
+                } finally {
+                    rwl.readLock().unlock();
+                }
+
+                // Writing...
+                rwl.writeLock().lock();
+                FileOutputStream fileOutput = null;
+                try {
+                    if (!rwl.isWriteLocked()) { // --> check again before writing, due to possible Threads interleaving
+                        fileOutput = new FileOutputStream("persistence/headers/" + targetUser);
+                        ObjectOutputStream output = new ObjectOutputStream(fileOutput);
+                        output.writeObject(mailHeaders);
+                        output.flush();
+                    }
+                    rwl.readLock().lock(); // @todo check
+                } finally {
+                    if (fileOutput != null && fileOutput.getChannel().isOpen())
+                        fileOutput.close();
+                    rwl.writeLock().unlock();
+                }
+            }
+        } finally {
+            rwl.readLock().unlock();
         }
+    }
+
+
+    /** @todo
+     * */
+    private ReentrantReadWriteLock getFileLock(String filePath) {
+        ReentrantReadWriteLock rwl;
+        synchronized (fileLocks) {
+            rwl = fileLocks.get(filePath);
+            if (rwl == null)
+                fileLocks.put(filePath , new ReentrantReadWriteLock(true));
+        }
+        return rwl;
     }
 }
