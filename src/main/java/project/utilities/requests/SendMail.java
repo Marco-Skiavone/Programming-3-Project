@@ -29,18 +29,19 @@ public class SendMail extends RequestObj {
                 }
             }
 
-            ExecutorService pool = Executors.newFixedThreadPool(mail.getReceivers().size());
-            for (String receiver : mail.getReceivers()) {
-                // Apre un thread che accede al file header per ogni receiver e lo aggiorna
-                Runnable r = () -> {
-                    try {
-                        updateReceiversHeaders(receiver);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                };
-                pool.execute(r);
+            try (ExecutorService pool = Executors.newFixedThreadPool(mail.getReceivers().size())) {
+                for (String receiver : mail.getReceivers()) {
+                    // Apre un thread che accede al file header per ogni receiver e lo aggiorna
+                    Runnable r = () -> {
+                        try {
+                            updateReceiversHeaders(receiver, model);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    };
+                    pool.execute(r);
 
+                }
             }
             // manipolazione degli UserHeaders file e scrittura in ".../mails" della mail
 
@@ -51,8 +52,8 @@ public class SendMail extends RequestObj {
         }
     }
 
-    private void updateReceiversHeaders(String receiver) throws Exception { //@todo: handle sezione critica
-        ArrayList<MailHeader> headers = ServerModel.getMailHeaders(receiver);
+    private void updateReceiversHeaders(String receiver, ServerModel model) throws Exception {
+        ArrayList<MailHeader> headers = model.readHeaderFile(receiver);
         headers.add(mail.getHeader());
 
     }
