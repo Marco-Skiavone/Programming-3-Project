@@ -1,13 +1,12 @@
 package project.server;
 
 import project.utilities.*;
-import project.utilities.requests.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.locks.*;
 
 public class ServerModel {
-    private static final int PORT = 42069;
 
     /** A {@link HashSet} used to maintain all the usable accounts as strings.
      * Initialized by the constructor through {@link ServerModel#readAccountsFile}. */
@@ -22,7 +21,6 @@ public class ServerModel {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
-        // @todo stuff to initialize
     }
 
     /** Function that has to retrieve from "accountList.txt" file the list of the current accounts for the server. */
@@ -44,10 +42,6 @@ public class ServerModel {
      * @param address The string representing the email address to check. */
     public boolean checkAddress(String address) {
         return address != null && accountSet.contains(address);
-    }
-
-    public static int getPORT() {
-        return PORT;
     }
 
     /**

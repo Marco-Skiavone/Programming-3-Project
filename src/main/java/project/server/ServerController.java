@@ -1,10 +1,10 @@
 package project.server;
 
+import project.utilities.*;
 import javafx.application.Platform;
 import javafx.collections.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
 import java.net.*;
 import java.util.concurrent.*;
 
@@ -13,7 +13,6 @@ public class ServerController {
     private ListView<String> logList = new ListView<>();
     /* logMsgList is used to automatically add messages into the log (ListView) */
     private final ObservableList<String> logMsgList = FXCollections.observableArrayList();
-
     private ServerSocket serverSocket;
     private ExecutorService pool;
     private final ServerModel model;
@@ -26,7 +25,7 @@ public class ServerController {
 
     public ServerController() {
         try {
-            serverSocket = new ServerSocket(ServerModel.getPORT());
+            serverSocket = new ServerSocket(Utilities.PORT);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
@@ -34,14 +33,10 @@ public class ServerController {
         }
     }
 
-    /*
-     *      Method used by the ServerApp to start the server
-     *      To create this method those following classes have been imported:
-     *          -ServerSocket: to create a Socket that opens connections to the "outside"
-     *          -Socket : to create the real connection between a "server-thread" and the client
-     *          -ExecutorService: to create threads with the goal to manage different connections for the almost certain possibility
-     *                             to communicate with multiple clients at the same time
-     */
+    /** Method used by the ServerApp to start the server. The following classes have to be imported:
+     *      - ServerSocket: To create a Socket that opens connections to the "outside"
+     *      - Socket: To create the real connection between server and clients
+     *      - ExecutorService: To create Threads, with the goal of managing simultaneously connections with clients */
     public void serverStart()
     {
         try {
@@ -58,7 +53,7 @@ public class ServerController {
                 Socket clientSocket = serverSocket.accept();
                 pool.execute(new ThreadServer(clientSocket, this, this.model));
             }
-        } catch (SocketException ignored) { }
+        } catch (SocketException ignored) { /* Ignoring on Server closure. */ }
         catch(Exception e)
         {
             System.err.println(e.getMessage());
@@ -82,30 +77,6 @@ public class ServerController {
             System.out.println("Error occurred while stopping server.");
             System.err.println(e.getMessage());
         }
-    }
-
-    /**
-     *  This method retrieves the header-file of a client and return it
-     *
-     * @param clientName is a string containing the username of the client (mail address). It will be used as fileName
-     * @return the file content. @todo: should we return a list of Headers? Or just a string that will be parsed by the client?
-     *
-     * @todo: should I throw an error on a erroneous clientName?
-     */
-    public String headersRequest(String clientName) {
-        String response = "";
-        /*
-         retrieves header file in Programming-3-Project/persistence/headers/<clientName>.txt
-        */
-
-        /*
-         parses the file
-        */
-
-        /*
-         send the data
-        */
-        return response;
     }
 
     /** Function used to write on the server "log-view".
