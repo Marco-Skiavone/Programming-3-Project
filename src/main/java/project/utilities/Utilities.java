@@ -14,7 +14,7 @@ public interface Utilities {
             //noinspection unchecked
             return (ArrayList<MailHeader>) headerList;
         }
-        return null;
+        throw new ClassCastException("Erroneous type in obj");
     }
 
 }
