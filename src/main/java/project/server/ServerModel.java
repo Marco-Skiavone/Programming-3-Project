@@ -121,10 +121,12 @@ public class ServerModel {
             rwl.readLock().unlock();
         }
     }
-
-
-    /** @todo
-     * */
+    
+    /** Function called to retrieve a lock about a persistence file.
+     * @param filePath The String representing a file of the persistence.
+     * @return the associated {@link ReentrantReadWriteLock} to a String, if it exists.
+     * If the String passed is not contained in the {@link HashMap} {@link #fileLocks}, then this function creates
+     * the instance and returns it back. */
     private ReentrantReadWriteLock getFileLock(String filePath) {
         ReentrantReadWriteLock rwl;
         synchronized (fileLocks) {
