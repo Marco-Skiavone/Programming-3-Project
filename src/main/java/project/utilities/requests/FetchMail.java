@@ -1,14 +1,11 @@
 package project.utilities.requests;
 
 import project.server.*;
-import project.utilities.Email;
-import project.utilities.MailHeader;
-
+import project.utilities.*;
 import java.io.*;
 
 public class FetchMail extends RequestObj {
     public final MailHeader header;
-
     public FetchMail(String sender, MailHeader header) {
         super(sender);
         this.header = header;
@@ -31,5 +28,4 @@ public class FetchMail extends RequestObj {
             throw e;
         }
     }
-    //@todo: fill this class
 }
