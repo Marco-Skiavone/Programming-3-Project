@@ -99,8 +99,10 @@ public class ServerModel {
 
             //assert mailHeaders != null
             if(delete) {
-                for(MailHeader mailHeader : headers)
+                for(MailHeader mailHeader : headers) {
                     mailHeaders.remove(mailHeader);
+                    decreaseCounter(mailHeader);
+                }
             } else {
                 //@todo: make ordered the add method
                 mailHeaders.addAll(headers);
@@ -121,6 +123,50 @@ public class ServerModel {
         }
 
     }
+
+    /**
+     * This method returns an eMail, reading it by a file in the directory "/persistence/emails"
+     * @param header : the header, of the requested eMail in "/persistence/mails"
+     * @return an Email obj
+     */
+    public Email readEmailFile(MailHeader header) throws Exception {
+        ReentrantReadWriteLock rwl = getFileLock("persistence/mails/" + header.hashCode() + ".txt");
+        rwl.readLock().lock();
+        try (FileInputStream fileInput = new FileInputStream("persistence/mails/" + header.hashCode() + ".txt")) {
+            ObjectInputStream input = new ObjectInputStream(fileInput);
+            Object inObject = input.readObject();
+            rwl.readLock().unlock();
+
+            return Utilities.castToEmail(inObject);
+        }
+    }
+
+    /**
+     * This method writes the Email object creating the corresponding file
+     * @param email The Email to write
+     *
+     * @throws IOException – if an I/ O error occurs while writing stream header
+     * @throws SecurityException – if untrusted subclass illegally overrides security-sensitive methods
+     * @throws NullPointerException – if out is null
+     * @throws FileNotFoundException – if the file exists but is a directory rather than a regular file, does not exist but cannot be created, or cannot be opened for any other reason
+     */
+    public void writeEmailFile(Email email) throws Exception {
+        ReentrantReadWriteLock rwl = getFileLock("persistence/mails/" + email.getHeader().hashCode() + ".txt");
+        email.setReferencesCounter(email.getReceivers().size());//@todo: questa operazione la può fare il client?
+
+        FileOutputStream fileOutput = null;
+        rwl.writeLock().lock();
+        try {
+            fileOutput = new FileOutputStream("persistence/mails/" + email.getHeader().hashCode() + ".txt");
+            ObjectOutputStream output = new ObjectOutputStream(fileOutput);
+            output.writeObject(email);
+            output.flush();
+        } finally {
+            if (fileOutput != null && fileOutput.getChannel().isOpen())
+                fileOutput.close();
+        }
+        rwl.writeLock().unlock();
+    }
     
     /** Function called to retrieve a lock about a persistence file.
      * @param filePath The String representing a file of the persistence.
@@ -137,5 +183,41 @@ public class ServerModel {
             }
         }
         return rwl;
+    }
+
+    /**
+     *  Updates the referenceCounter of an Email decreasing it by 1. If the referenceCounter become 0, also deletes the mailFile
+     * @param header is the MailHeader corresponding to the target Email
+     * @throws Exception @todo:
+     */
+    private void decreaseCounter(MailHeader header) throws Exception {
+        ReentrantReadWriteLock rwl = getFileLock("persistence/mails/" + header.hashCode() + ".txt");
+        Email email;
+        rwl.writeLock().lock();
+        try (FileInputStream fileInput = new FileInputStream("persistence/mails/" + header.hashCode() + ".txt")) {
+            ObjectInputStream input = new ObjectInputStream(fileInput);
+            Object inObject = input.readObject();
+
+            email = Utilities.castToEmail(inObject);
+            email.decreaseReferencesCounter();
+        }
+        if (email.getReferencesCounter() <= 0){
+            File emailFile = new File("persistence/mails/" + header.hashCode() + ".txt"); //todo: needs a removeEmail method?
+            if (!emailFile.delete())
+                throw new SecurityException("Can't delete " + emailFile.getAbsolutePath());
+        } else {
+            FileOutputStream fileOutput = null;
+            try {
+                fileOutput = new FileOutputStream("persistence/mails/" + header.hashCode() + ".txt");
+                ObjectOutputStream output = new ObjectOutputStream(fileOutput);
+
+                output.writeObject(email);
+                output.flush();
+            } finally {
+                if (fileOutput != null && fileOutput.getChannel().isOpen())
+                    fileOutput.close();
+            }
+        }
+        rwl.writeLock().unlock();
     }
 }

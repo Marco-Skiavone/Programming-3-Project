@@ -2,10 +2,8 @@ package project.utilities.requests;
 
 import project.server.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
+import java.util.*;
+import java.util.concurrent.*;
 import project.utilities.*;
 
 public class SendMail extends RequestObj {
@@ -16,10 +14,17 @@ public class SendMail extends RequestObj {
         this.mail = mail;
     }
 
+    /**
+     * This method resolves the request object, writing the emailFile and updates receivers' headerFiles using multiple Threads
+     * @param output the output stream where the feedback will be written
+     * @param model the model containing the server's methods
+     * @param controller the calling controller
+     * @throws Exception when sender or receivers aren't an eligible account name, or... @todo: verificare quali altre ececzioni possono verificarsi nei thread e nella write EmailFile
+     */
     @Override
     public void resolve(ObjectOutputStream output, ServerModel model, ServerController controller) throws Exception {
         try {
-            // @todo the SendMail request
+
             if (!model.checkAddress(this.getSender())) {
                 throw new Exception("Erroneous sender address: " + this.getSender());
             }
@@ -29,6 +34,10 @@ public class SendMail extends RequestObj {
                 }
             }
 
+            //writes the eMail
+            model.writeEmailFile(mail);
+
+            //updates receivers headersFile
             try (ExecutorService pool = Executors.newFixedThreadPool(mail.getReceivers().size())) {
                 for (String receiver : mail.getReceivers()) {
                     // Apre un thread che accede al file header per ogni receiver e lo aggiorna
@@ -40,10 +49,8 @@ public class SendMail extends RequestObj {
                         }
                     };
                     pool.execute(r);
-
                 }
             }
-            // manipolazione degli UserHeaders file e scrittura in ".../mails" della mail
 
             controller.writeOnLog("SendMail request served.");
         } catch (Exception e) {
@@ -52,10 +59,14 @@ public class SendMail extends RequestObj {
         }
     }
 
+    /**
+     * Support method which is executed by every thread
+     * @param receiver a String containing the username corresponding to the headerFile name which will be updated
+     * @param model the model containing the server's methods
+     * @throws Exception @todo check updateHeaderFile exeptions
+     */
     private void updateReceiversHeaders(String receiver, ServerModel model) throws Exception {
-        ArrayList<MailHeader> headers = model.readHeaderFile(receiver);
-        headers.add(mail.getHeader());
-
+        model.updateHeaderFile(receiver, Collections.singletonList(mail.getHeader()), false);
     }
     //@todo: fill this class
 }

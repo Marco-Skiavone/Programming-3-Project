@@ -4,12 +4,13 @@ import java.io.Serializable;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.ZoneOffset;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
 public record MailHeader (
         String sender,
-        List<String>receivers,
+        Collection<String> receivers,
         String subject,
         Timestamp timestamp
          ) implements Serializable, Comparable<MailHeader> {

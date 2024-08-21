@@ -10,8 +10,9 @@ public class Email implements Serializable {
 
     private final MailHeader header;
     private final String text;
+    private int referencesCounter = 0;
 
-    public Email(String sender, List<String> receivers, String subject, String text, LocalDateTime date) {
+    public Email(String sender, Collection<String> receivers, String subject, String text, LocalDateTime date) {
         this.header = new MailHeader(sender, receivers, subject, Timestamp.from(date.toInstant(ZoneOffset.UTC)));
         this.text = text;
     }
@@ -22,7 +23,19 @@ public class Email implements Serializable {
         return header.sender();
     }
 
-    public List<String> getReceivers() {
+    public void setReferencesCounter(int i) {
+        referencesCounter = i;
+    }
+
+    public void decreaseReferencesCounter() {
+        referencesCounter--;
+    }
+
+    public int getReferencesCounter() {
+        return referencesCounter;
+    }
+
+    public Collection<String> getReceivers() {
         return header.receivers();
     }
 
