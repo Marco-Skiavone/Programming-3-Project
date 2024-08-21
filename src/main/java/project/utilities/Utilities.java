@@ -1,6 +1,5 @@
 package project.utilities;
 
-import java.io.IOException;
 import java.util.*;
 
 public interface Utilities {
@@ -11,11 +10,18 @@ public interface Utilities {
         if (obj instanceof ArrayList<?> headerList) {
             for(Object o : headerList)
                 if (!(o instanceof MailHeader))
-                    throw new ClassCastException("Erroneous type in obj");
+                    throw new ClassCastException("Erroneous type in obj: it doesn't contains a MailHeader");
             //noinspection unchecked
             return (ArrayList<MailHeader>) headerList;
         }
-        return null;
+        throw new ClassCastException("Erroneous type obj: it is not a ArrayList");
+    }
+
+    static Email castToEmail(Object obj) throws ClassCastException {
+        if (obj instanceof Email)
+            return (Email) obj;
+
+        throw new ClassCastException("Erroneous obj is not an Email");
     }
 
 }

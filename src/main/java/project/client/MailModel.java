@@ -13,7 +13,7 @@ public class MailModel {
      * @param adr The address to make the server check.
      * @return a boolean in base of the response from the server. */
     public boolean checkAddress(String adr) {
-        try (Socket clientSocket = new Socket("127.0.0.1", project.server.ServerModel.getPORT())) {
+        try (Socket clientSocket = new Socket("127.0.0.1", Utilities.PORT)) {
             if ( adr == null || adr.isBlank())
                 throw new RuntimeException("Invalid \"To:\" field.");
             ObjectOutputStream output = new ObjectOutputStream(clientSocket.getOutputStream());

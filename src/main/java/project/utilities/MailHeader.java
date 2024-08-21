@@ -1,25 +1,31 @@
 package project.utilities;
 
-import java.io.*;
-import java.sql.Timestamp;
+import java.io.Serializable;
+import java.sql.*;
+import java.time.ZoneOffset;
 import java.util.*;
 
-public record MailHeader(
+public record MailHeader (
         String sender,
-        List<String>receivers,
+        Collection<String> receivers,
         String subject,
         Timestamp timestamp
-         ) implements Serializable {
+         ) implements Serializable, Comparable<MailHeader> {
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof MailHeader that)) return false;
-        return Objects.equals(sender, that.sender) && Objects.equals(timestamp, that.timestamp);
+        return Objects.equals(sender, that.sender) && Objects.equals(subject, that.subject) && Objects.equals(timestamp, that.timestamp) && Objects.equals(receivers, that.receivers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sender, timestamp);
+        return Objects.hash(sender, receivers, subject, timestamp);
+    }
+
+    @Override
+    public int compareTo(MailHeader o) {
+        return timestamp.compareTo(o.timestamp());
     }
 }

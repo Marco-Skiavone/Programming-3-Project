@@ -17,12 +17,9 @@ public class LogIn extends RequestObj {
         try {
             result = model.checkAddress(this.getSender());
             if (result) {
-                output.writeBoolean(true);
+                output.writeObject(model.readHeaderFile(getSender()));
                 output.flush();
                 output.reset();
-                // @todo it sends back a {@link project.utilities.MailHeader} list
-                //output.writeObject(ServerModel.getMailHeaders(getSender()));  // + Exceptions handling
-                output.writeObject(new ArrayList<>());
                 controller.writeOnLog("LogIn request served.");
             }
         } catch (Exception e) {
