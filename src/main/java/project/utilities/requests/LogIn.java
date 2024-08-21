@@ -20,8 +20,8 @@ public class LogIn extends RequestObj {
                 output.writeBoolean(result);
                 output.flush();
                 output.reset();
-                // @todo it sends back a {@link project.utilities.MailHeader} list
-                output.writeObject(new ArrayList<>());
+
+                output.writeObject(model.readHeaderFile(getSender()));
                 controller.writeOnLog("LogIn request served.");
             }
         } catch (Exception e) {

@@ -1,17 +1,30 @@
 package project.utilities.requests;
 
 import project.server.*;
+import project.utilities.Email;
+import project.utilities.MailHeader;
+
 import java.io.*;
 
 public class FetchMail extends RequestObj {
-    public FetchMail(String sender) {
+    public final MailHeader header;
+
+    public FetchMail(String sender, MailHeader header) {
         super(sender);
+        this.header = header;
     }
 
+    /**
+     * This method resolves the request object, returning the sending Email object to the client
+     * @param output the output stream where the feedback will be written
+     * @param model the model containing the server's methods
+     * @param controller the calling controller
+     * @throws Exception @todo: verificare quali  ececzioni possono verificarsi
+     */
     @Override
     public void resolve(ObjectOutputStream output, ServerModel model, ServerController controller) throws Exception {
         try {
-            // @todo the fetch of an email from a sender to the receivers list
+            output.writeObject(model.readEmailFile(header));
             controller.writeOnLog("Email fetch request served.");
         }  catch (Exception e) {
             controller.writeOnLog("Email fetch request failed because: " + e.getCause());

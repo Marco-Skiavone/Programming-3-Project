@@ -79,7 +79,7 @@ public class ServerModel {
      * @throws IOException If the content of the file passed is unparsable as a list of {@link project.utilities.MailHeader}.
      * @throws Exception Or any other of its extenders is launched if something goes wrong.
      * These have to be handled by its caller! */
-    public void updateHeaderFile(String targetUser, List<MailHeader> headers, boolean delete) throws Exception {
+    public void updateHeaderFile(String targetUser, Collection<MailHeader> headers, boolean delete) throws Exception {
         ReentrantReadWriteLock rwl = getFileLock("persistence/headers/" + targetUser + ".txt");
         ArrayList<MailHeader> mailHeaders;
 

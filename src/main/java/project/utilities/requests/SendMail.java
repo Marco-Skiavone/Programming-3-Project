@@ -52,6 +52,7 @@ public class SendMail extends RequestObj {
                 }
             }
 
+            output.writeBoolean(true); //@todo: impostare il feedback desiderato
             controller.writeOnLog("SendMail request served.");
         } catch (Exception e) {
             controller.writeOnLog("SendMail request failed because: " + e.getCause());

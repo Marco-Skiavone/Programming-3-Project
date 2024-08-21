@@ -1,11 +1,16 @@
 package project.utilities.requests;
 
 import project.server.*;
+import project.utilities.MailHeader;
+
 import java.io.*;
 
 public class Refresh extends RequestObj {
-    public Refresh(String sender) {
+    private final MailHeader header;
+
+    public Refresh(String sender, MailHeader header) {
         super(sender);
+        this.header = header;
     }
 
     @Override
