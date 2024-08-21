@@ -18,12 +18,12 @@ public record MailHeader (
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof MailHeader that)) return false;
-        return Objects.equals(sender, that.sender) && Objects.equals(timestamp, that.timestamp);
+        return Objects.equals(sender, that.sender) && Objects.equals(subject, that.subject) && Objects.equals(timestamp, that.timestamp) && Objects.equals(receivers, that.receivers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sender, timestamp);
+        return Objects.hash(sender, receivers, subject, timestamp);
     }
 
     @Override
