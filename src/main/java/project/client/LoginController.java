@@ -82,14 +82,15 @@ public class LoginController {
             ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
             output.writeObject(new LogIn(login));
             output.flush();
-            boolean result = input.readBoolean();
-            if (result)
-                headersList = (List<MailHeader>) input.readObject();
-            return result;
+            Object inObj = input.readObject();
+            if (inObj != null)
+                headersList = Utilities.castToMailHeadersList(inObj);
+            return inObj != null;
         }
         catch(Exception e)
         {
             e.printStackTrace();
+            errorText.setText("Error occurred in server LogIn request.");
             return false;
         }
     }
