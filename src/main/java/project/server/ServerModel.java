@@ -159,7 +159,7 @@ public class ServerModel {
      * the instance and returns it back. */
     private ReentrantReadWriteLock getFileLock(String filePath) {
         synchronized (fileLocks) {
-            if (fileLocks.containsKey(filePath))    // Allocating if not found.
+            if (!fileLocks.containsKey(filePath))    // Allocating if not found.
                 fileLocks.put(filePath , new ReentrantReadWriteLock(true));
         }
         return fileLocks.get(filePath);
