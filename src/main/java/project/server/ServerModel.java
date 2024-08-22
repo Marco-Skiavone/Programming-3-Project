@@ -158,15 +158,11 @@ public class ServerModel {
      * If the String passed is not contained in the {@link HashMap} {@link #fileLocks}, then this function creates
      * the instance and returns it back. */
     private ReentrantReadWriteLock getFileLock(String filePath) {
-        ReentrantReadWriteLock rwl;
         synchronized (fileLocks) {
-            rwl = fileLocks.get(filePath);
-            if (rwl == null) {
+            if (fileLocks.containsKey(filePath))    // Allocating if not found.
                 fileLocks.put(filePath , new ReentrantReadWriteLock(true));
-                rwl = fileLocks.get(filePath);
-            }
         }
-        return rwl;
+        return fileLocks.get(filePath);
     }
 
     /**
