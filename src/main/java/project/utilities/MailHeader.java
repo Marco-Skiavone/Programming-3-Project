@@ -2,7 +2,6 @@ package project.utilities;
 
 import java.io.Serializable;
 import java.sql.*;
-import java.time.ZoneOffset;
 import java.util.*;
 
 public record MailHeader (

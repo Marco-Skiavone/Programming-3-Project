@@ -18,13 +18,15 @@ public class ThreadServer implements Runnable
         this.model = model;
     }
 
-    /** This should be the main logic: (Still WIP)
+    /** This should be the main logic:
      * - LOGIN: Verifies the existence of specified email and logs in the user.
      * - CHECK_ADDR: Verifies the existence of specified email receivers.
-     * - DEL: Deletes specified emails for a user.
+     * - DELETE: Deletes specified emails for a user.
      * - FETCH: Fetches emails from server to a user.
      * - REFRESH: Refreshes emails since a certain ID for a user.
-     */
+     * - SEND_MAIL: Refreshes emails since a certain ID for a user.
+     * Every request that requires no response from the server HAS to return a "true" boolean message,
+     * if everything is gone right. */
     public void run() {
         try {
             ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
@@ -33,10 +35,7 @@ public class ThreadServer implements Runnable
             if (!(inObject instanceof RequestObj request))
                 throw new IOException("Read of input failed.");
 
-            request.resolve(output, model, controller);
-
-            output.flush();
-            output.reset();
+            request.resolve(output, model, controller); // Correct output requires a final "true" flush
         } catch (Exception e) {
             controller.writeOnLog("Exception caught: " + e.getMessage());
             System.err.println(e.getMessage());
