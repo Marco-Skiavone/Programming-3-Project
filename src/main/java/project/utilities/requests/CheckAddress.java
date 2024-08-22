@@ -1,7 +1,6 @@
 package project.utilities.requests;
 
 import project.server.*;
-import project.utilities.*;
 import java.io.*;
 
 public class CheckAddress extends RequestObj {
@@ -19,9 +18,6 @@ public class CheckAddress extends RequestObj {
     @Override
     public void resolve(ObjectOutputStream output, ServerModel model, ServerController controller) throws Exception {
         try {
-            if (!model.checkAddress(this.getSender()))
-                throw new UnknownAddressException("Erroneous sender address: " + this.getSender());
-
             output.writeBoolean(model.checkAddress(this.getSender()));
             output.flush();
             controller.writeOnLog("Check-Address request served.");
