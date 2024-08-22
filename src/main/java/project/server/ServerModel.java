@@ -151,7 +151,7 @@ public class ServerModel {
         }
         rwl.writeLock().unlock();
     }
-    
+
     /** Function called to retrieve a lock about a persistence file.
      * @param filePath The String representing a file of the persistence.
      * @return the associated {@link ReentrantReadWriteLock} to a String, if it exists.
@@ -165,10 +165,12 @@ public class ServerModel {
         return fileLocks.get(filePath);
     }
 
-    /**
-     *  Updates the referenceCounter of an Email decreasing it by 1. If the referenceCounter become 0, also deletes the mailFile
+    /** It updates the referencesCounter of an {@link Email} decreasing it by 1. If the referenceCounter becomes 0,
+     *  it also deletes the mail file.
      * @param header is the MailHeader corresponding to the target Email
-     * @throws Exception @todo:
+     * @throws NullPointerException If something went wrong reading the Email file
+     * @throws IOException If something went wrong reading the Email file
+     * @throws SecurityException If the function fails in the deletion of the file.
      */
     private void decreaseCounter(MailHeader header) throws Exception {
         ReentrantReadWriteLock rwl = getFileLock("persistence/mails/" + header.hashCode() + ".txt");
@@ -181,10 +183,11 @@ public class ServerModel {
             email = Utilities.castToEmail(inObject);
             email.decreaseReferencesCounter();
         }
-        if (email.getReferencesCounter() <= 0){
-            File emailFile = new File("persistence/mails/" + header.hashCode() + ".txt"); //todo: needs a removeEmail method?
+        if (email.getReferencesCounter() <= 0) {
+            File emailFile = new File("persistence/mails/" + header.hashCode() + ".txt");
             if (!emailFile.delete())
                 throw new SecurityException("Can't delete " + emailFile.getAbsolutePath());
+            fileLocks.remove("persistence/mails/" + header.hashCode() + ".txt"); // @todo maybe it needs of a synchronized ?
         } else
             try (FileOutputStream fileOutput = new FileOutputStream("persistence/mails/" + header.hashCode() + ".txt")) {
                 ObjectOutputStream output = new ObjectOutputStream(fileOutput);
