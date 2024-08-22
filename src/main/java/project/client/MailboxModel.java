@@ -36,7 +36,7 @@ public class MailboxModel {
         if (mailbox.containsKey(header))
             return mailbox.get(header); // if already present, it returns it back quicker
         else {
-            try (Socket clientSocket = new Socket("127.0.0.1", project.server.ServerModel.getPORT())) {
+            try (Socket clientSocket = new Socket("127.0.0.1", Utilities.PORT)) {
                 ObjectOutputStream output = new ObjectOutputStream(clientSocket.getOutputStream());
                 ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
                 output.writeObject(new FetchMail(userMail, header));
@@ -54,7 +54,7 @@ public class MailboxModel {
 
     /** Functions used to send a REFRESH request to the server and get back any received Email. */
     public void sendRefreshRequest () {
-        try (Socket clientSocket = new Socket("127.0.0.1", project.server.ServerModel.getPORT())) {
+        try (Socket clientSocket = new Socket("127.0.0.1", Utilities.PORT)) {
             ObjectOutputStream output = new ObjectOutputStream(clientSocket.getOutputStream());
             ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
             output.writeObject(new Refresh(userMail, getLastHeader()));
