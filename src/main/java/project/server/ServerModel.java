@@ -72,8 +72,7 @@ public class ServerModel {
         }
     }
 
-    /** Function used to overwrite headers file using locks on {@link ServerModel#fileLocks}.<br>
-     * todo -> could be generalized to all the files, passing a function as argument!
+    /** Function used to overwrite headers file using locks on {@link ServerModel#fileLocks}.
      * @param targetUser The string representing the name of the file to update.
      *                   It must be only the final name without its file extension.
      * @throws IOException If the content of the file passed is unparsable as a list of {@link project.utilities.MailHeader}.
@@ -83,7 +82,6 @@ public class ServerModel {
         ReentrantReadWriteLock rwl = getFileLock("persistence/headers/" + targetUser + ".txt");
         ArrayList<MailHeader> mailHeaders;
 
-        // Reading...
         rwl.writeLock().lock();
         try {
             try (FileInputStream fileInput = new FileInputStream("persistence/headers/" + targetUser + ".txt")) {
@@ -97,31 +95,23 @@ public class ServerModel {
                 throw new IOException("Erroneous content of headers fIle");
             }
 
-            //assert mailHeaders != null
-            if(delete) {
-                for(MailHeader mailHeader : headers) {
-                    mailHeaders.remove(mailHeader);
-                    decreaseCounter(mailHeader);
+            // Assert mailHeaders != null
+            if (delete) {
+                for (MailHeader mh : headers) {
+                    mailHeaders.remove(mh);
+                    decreaseCounter(mh);
                 }
-            } else {
-                //@todo: make ordered the add method
-                mailHeaders.addAll(headers);
-            }
+            } else  // This will pass the headers sorted by their timestamps
+                mailHeaders.addAll(headers.stream().sorted(MailHeader::compareTo).toList());
 
-            FileOutputStream fileOutput = null;
-            try {
-                fileOutput = new FileOutputStream("persistence/headers/" + targetUser + ".txt");
+            try (FileOutputStream fileOutput = new FileOutputStream("persistence/headers/" + targetUser + ".txt");) {
                 ObjectOutputStream output = new ObjectOutputStream(fileOutput);
                 output.writeObject(mailHeaders);
                 output.flush();
-            } finally {
-                if (fileOutput != null && fileOutput.getChannel().isOpen())
-                    fileOutput.close();
             }
         } finally {
             rwl.writeLock().unlock();
         }
-
     }
 
     /**
@@ -141,9 +131,8 @@ public class ServerModel {
         }
     }
 
-    /**
-     * This method writes the Email object creating the corresponding file
-     * @param email The Email to write
+    /** This method writes the Email object creating the corresponding file.
+     * @param email The Email to write in the persistence
      *
      * @throws IOException – if an I/ O error occurs while writing stream header
      * @throws SecurityException – if untrusted subclass illegally overrides security-sensitive methods
@@ -152,18 +141,13 @@ public class ServerModel {
      */
     public void writeEmailFile(Email email) throws Exception {
         ReentrantReadWriteLock rwl = getFileLock("persistence/mails/" + email.getHeader().hashCode() + ".txt");
-        email.setReferencesCounter(email.getReceivers().size());//@todo: questa operazione la può fare il client?
+        email.setReferencesCounter(email.getReceivers().size());
 
-        FileOutputStream fileOutput = null;
         rwl.writeLock().lock();
-        try {
-            fileOutput = new FileOutputStream("persistence/mails/" + email.getHeader().hashCode() + ".txt");
+        try (FileOutputStream fileOutput = new FileOutputStream("persistence/mails/" + email.getHeader().hashCode() + ".txt")) {
             ObjectOutputStream output = new ObjectOutputStream(fileOutput);
             output.writeObject(email);
             output.flush();
-        } finally {
-            if (fileOutput != null && fileOutput.getChannel().isOpen())
-                fileOutput.close();
         }
         rwl.writeLock().unlock();
     }
@@ -205,19 +189,12 @@ public class ServerModel {
             File emailFile = new File("persistence/mails/" + header.hashCode() + ".txt"); //todo: needs a removeEmail method?
             if (!emailFile.delete())
                 throw new SecurityException("Can't delete " + emailFile.getAbsolutePath());
-        } else {
-            FileOutputStream fileOutput = null;
-            try {
-                fileOutput = new FileOutputStream("persistence/mails/" + header.hashCode() + ".txt");
+        } else
+            try (FileOutputStream fileOutput = new FileOutputStream("persistence/mails/" + header.hashCode() + ".txt")) {
                 ObjectOutputStream output = new ObjectOutputStream(fileOutput);
-
                 output.writeObject(email);
                 output.flush();
-            } finally {
-                if (fileOutput != null && fileOutput.getChannel().isOpen())
-                    fileOutput.close();
             }
-        }
         rwl.writeLock().unlock();
     }
 }

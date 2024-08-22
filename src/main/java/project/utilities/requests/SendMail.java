@@ -16,31 +16,27 @@ public class SendMail extends RequestObj {
 
     /**
      * This method resolves the request object, writing the emailFile and updates receivers' headerFiles using multiple Threads
-     * @param output the output stream where the feedback will be written
-     * @param model the model containing the server's methods
-     * @param controller the calling controller
-     * @throws Exception when sender or receivers aren't an eligible account name, or... @todo: verificare quali altre ececzioni possono verificarsi nei thread e nella write EmailFile
+     * @param output The output stream where the feedback will be written
+     * @param model The model containing the server's methods
+     * @param controller The calling controller
+     * @throws Exception when sender or receivers aren't an eligible account name, or... @todo: verificare quali altre eccezioni possono verificarsi nei thread e nella write EmailFile
      */
     @Override
     public void resolve(ObjectOutputStream output, ServerModel model, ServerController controller) throws Exception {
         try {
+            if (!model.checkAddress(this.getSender()))
+                throw new UnknownAddressException("Erroneous sender address: " + this.getSender());
 
-            if (!model.checkAddress(this.getSender())) {
-                throw new Exception("Erroneous sender address: " + this.getSender());
-            }
-            for (String receiver : mail.getReceivers()) {
-                if (!model.checkAddress(receiver)) {
-                    throw new Exception("Erroneous receiver address: " + receiver);
-                }
-            }
+            for (String receiver : mail.getReceivers())
+                if (!model.checkAddress(receiver))
+                    throw new UnknownAddressException("Erroneous receiver address: " + receiver);
 
-            //writes the eMail
+            // Writes the eMail in the file
             model.writeEmailFile(mail);
 
-            //updates receivers headersFile
-            try (ExecutorService pool = Executors.newFixedThreadPool(mail.getReceivers().size())) {
+            // Updates receivers headersFile
+            try (ExecutorService pool = Executors.newFixedThreadPool(Math.min(mail.getReceivers().size(), 5))) {
                 for (String receiver : mail.getReceivers()) {
-                    // Apre un thread che accede al file header per ogni receiver e lo aggiorna
                     Runnable r = () -> {
                         try {
                             updateReceiversHeaders(receiver, model);
@@ -51,12 +47,14 @@ public class SendMail extends RequestObj {
                     pool.execute(r);
                 }
             }
-
-            output.writeBoolean(true); //@todo: impostare il feedback desiderato
+            output.writeBoolean(true); // feedback for the client.
+            // If something went wrong, the client will send the request again.
             controller.writeOnLog("SendMail request served.");
         } catch (Exception e) {
             controller.writeOnLog("SendMail request failed because: " + e.getCause());
             throw e;
+        } finally {
+            output.flush();
         }
     }
 
@@ -69,5 +67,4 @@ public class SendMail extends RequestObj {
     private void updateReceiversHeaders(String receiver, ServerModel model) throws Exception {
         model.updateHeaderFile(receiver, Collections.singletonList(mail.getHeader()), false);
     }
-    //@todo: fill this class
 }

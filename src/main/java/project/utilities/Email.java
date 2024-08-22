@@ -10,6 +10,7 @@ public class Email implements Serializable {
 
     private final MailHeader header;
     private final String text;
+    /** Number of user who have not deleted this email yet. */
     private int referencesCounter = 0;
 
     public Email(String sender, Collection<String> receivers, String subject, String text, LocalDateTime date) {
@@ -27,6 +28,7 @@ public class Email implements Serializable {
         referencesCounter = i;
     }
 
+    /** Function used to decrease the number of user who have not deleted this email yet. */
     public void decreaseReferencesCounter() {
         referencesCounter--;
     }

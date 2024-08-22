@@ -13,15 +13,19 @@ public class FetchMail extends RequestObj {
 
     /**
      * This method resolves the request object, returning the sending Email object to the client
-     * @param output the output stream where the feedback will be written
-     * @param model the model containing the server's methods
-     * @param controller the calling controller
-     * @throws Exception @todo: verificare quali  ececzioni possono verificarsi
+     * @param output The output stream where the feedback will be written
+     * @param model The model containing the server's methods
+     * @param controller The calling controller
+     * @throws Exception If something went wrong in the headers' file reading.
      */
     @Override
     public void resolve(ObjectOutputStream output, ServerModel model, ServerController controller) throws Exception {
         try {
+            if (!model.checkAddress(this.getSender()))
+                throw new UnknownAddressException("Erroneous sender address: " + this.getSender());
+
             output.writeObject(model.readEmailFile(header));
+            output.flush();
             controller.writeOnLog("Email fetch request served.");
         }  catch (Exception e) {
             controller.writeOnLog("Email fetch request failed because: " + e.getCause());
