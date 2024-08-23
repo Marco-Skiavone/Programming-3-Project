@@ -52,27 +52,25 @@ public class MailboxModel {
         return null;
     }
 
-    /** Functions used to send a REFRESH request to the server and get back any received Email. */
-    public void sendRefreshRequest () {
+    /** Functions used to send a REFRESH request to the server and get back any received Email.
+     * @return 'true' if something new is arrived in the mailbox, 'false' otherwise. */
+    public boolean sendRefreshRequest () {
         try (Socket clientSocket = new Socket("127.0.0.1", Utilities.PORT)) {
             ObjectOutputStream output = new ObjectOutputStream(clientSocket.getOutputStream());
             ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
             output.writeObject(new Refresh(userMail, getLastHeader()));
             output.flush();
-            List<MailHeader> refreshedHeaders = (ArrayList<MailHeader>) input.readObject();
+            List<MailHeader> refreshedHeaders = (List<MailHeader>) input.readObject();
             if (!refreshedHeaders.isEmpty()) {
-                Platform.runLater(() -> {
-                    headersList.addAll(refreshedHeaders);
-                    headersList.sort(Comparator.comparing(MailHeader::timestamp));
-                });
+                refreshedHeaders.sort(Comparator.comparing(MailHeader::timestamp));
+                Platform.runLater(() -> headersList.addAll(refreshedHeaders));
+                return true;
             }
         } catch (Exception e) {
             e.printStackTrace();
             // @todo handle exception
         }
-        /* @todo 1. send the request
-         *       2. update any new mail present
-         *       3. if new mails were present, send a warning message. */
+        return false;
     }
 
     /** @return The {@link MailHeader} with the most recent {@link java.sql.Timestamp} in the headersList. */

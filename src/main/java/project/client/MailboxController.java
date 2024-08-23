@@ -41,8 +41,9 @@ public class MailboxController {
         this.model = new MailboxModel(userAddress, headersList);
 
         listView.setItems(model.getHeadersList());
+        System.out.println("hl: " + listView.getItems());   // DEBUG ONLY @todo remove it
         /* Here we set "cell" items for the ListView. */
-        listView.setCellFactory(line -> createListCell());
+        listView.setCellFactory(lc -> createListCell());
         // @todo it could be necessary to start a delayed refresh session for the user!
     }
 
@@ -55,17 +56,17 @@ public class MailboxController {
             private final Label time = new Label();
             private final HBox hbox = new HBox(20);
             {
-                sender.setPrefWidth(200);
-                subject.setPrefWidth(200);
-                hbox.getChildren().addAll(checkBox, sender, subject, time);
                 hbox.setPadding(new Insets(0, 3, 0, 3));
+                sender.setPrefWidth(200);
+                subject.setPrefWidth(120);
+                hbox.getChildren().addAll(checkBox, sender, subject, time);
             }
 
             /** Function used by JavaFX layer to update list items. */
             @Override
             protected void updateItem(MailHeader header, boolean empty) {
                 super.updateItem(header, empty);
-                if (empty || header == null) {
+                if (header == null) {
                     setGraphic(null);
                 } else {
                     sender.setText(header.sender());
@@ -80,27 +81,28 @@ public class MailboxController {
     /** Function called when "Delete" button is pressed. */
     @FXML
     public void deleteMails() {
-        System.out.println("deleteBtn clicked");      // DEBUG
+        // 1. group all the headers selected in a Collection
+        // 2. send a DELETE request
+        // 3. show a feedback to the client
     }
 
     /** Function called when "New Mail" button is pressed. */
     @FXML
     public void newMailBtnPressed () {
-        System.out.println("newBtn clicked");     // DEBUG
-        // openNewMailView(); @todo implementation
+        openNewMailView();
     }
 
     /** Function called when "Refresh" button is pressed. */
     @FXML
     public void sendRefreshRequest () {
-        System.out.println("refreshBtn clicked");     // DEBUG
-        // model.sendRefreshRequest(); @todo implementation
+        if (model.sendRefreshRequest())
+            System.out.println("something new arrived!"); // @todo better warning!
     }
 
     /** Function called when "Select All" button is pressed. */
     @FXML
     public void selectAllBtn () {
-        System.out.println("selectAllBtn clicked");   // DEBUG
+
     }
 
     /** Function that opens up a new "mail-view" giving an Email to open up on "read-mode". */
@@ -121,7 +123,7 @@ public class MailboxController {
                 mailsList.remove(mailController);
             });
             stage.show();
-            // mailController.initModel(userAddress, retrieveEmail(header)); @todo
+            mailController.readMail(userAddress, model.retrieveEmail(header));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -143,7 +145,7 @@ public class MailboxController {
                 mailsList.remove(mailController);
             });
             stage.show();
-            // mailController.initModel(userAddress, null); @todo
+            mailController.startNewMailView(userAddress);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -153,7 +155,7 @@ public class MailboxController {
      * It has to show an alert that every pending request will be not sent to the server. */
     public void shutdownController() {
         for (MailController mc : mailsList) {
-            mc.closeWindow();
+            mc.shutdownEditor();
         }
         // @todo if pending requests -> close them and shutdown
     }
