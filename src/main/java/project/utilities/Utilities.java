@@ -24,4 +24,14 @@ public interface Utilities {
         throw new ClassCastException("Erroneous obj is not an Email");
     }
 
+    /** It requires lowercase letters and trimmed string, to ensure a simpler input commitment.
+     * @param input a string that represents the e-mail to check.
+     * @return true if input matches the regex, false otherwise.
+     * @Note: It'll let you insert 24 chars before '@', '-' and '_' (but not strictly before '@'), needs at least 2 letters after domain. */
+    static boolean checkSyntax(String input) {
+        if (input == null || input.length() < 9)     // e.g: at least ma@dom.it
+            return false;
+        return input.matches("^(?=.{2,32}@)[a-z0-9_-]+(\\.[a-z0-9_-]+)*" +
+                "@[^-][a-z0-9-]+(\\.[a-z-]+)*(\\.[a-z]{2,})$");
+    }
 }

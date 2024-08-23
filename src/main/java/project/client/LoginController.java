@@ -11,9 +11,6 @@ import project.utilities.*;
 import project.utilities.requests.*;
 
 public class LoginController {
-    /** Check out {@link project.client.LoginController#checkSyntax(String)} method to gain further information. */
-    private static final String SYNTAX_PATTERN = "^(?=.{2,32}@)[a-z0-9_-]+(\\.[a-z0-9_-]+)*@[^-][a-z0-9-]+(\\.[a-z-]+)*(\\.[a-z]{2,})$";
-
     @FXML
     private TextField emailInput;  // the email input
     @FXML
@@ -27,7 +24,7 @@ public class LoginController {
         try {
             String emailString = emailInput.getText().trim().toLowerCase();
             // Above, we ensured the string is trimmed and lowercase
-            if (!checkSyntax(emailString))
+            if (!Utilities.checkSyntax(emailString))
                 errorText.setText("Invalid email format.");
             else if (!loginConnection(emailString))
                 errorText.setText("Unknown email address.");
@@ -40,15 +37,7 @@ public class LoginController {
         }
     }
 
-    /** It requires lowercase letters and trimmed string, to ensure a simpler input commitment.
-     * @param input a string that represents the e-mail to check.
-     * @return true if input matches the regex, false otherwise.
-     * @note It'll let you insert 24 chars before '@', '-' and '_' (but not strictly before '@'), needs at least 2 letters after domain. */
-    public static boolean checkSyntax(String input){
-        if (input == null || input.length() < 9)     //e.g: at least ma@dom.it
-            return false;
-        return input.matches(SYNTAX_PATTERN);
-    }
+
 
     /** Function that opens up the mailbox view. Called if login check is passed.
      * @param emailName The string representing the formatted email of the user. */
