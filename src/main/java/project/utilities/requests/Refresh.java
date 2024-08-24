@@ -29,12 +29,12 @@ public class Refresh extends RequestObj {
             if (headers == null)
                 throw new ArrayIndexOutOfBoundsException("Invalid list of mail headers");
 
-            if (headers.isEmpty())
+            if (headers.isEmpty() || (headers.get(0).equals(lastHeader) && headers.size() == 1))
                 output.writeObject(new ArrayList<MailHeader>());
-            else if (headers.size() == 1 || lastHeader == null)
-                output.writeObject(headers);
+            else if (lastHeader == null)
+                output.writeObject(headers);    // headers.size() > 1
             else
-                 output.writeObject(headers.subList(headers.indexOf(lastHeader), headers.size()));
+                 output.writeObject(headers.subList(headers.indexOf(lastHeader) + 1, headers.size()));
             output.flush();
             controller.writeOnLog("Refresh request served.");
         }  catch (Exception e) {
