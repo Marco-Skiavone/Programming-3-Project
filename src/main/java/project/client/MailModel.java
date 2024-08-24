@@ -43,7 +43,8 @@ public class MailModel {
         this();
         this.userAddress = userAddress; // userAddress can be different from sender!
         senderPrt.setValue(email.getSender());
-        receiverPrt.setValue(email.getReceivers().toString());
+        String receiversString = email.getReceivers().toString();
+        receiverPrt.setValue(receiversString.substring(1, receiversString.length() - 1));
         subjectPrt.setValue(email.getSubject());
         bodyPrt.setValue(email.getText());
     }

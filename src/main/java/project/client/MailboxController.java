@@ -1,15 +1,16 @@
 package project.client;
 
 import java.io.*;
+import java.time.format.*;
 import java.util.*;
 import javafx.fxml.*;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import project.utilities.*;
-import project.utilities.requests.*;
 
 public class MailboxController {
     private String userAddress;
@@ -25,11 +26,13 @@ public class MailboxController {
     @FXML
     private ListView<MailHeader> listView = new ListView<>();
 
-    /** List of MailHeaders shown to the user via ListView. */
-    private List<MailHeader> headersList;
     /** List of controllers to let the Mailbox handle all the opened mails. */
     private final List<MailController> mailsList = new ArrayList<>();
     private MailboxModel model;
+
+    /** The Set representing the selection of the listView
+     * @todo could require different implementation */
+    private final HashSet<MailHeader> selectionSet = new HashSet<>();
     // (Maybe) We will need this to handle loop of requests, in case the server is down:
     // private ScheduledExecutorService refreshScheduler;
 
@@ -41,9 +44,7 @@ public class MailboxController {
         this.model = new MailboxModel(userAddress, headersList);
 
         listView.setItems(model.getHeadersList());
-        System.out.println("hl: " + listView.getItems());   // DEBUG ONLY @todo remove it
-        /* Here we set "cell" items for the ListView. */
-        listView.setCellFactory(lc -> createListCell());
+        listView.setCellFactory(lc -> createListCell());    // Here we set "cell" items for the ListView.
         // @todo it could be necessary to start a delayed refresh session for the user!
     }
 
@@ -55,22 +56,43 @@ public class MailboxController {
             private final Label subject = new Label();
             private final Label time = new Label();
             private final HBox hbox = new HBox(20);
+            private MailHeader header;
             {
                 hbox.setPadding(new Insets(0, 3, 0, 3));
                 sender.setPrefWidth(200);
-                subject.setPrefWidth(120);
+                subject.setPrefWidth(320);
                 hbox.getChildren().addAll(checkBox, sender, subject, time);
+                // Setting the "DOUBLE-CLICK" to open a mail
+                hbox.setOnMouseClicked(event -> {
+                    if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 &&
+                            !listView.getItems().isEmpty()) {
+                        if (header != null)
+                            openReadableMailView(header);
+                        else
+                            System.err.println("'Header' not found when double-clicked on: " + event.getTarget());
+                    }
+                });
             }
 
             /** Function used by JavaFX layer to update list items. */
             @Override
             protected void updateItem(MailHeader header, boolean empty) {
                 super.updateItem(header, empty);
-                if (header == null) {
+                if (this.header == null)
+                    this.header = header;
+                if (empty || header == null) {
                     setGraphic(null);
                 } else {
+                    // bidirectional checkBox selection
+                    checkBox.setSelected(selectionSet.contains(header));
+                    checkBox.setOnAction(ev -> {
+                        if (checkBox.isSelected())
+                            selectionSet.add(header);
+                        else
+                            selectionSet.remove(header);
+                    });
                     sender.setText(header.sender());
-                    time.setText((header.timestamp().toString().substring(0,16)));
+                    time.setText((header.timestamp().toLocalDateTime().format(DateTimeFormatter.ofPattern("HH:mm - d/MM/uuuu"))));
                     subject.setText(header.subject());
                     setGraphic(hbox);
                 }
@@ -96,20 +118,25 @@ public class MailboxController {
     @FXML
     public void sendRefreshRequest () {
         if (model.sendRefreshRequest())
-            System.out.println("something new arrived!"); // @todo better warning!
+            System.out.println("Something new arrived!"); // @todo better warning!
     }
 
     /** Function called when "Select All" button is pressed. */
     @FXML
     public void selectAllBtn () {
-
+        selectionSet.addAll(model.getHeadersList());
+        // @todo listView.setSelectionModel(model.getHeadersList());
     }
 
     /** Function that opens up a new "mail-view" giving an Email to open up on "read-mode". */
     @FXML
     public void openReadableMailView (MailHeader header) {
-        System.out.println("Readable Mail clicked: " + header);     // DEBUG
         try {
+            Email emailToRead = model.retrieveEmail(header);
+            if (emailToRead == null) {
+                // @todo warning cannot open the email
+                throw new IOException("Cannot retrieve the email from the server.");
+            }
             FXMLLoader fxmlLoader = new FXMLLoader(MailController.class.getResource("mail-view.fxml"));
             Stage stage = new Stage();
             Scene scene = new Scene(fxmlLoader.load(), 600, 400);
@@ -123,7 +150,7 @@ public class MailboxController {
                 mailsList.remove(mailController);
             });
             stage.show();
-            mailController.readMail(userAddress, model.retrieveEmail(header));
+            mailController.readMail(userAddress, emailToRead);
         } catch (IOException e) {
             e.printStackTrace();
         }

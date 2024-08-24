@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3cd24a2-57f6-4f2f-b582-b6f8adc98109" name="Changes" comment="" />
+    <list default="true" id="b3cd24a2-57f6-4f2f-b582-b6f8adc98109" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/client/MailModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/client/MailModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/client/MailboxController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/client/MailboxController.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -102,6 +106,8 @@
       <workItem from="1723970267057" duration="5255000" />
       <workItem from="1724315368828" duration="9393000" />
       <workItem from="1724443134815" duration="9813000" />
+      <workItem from="1724455027537" duration="36000" />
+      <workItem from="1724486022683" duration="8834000" />
     </task>
     <servers />
   </component>
