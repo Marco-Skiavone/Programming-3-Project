@@ -75,6 +75,7 @@ public class MailController {
     }
 
     private void mailPropertyBinding() {
+        sender.textProperty().bindBidirectional(model.getSenderPrt());
         receiversField.textProperty().bindBidirectional(model.getReceiverPrt());
         subjectField.textProperty().bindBidirectional(model.getSubjectPrt());
         mailText.textProperty().bindBidirectional(model.getBodyPrt());
@@ -85,7 +86,6 @@ public class MailController {
      */
     public void startNewMailView(String userAddress) {
         model = new MailModel(userAddress);
-        sender.setText(userAddress);
         mailPropertyBinding();
         setDisableResponseButton(true);
     }
@@ -93,6 +93,9 @@ public class MailController {
     public void readMail(String userAddress, Email email) {
         model = new MailModel(userAddress, email);
         mailPropertyBinding();
+        subjectField.setEditable(false);
+        receiversField.setEditable(false);
+        mailText.setEditable(false);
         setDisableResponseButton(false);
         sendBtn.setDisable(true);
     }

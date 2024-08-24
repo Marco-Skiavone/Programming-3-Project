@@ -11,9 +11,9 @@ import java.util.*;
 public class MailModel {
     /** The person identified by the client address */
     private String userAddress;
-    /** Sender of the email, sometimes can be the same as {@link #userAddress}. */
-    private String sender;
 
+    /** Sender of the email, sometimes can be the same as {@link #userAddress}. */
+    private final SimpleStringProperty senderPrt;
     /* Properties are used to link up with controller fields */
     private final SimpleStringProperty receiverPrt;
     /* Properties are used to link up with controller fields */
@@ -22,6 +22,7 @@ public class MailModel {
     private final SimpleStringProperty bodyPrt;
 
     private MailModel() {
+        senderPrt = new SimpleStringProperty();
         receiverPrt = new SimpleStringProperty();
         subjectPrt = new SimpleStringProperty();
         bodyPrt = new SimpleStringProperty();
@@ -31,7 +32,7 @@ public class MailModel {
     public MailModel(String sender) {
         this();
         this.userAddress = sender;
-        this.sender = sender;
+        senderPrt.setValue(userAddress);
         receiverPrt.setValue("");
         subjectPrt.setValue("");
         bodyPrt.setValue("");
@@ -40,19 +41,19 @@ public class MailModel {
     /** Constructor used to set up read-mode and "response" views: Reply, Reply All and Forward. */
     public MailModel(String userAddress, Email email) {
         this();
-        this.userAddress = userAddress;
-        this.sender = email.getSender();
+        this.userAddress = userAddress; // userAddress can be different from sender!
+        senderPrt.setValue(email.getSender());
         receiverPrt.setValue(email.getReceivers().toString());
         subjectPrt.setValue(email.getSubject());
         bodyPrt.setValue(email.getText());
     }
 
-    public String getSender() {
-        return sender;
-    }
-
     public List<String> getReceiversList() {
         return Arrays.stream(receiverPrt.getValue().split(",")).toList();
+    }
+
+    public SimpleStringProperty getSenderPrt() {
+        return senderPrt;
     }
 
     public SimpleStringProperty getReceiverPrt() {
@@ -65,6 +66,10 @@ public class MailModel {
 
     public SimpleStringProperty getBodyPrt() {
         return bodyPrt;
+    }
+
+    public String valueOfSenderPrt() {
+        return senderPrt.getValue();
     }
 
     public String valueOfReceiverPrt() {
