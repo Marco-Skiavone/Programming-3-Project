@@ -59,7 +59,7 @@
                   </Button>
                </children>
             </HBox>
-            <ListView prefHeight="449.0" prefWidth="800.0">
+            <ListView fx:id="listView" prefHeight="449.0" prefWidth="800.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></ListView>
