@@ -20,7 +20,6 @@ public class MailboxController {
     @FXML
     private Button deleteBtn;
     @FXML
-    private Button newBtn;
     private Button errorMsgLabel;
     @FXML
     private ListView<MailHeader> listView = new ListView<>();
@@ -32,7 +31,6 @@ public class MailboxController {
     /** The Set representing the selection of the listView
      * @todo could require different implementation */
     private final HashSet<MailHeader> selectionSet = new HashSet<>();
-    // (Maybe) We will need this to handle loop of requests, in case the server is down:
     /** Used to loop RefreshRequests towards the server. */
     private ScheduledExecutorService refreshScheduler;
     /** Used to make error messages appear and disappear after a while in the client view. */
@@ -45,10 +43,10 @@ public class MailboxController {
         this.userAddress = emailAddress;
         this.model = new MailboxModel(userAddress, headersList);
 
+        deleteBtn.setDisable(true); // When no mail is selected, the button should be disabled
 
         listView.setItems(model.getHeadersList());
         listView.setCellFactory(lc -> createListCell());    // Here we set "cell" items for the ListView.
-        // @todo it could be necessary to start a delayed refresh session for the user!
         startScheduledRefresh();
     }
 
