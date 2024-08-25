@@ -3,12 +3,14 @@ package project.client;
 import java.io.*;
 import java.time.format.*;
 import java.util.*;
+import java.util.concurrent.*;
 import javafx.fxml.*;
-import javafx.geometry.Insets;
+import javafx.geometry.*;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.HBox;
+import javafx.scene.input.*;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import project.utilities.*;
 
@@ -19,10 +21,7 @@ public class MailboxController {
     private Button deleteBtn;
     @FXML
     private Button newBtn;
-    @FXML
-    private Button refreshBtn;
-    @FXML
-    private Button selectAllBtn;
+    private Button errorMsgLabel;
     @FXML
     private ListView<MailHeader> listView = new ListView<>();
 
@@ -34,7 +33,10 @@ public class MailboxController {
      * @todo could require different implementation */
     private final HashSet<MailHeader> selectionSet = new HashSet<>();
     // (Maybe) We will need this to handle loop of requests, in case the server is down:
-    // private ScheduledExecutorService refreshScheduler;
+    /** Used to loop RefreshRequests towards the server. */
+    private ScheduledExecutorService refreshScheduler;
+    /** Used to make error messages appear and disappear after a while in the client view. */
+    private ScheduledExecutorService errorExecutor;
 
     /** Function that HAS TO BE CALLED when a new Mailbox View is loaded.
      * @param emailAddress The String representing the email address of the client. Accepted after login session.
@@ -43,9 +45,11 @@ public class MailboxController {
         this.userAddress = emailAddress;
         this.model = new MailboxModel(userAddress, headersList);
 
+
         listView.setItems(model.getHeadersList());
         listView.setCellFactory(lc -> createListCell());    // Here we set "cell" items for the ListView.
         // @todo it could be necessary to start a delayed refresh session for the user!
+        startScheduledRefresh();
     }
 
     /** Private function called to create a CUSTOM cell for the ListView. */
@@ -86,10 +90,13 @@ public class MailboxController {
                     // bidirectional checkBox selection
                     checkBox.setSelected(selectionSet.contains(header));
                     checkBox.setOnAction(ev -> {
-                        if (checkBox.isSelected())
+                        if (checkBox.isSelected()) {
                             selectionSet.add(header);
-                        else
+                            deleteBtn.setDisable(false);
+                        } else {
                             selectionSet.remove(header);
+                            deleteBtn.setDisable(deleteBtn.isDisabled() && selectionSet.isEmpty());
+                        }
                     });
                     sender.setText(header.sender());
                     time.setText((header.timestamp().toLocalDateTime().format(DateTimeFormatter.ofPattern("HH:mm - d/MM/uuuu"))));
@@ -105,7 +112,7 @@ public class MailboxController {
     public void deleteMails() {
         // 1. group all the headers selected in a Collection
         // 2. send a DELETE request
-        // 3. show a feedback to the client
+        // 3. shows a feedback to the client -> setErrorText(...)
     }
 
     /** Function called when "New Mail" button is pressed. */
@@ -114,11 +121,14 @@ public class MailboxController {
         openNewMailView();
     }
 
-    /** Function called when "Refresh" button is pressed. */
+    /** Function called when "Refresh" button is pressed.
+     * if new mails arrived, it shows a message on the client for few seconds. */
     @FXML
     public void sendRefreshRequest () {
-        if (model.sendRefreshRequest())
-            System.out.println("Something new arrived!"); // @todo better warning!
+        if (model.sendRefreshRequest()) {
+            setErrorText("New Mails arrived!", "#0000fa");
+            System.out.println("New Mails arrived!");
+        }
     }
 
     /** Function called when "Select All" button is pressed. */
@@ -134,7 +144,7 @@ public class MailboxController {
         try {
             Email emailToRead = model.retrieveEmail(header);
             if (emailToRead == null) {
-                // @todo warning cannot open the email
+                setErrorText("Cannot retrieve the selected email.", null);
                 throw new IOException("Cannot retrieve the email from the server.");
             }
             FXMLLoader fxmlLoader = new FXMLLoader(MailController.class.getResource("mail-view.fxml"));
@@ -178,12 +188,47 @@ public class MailboxController {
         }
     }
 
+    /** Function called at the initModel. It starts a cycle of requests to the server, asking for Refresh. */
+    private void startScheduledRefresh() {
+        try {
+            if (refreshScheduler == null || refreshScheduler.isShutdown())
+                refreshScheduler = Executors.newSingleThreadScheduledExecutor();
+            refreshScheduler.scheduleWithFixedDelay(this::sendRefreshRequest, 10, 10, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            setErrorText("Cannot refresh automatically.", null);
+        }
+    }
+
     /** Function called to shut down all the pending requests the client could try to send.
      * It has to show an alert that every pending request will be not sent to the server. */
     public void shutdownController() {
-        for (MailController mc : mailsList) {
+        for (MailController mc : mailsList)
             mc.shutdownEditor();
-        }
+
+        if (!refreshScheduler.isShutdown())
+            refreshScheduler.shutdown();
+        if (errorExecutor != null && !errorExecutor.isShutdown())
+            errorExecutor.shutdown();
         // @todo if pending requests -> close them and shutdown
+    }
+
+    /** Synchronized function used to show error messages to the client view, as feedback
+     * of the operations requested by the user.
+     * @param text The error to show in the client view (in yellow).
+     * @param colorHex It has to be a string formatted as "#xxxxxx", where the "x" are hexadecimal values.
+     * If {@code colorHex == null}, then the color picked is the "default" warning yellow. (something went wrong) */
+    private synchronized void setErrorText(String text, String colorHex) {
+        try {
+            errorExecutor = Executors.newSingleThreadScheduledExecutor();
+            errorMsgLabel.setText(text);
+            colorHex = colorHex != null ? colorHex : "#ffd400";     // "warning-yellow" if colorHex is null
+            errorMsgLabel.setTextFill(Paint.valueOf(colorHex));
+            errorExecutor.schedule(() -> errorMsgLabel.setText(""), 2, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            System.err.println("Error in \"errorExecutor\" scheduling: " + e.getMessage());
+        } finally {
+            if (errorExecutor != null && !errorExecutor.isShutdown())
+                errorExecutor.shutdown();
+        }
     }
 }
