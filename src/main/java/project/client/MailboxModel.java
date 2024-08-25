@@ -9,21 +9,21 @@ import project.utilities.*;
 import project.utilities.requests.*;
 
 public class MailboxModel {
-    private String userMail;
-    private final HashMap<MailHeader, Email> mailbox;   // @todo change MailHeader with ID, if implemented
-    private ObservableList<MailHeader> headersList = FXCollections.observableArrayList();
+    private final String userMail;
+    private final HashMap<MailHeader, Email> mailbox;
+    private ObservableList<HeaderWrapper> headersList = FXCollections.observableArrayList();
 
     public MailboxModel(String userMail, List<MailHeader> headers) {
         this.userMail = userMail;
         this.mailbox = new HashMap<>();
-        this.headersList.addAll(headers);
+        this.headersList.addAll(HeaderWrapper.toWrappedList(headers));
     }
 
     public String getUserMail() {
         return userMail;
     }
 
-    public ObservableList<MailHeader> getHeadersList() {
+    public ObservableList<HeaderWrapper> getHeadersList() {
         return headersList;
     }
 
@@ -31,7 +31,7 @@ public class MailboxModel {
      * the email is retrieved from the email list ({@link #mailbox}).
      * @param header The MailHeader object representing the email to retrieve.
      * @return The Email object represented by "header" parameter.<br>
-     * It returns null if something went wrong with the server. */
+     * It returns {@code null} if something went wrong with the server. */
     public Email retrieveEmail(MailHeader header) {
         if (mailbox.containsKey(header))
             return mailbox.get(header); // if already present, it returns it back quicker
@@ -45,11 +45,18 @@ public class MailboxModel {
                 mailbox.put(header, fetchedEmail);
                 return fetchedEmail;
             } catch (Exception e) {
-                e.printStackTrace();
-                // @todo handle exception
+                System.err.println(e.getMessage());
             }
         }
         return null;
+    }
+
+    /** Function that sets all the {@code selected} values for the {@link #headersList}.
+     * @param selectedYet Whether to select all the lines or vice versa.
+     * Its value is the opposite of what we are setting. */
+    public void toggleSelectAll(boolean selectedYet) {
+        for (HeaderWrapper header : headersList)
+            header.setSelected(!selectedYet);
     }
 
     /** Functions used to send a REFRESH request to the server and get back any received Email.
@@ -63,21 +70,21 @@ public class MailboxModel {
             List<MailHeader> refreshedHeaders = (List<MailHeader>) input.readObject();
             if (!refreshedHeaders.isEmpty()) {
                 refreshedHeaders.sort(Comparator.comparing(MailHeader::timestamp));
-                Platform.runLater(() -> headersList.addAll(refreshedHeaders));
+                Platform.runLater(() -> headersList.addAll(HeaderWrapper.toWrappedList(refreshedHeaders)));
                 return true;
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            // @todo handle exception
+            System.err.println(e.getMessage());
         }
         return false;
     }
 
-    /** @return The {@link MailHeader} with the most recent {@link java.sql.Timestamp} in the headersList. */
+    /** @return The {@link MailHeader} with the most recent {@link java.sql.Timestamp} in the headersList.<br>
+     * {@code Null} If no header is present. */
     private MailHeader getLastHeader() {
         try {
             // We assume the headersList is sorted whenever an element is added.
-            return headersList.get(headersList.size() - 1);
+            return headersList.get(headersList.size() - 1).getHeader();
         } catch (Exception e) {
             return null;
         }

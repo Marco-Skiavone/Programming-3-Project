@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3cd24a2-57f6-4f2f-b582-b6f8adc98109" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/project/utilities/HeaderWrapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/client/MailboxController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/client/MailboxController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/client/MailboxModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/client/MailboxModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/project/client/mailbox-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/client/mailbox-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -18,6 +20,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Record" />
       </list>
     </option>
   </component>
@@ -108,7 +111,7 @@
       <workItem from="1724443134815" duration="9813000" />
       <workItem from="1724455027537" duration="36000" />
       <workItem from="1724486022683" duration="9800000" />
-      <workItem from="1724580363169" duration="6614000" />
+      <workItem from="1724580363169" duration="13388000" />
     </task>
     <servers />
   </component>

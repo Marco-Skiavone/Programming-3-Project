@@ -15,22 +15,17 @@ import javafx.stage.Stage;
 import project.utilities.*;
 
 public class MailboxController {
+    @FXML
+    private Label errorMsgLabel;
+    @FXML
+    private ListView<HeaderWrapper> listView = new ListView<>();
+
     private String userAddress;
-
-    @FXML
-    private Button deleteBtn;
-    @FXML
-    private Button errorMsgLabel;
-    @FXML
-    private ListView<MailHeader> listView = new ListView<>();
-
     /** List of controllers to let the Mailbox handle all the opened mails. */
     private final List<MailController> mailsList = new ArrayList<>();
     private MailboxModel model;
+    private boolean selection = false;  // Whether the selectAll Button has been activated or not
 
-    /** The Set representing the selection of the listView
-     * @todo could require different implementation */
-    private final HashSet<MailHeader> selectionSet = new HashSet<>();
     /** Used to loop RefreshRequests towards the server. */
     private ScheduledExecutorService refreshScheduler;
     /** Used to make error messages appear and disappear after a while in the client view. */
@@ -43,27 +38,27 @@ public class MailboxController {
         this.userAddress = emailAddress;
         this.model = new MailboxModel(userAddress, headersList);
 
-        deleteBtn.setDisable(true); // When no mail is selected, the button should be disabled
-
         listView.setItems(model.getHeadersList());
         listView.setCellFactory(lc -> createListCell());    // Here we set "cell" items for the ListView.
         startScheduledRefresh();
     }
 
     /** Private function called to create a CUSTOM cell for the ListView. */
-    private ListCell<MailHeader> createListCell () {
+    private ListCell<HeaderWrapper> createListCell () {
         return new ListCell<>() {
             private final CheckBox checkBox = new CheckBox();
             private final Label sender = new Label();
             private final Label subject = new Label();
             private final Label time = new Label();
+            private final Region spacer = new Region();
             private final HBox hbox = new HBox(20);
             private MailHeader header;
             {
                 hbox.setPadding(new Insets(0, 3, 0, 3));
                 sender.setPrefWidth(200);
-                subject.setPrefWidth(320);
-                hbox.getChildren().addAll(checkBox, sender, subject, time);
+                subject.setPrefWidth(360);
+                hbox.getChildren().addAll(checkBox, sender, subject, spacer, time);
+                HBox.setHgrow(spacer, Priority.ALWAYS);
                 // Setting the "DOUBLE-CLICK" to open a mail
                 hbox.setOnMouseClicked(event -> {
                     if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 &&
@@ -78,27 +73,20 @@ public class MailboxController {
 
             /** Function used by JavaFX layer to update list items. */
             @Override
-            protected void updateItem(MailHeader header, boolean empty) {
-                super.updateItem(header, empty);
-                if (this.header == null)
-                    this.header = header;
-                if (empty || header == null) {
+            protected void updateItem(HeaderWrapper headerWrapper, boolean empty) {
+                super.updateItem(headerWrapper, empty);
+                if (this.header == null && headerWrapper != null)
+                    this.header = headerWrapper.getHeader();
+                if (empty || headerWrapper == null) {
                     setGraphic(null);
                 } else {
                     // bidirectional checkBox selection
-                    checkBox.setSelected(selectionSet.contains(header));
-                    checkBox.setOnAction(ev -> {
-                        if (checkBox.isSelected()) {
-                            selectionSet.add(header);
-                            deleteBtn.setDisable(false);
-                        } else {
-                            selectionSet.remove(header);
-                            deleteBtn.setDisable(deleteBtn.isDisabled() && selectionSet.isEmpty());
-                        }
-                    });
-                    sender.setText(header.sender());
-                    time.setText((header.timestamp().toLocalDateTime().format(DateTimeFormatter.ofPattern("HH:mm - d/MM/uuuu"))));
-                    subject.setText(header.subject());
+                    checkBox.setSelected(headerWrapper.isSelected());
+                    checkBox.setOnAction(ev -> headerWrapper.setSelected(checkBox.isSelected()));
+                    sender.setText(headerWrapper.getHeader().sender());
+                    time.setText((headerWrapper.getHeader().timestamp().toLocalDateTime()
+                            .format(DateTimeFormatter.ofPattern("HH:mm - d/MM/uuuu"))));
+                    subject.setText(headerWrapper.getHeader().subject());
                     setGraphic(hbox);
                 }
             }
@@ -132,8 +120,8 @@ public class MailboxController {
     /** Function called when "Select All" button is pressed. */
     @FXML
     public void selectAllBtn () {
-        selectionSet.addAll(model.getHeadersList());
-        // @todo listView.setSelectionModel(model.getHeadersList());
+        model.toggleSelectAll(selection);
+        selection = !selection;
     }
 
     /** Function that opens up a new "mail-view" giving an Email to open up on "read-mode". */
@@ -191,7 +179,7 @@ public class MailboxController {
         try {
             if (refreshScheduler == null || refreshScheduler.isShutdown())
                 refreshScheduler = Executors.newSingleThreadScheduledExecutor();
-            refreshScheduler.scheduleWithFixedDelay(this::sendRefreshRequest, 10, 10, TimeUnit.SECONDS);
+            refreshScheduler.scheduleWithFixedDelay(this::sendRefreshRequest, 2, 2, TimeUnit.MINUTES);
         } catch (Exception e) {
             setErrorText("Cannot refresh automatically.", null);
         }
@@ -207,7 +195,6 @@ public class MailboxController {
             refreshScheduler.shutdown();
         if (errorExecutor != null && !errorExecutor.isShutdown())
             errorExecutor.shutdown();
-        // @todo if pending requests -> close them and shutdown
     }
 
     /** Synchronized function used to show error messages to the client view, as feedback
