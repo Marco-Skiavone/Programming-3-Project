@@ -20,7 +20,6 @@ public interface Utilities {
     static Email castToEmail(Object obj) throws ClassCastException {
         if (obj instanceof Email)
             return (Email) obj;
-
         throw new ClassCastException("Erroneous obj is not an Email");
     }
 

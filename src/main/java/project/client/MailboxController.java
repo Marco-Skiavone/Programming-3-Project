@@ -80,7 +80,6 @@ public class MailboxController {
                     setGraphic(null);
                 } else {
                     // bidirectional checkBox selection
-                    checkBox.setSelected(headerWrapper.isSelected());
                     checkBox.setOnAction(ev -> headerWrapper.setSelected(checkBox.isSelected()));
                     sender.setText(headerWrapper.getHeader().sender());
                     time.setText((headerWrapper.getHeader().timestamp().toLocalDateTime()
