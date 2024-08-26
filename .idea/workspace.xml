@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3cd24a2-57f6-4f2f-b582-b6f8adc98109" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/client/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/client/LoginController.java" afterDir="false" />
-    </list>
+    <list default="true" id="b3cd24a2-57f6-4f2f-b582-b6f8adc98109" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -109,7 +107,7 @@
       <workItem from="1724486022683" duration="9800000" />
       <workItem from="1724580363169" duration="13941000" />
       <workItem from="1724657566798" duration="1539000" />
-      <workItem from="1724673204894" duration="7236000" />
+      <workItem from="1724673204894" duration="7722000" />
     </task>
     <servers />
   </component>
