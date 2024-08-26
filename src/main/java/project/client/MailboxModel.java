@@ -51,14 +51,6 @@ public class MailboxModel {
         return null;
     }
 
-    /** Function that sets all the {@code selected} values for the {@link #headersList}.
-     * @param selectedYet Whether to select all the lines or vice versa.
-     * Its value is the opposite of what we are setting. */
-    public void toggleSelectAll(boolean selectedYet) {
-        for (HeaderWrapper header : headersList)
-            header.setSelected(!selectedYet);
-    }
-
     /** Functions used to send a REFRESH request to the server and get back any received Email.
      * @return 'true' if something new is arrived in the mailbox, 'false' otherwise. */
     public boolean sendRefreshRequest () {

@@ -24,7 +24,6 @@ public class MailboxController {
     /** List of controllers to let the Mailbox handle all the opened mails. */
     private final List<MailController> mailsList = new ArrayList<>();
     private MailboxModel model;
-    private boolean selection = false;  // Whether the selectAll Button has been activated or not
 
     /** Used to loop RefreshRequests towards the server. */
     private ScheduledExecutorService refreshScheduler;
@@ -115,13 +114,6 @@ public class MailboxController {
             setErrorText("New Mails arrived!", "#0000fa");
             System.out.println("New Mails arrived!");
         }
-    }
-
-    /** Function called when "Select All" button is pressed. */
-    @FXML
-    public void selectAllBtn () {
-        model.toggleSelectAll(selection);
-        selection = !selection;
     }
 
     /** Function that opens up a new "mail-view" giving an Email to open up on "read-mode". */

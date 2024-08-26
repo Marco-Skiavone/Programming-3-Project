@@ -3,6 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.client.MailController">
    <children>
@@ -11,7 +12,10 @@
             <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="600.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="36.0" text="From:" />
-                  <Label fx:id="sender" prefHeight="18.0" prefWidth="547.0" />
+                  <Label fx:id="sender" prefHeight="18.0" prefWidth="547.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
                </children>
                <padding>
                   <Insets bottom="2.0" left="8.0" right="8.0" top="2.0" />
