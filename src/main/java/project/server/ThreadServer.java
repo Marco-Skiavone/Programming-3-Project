@@ -35,7 +35,8 @@ public class ThreadServer implements Runnable
             if (!(inObject instanceof RequestObj request))
                 throw new IOException("Read of input failed.");
 
-            request.resolve(output, model, controller); // Correct output requires a final "true" flush
+            request.resolve(output, model, controller);
+            // Correct output requires a final "true" + flush() for DELETE and SEND_MAIL
         } catch (Exception e) {
             controller.writeOnLog("Exception caught: " + e.getMessage());
             System.err.println(e.getMessage());

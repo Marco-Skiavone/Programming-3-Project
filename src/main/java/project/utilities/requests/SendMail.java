@@ -49,9 +49,9 @@ public class SendMail extends RequestObj {
             }
             output.writeBoolean(true); // feedback for the client.
             // If something went wrong, the client will send the request again.
-            controller.writeOnLog("SendMail request served.");
+            controller.writeOnLog("Send request served.");
         } catch (Exception e) {
-            controller.writeOnLog("SendMail request failed because: " + e.getCause());
+            controller.writeOnLog("Send request failed because: " + e.getCause());
             throw e;
         } finally {
             output.flush();

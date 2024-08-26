@@ -19,13 +19,13 @@ public class LogIn extends RequestObj {
         try {
             if (model.checkAddress(this.getSender())) {
                 output.writeObject(model.readHeaderFile(getSender()));
-                controller.writeOnLog("LogIn request served.");
+                controller.writeOnLog("Log in request served.");
             } else {
                 output.writeObject(null);
-                controller.writeOnLog("LogIn request denied. (Unknown user)");
+                controller.writeOnLog("Log in request denied. (Unknown user)");
             }
         } catch (Exception e) {
-            controller.writeOnLog("LogIn request failed because: " + e.getCause());
+            controller.writeOnLog("Log in request failed because: " + e.getCause());
             throw e;
         } finally {
             output.flush();

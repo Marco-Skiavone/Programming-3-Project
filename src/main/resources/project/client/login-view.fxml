@@ -5,23 +5,31 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="228.0" prefWidth="402.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml" fx:controller="project.client.LoginController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="228.0" prefWidth="402.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.client.LoginController">
    <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" text="Log In" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="20.0" />
+         </VBox.margin>
+      </Label>
       <Label text="Insert your email address:" textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField alignment="CENTER" prefHeight="26.0" prefWidth="360.0" fx:id="emailInput">
+      <TextField fx:id="emailInput" alignment="CENTER" prefHeight="26.0" prefWidth="360.0">
          <VBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </VBox.margin>
       </TextField>
-      <Label textAlignment="CENTER" textFill="RED"  fx:id="errorText">
+      <Label fx:id="errorText" textAlignment="CENTER" textFill="RED">
          <VBox.margin>
             <Insets bottom="15.0" />
          </VBox.margin>
       </Label>
-      <Button onAction="#onLoginButtonClick" alignment="CENTER" mnemonicParsing="false" text="Log In" />
+      <Button alignment="CENTER" mnemonicParsing="false" onAction="#onLoginButtonClick" style="-fx-background-color: #40c;" text="Log In" textFill="WHITE" />
    </children>
 </VBox>

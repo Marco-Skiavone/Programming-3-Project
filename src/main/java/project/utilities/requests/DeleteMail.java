@@ -30,9 +30,9 @@ public class DeleteMail extends RequestObj {
             model.updateHeaderFile(getSender(), headers, true);
             output.writeBoolean(true); // feedback for the client.
             // If something went wrong, the client will send the request again.
-            controller.writeOnLog("Email deletion request served.");
+            controller.writeOnLog("Deletion request served.");
         }  catch (Exception e) {
-            controller.writeOnLog("Email deletion request failed because: " + e.getCause());
+            controller.writeOnLog("Deletion request failed because: " + e.getCause());
             throw e;
         } finally {
             output.flush();

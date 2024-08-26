@@ -26,9 +26,11 @@ public class FetchMail extends RequestObj {
 
             output.writeObject(model.readEmailFile(header));
             output.flush();
-            controller.writeOnLog("Email fetch request served.");
+            controller.writeOnLog("Fetch request served.");
         }  catch (Exception e) {
-            controller.writeOnLog("Email fetch request failed because: " + e.getCause());
+            output.writeObject(null);
+            output.flush();
+            controller.writeOnLog("Fetch request failed because: " + e.getCause());
             throw e;
         }
     }

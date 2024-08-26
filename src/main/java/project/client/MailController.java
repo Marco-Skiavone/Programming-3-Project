@@ -1,9 +1,14 @@
 package project.client;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import project.utilities.*;
+import project.utilities.requests.*;
+import java.io.*;
+import java.net.Socket;
+import java.time.*;
 
 /** Controller used to bind "model" and "view" for a single mail. */
 public class MailController {
@@ -27,7 +32,12 @@ public class MailController {
     private Button sendBtn;
 
     private MailModel model;
-    private String userAddress;    // The client address linked to this controller-view
+
+    @FXML
+    private void initialize() {
+        // Used to remove the automatic cursor selection of the subjectField.
+        Platform.runLater(() -> sendBtn.getScene().getRoot().requestFocus());
+    }
 
     /** Function that sets the response button to "disabled".
      * @Note: The 3 response buttons are:<br>
@@ -47,8 +57,50 @@ public class MailController {
         if (!checkFields())
             errorText.setText("Invalid Arguments");
         else {
-            // @todo finish it with a model method call
+            Email email = new Email(sender.getText(), model.getReceiversList(), model.valueOfSubjectPrt(),
+                    model.valueOfBodyPrt(), LocalDateTime.now());
+            try (Socket clientSocket = new Socket("127.0.0.1", Utilities.PORT)) {
+                ObjectOutputStream output = new ObjectOutputStream(clientSocket.getOutputStream());
+                ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
+                output.writeObject(new SendMail(sender.getText(), email));
+                output.flush();
+                if (input.readBoolean()) {
+                    // @todo output that is all good
+                    shutdownEditor();
+                } else {
+                    // @todo warning message
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                // @todo handle exception
+            }
         }
+    }
+
+    private void mailPropertyBinding() {
+        sender.textProperty().bindBidirectional(model.getSenderPrt());
+        receiversField.textProperty().bindBidirectional(model.getReceiverPrt());
+        subjectField.textProperty().bindBidirectional(model.getSubjectPrt());
+        mailText.textProperty().bindBidirectional(model.getBodyPrt());
+    }
+
+    /** Method called when a New Mail has to be written. It disables the "response" buttons.
+     * @param userAddress The sender of the Email
+     */
+    public void startNewMailView(String userAddress) {
+        model = new MailModel(userAddress);
+        mailPropertyBinding();
+        setDisableResponseButton(true);
+    }
+
+    public void readMail(String userAddress, Email email) {
+        model = new MailModel(userAddress, email);
+        mailPropertyBinding();
+        subjectField.setEditable(false);
+        receiversField.setEditable(false);
+        mailText.setEditable(false);
+        setDisableResponseButton(false);
+        sendBtn.setDisable(true);
     }
 
     /** Function that checks the input fields of an email.
@@ -60,14 +112,15 @@ public class MailController {
         if (!condition) return false;
         for (String field : receiversField.getText().split(",")) {
             String adr = field.trim();
-            if (!LoginController.checkSyntax(adr) || !this.model.checkAddress(adr))
+            if (!Utilities.checkSyntax(adr) || !model.checkAddress(adr))
                 return false;
         }
         return true;
     }
 
     /** Function that closes the window, without saving the email, if it is in "write-mode". */
-    public void closeWindow() {
+    public void shutdownEditor() {
+        // @todo add the shutdown of the schedulers !
         ((Stage) subjectField.getScene().getWindow()).close();
     }
 }

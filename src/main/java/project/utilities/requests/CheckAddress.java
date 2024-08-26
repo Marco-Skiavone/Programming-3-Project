@@ -20,9 +20,9 @@ public class CheckAddress extends RequestObj {
         try {
             output.writeBoolean(model.checkAddress(this.getSender()));
             output.flush();
-            controller.writeOnLog("Check-Address request served.");
+            controller.writeOnLog("Address check request served.");
         } catch (Exception e) {
-            controller.writeOnLog("Check-Address request failed because: " + e.getCause());
+            controller.writeOnLog("Address check request failed because: " + e.getCause());
             throw e;
         }
     }
