@@ -128,7 +128,7 @@ public class MailboxController {
             Stage stage = new Stage();
             Scene scene = new Scene(fxmlLoader.load(), 600, 400);
             stage.setScene(scene);
-            stage.setTitle("Mail - View: " + header.subject());
+            stage.setTitle("Mail - View: \"" + header.subject() + "\"");
             stage.setResizable(false);
 
             MailController mailController = fxmlLoader.getController();

@@ -49,6 +49,10 @@ public class MailModel {
         bodyPrt.setValue(email.getText());
     }
 
+    public String getUserAddress() {
+        return userAddress;
+    }
+
     public List<String> getReceiversList() {
         return Arrays.stream(receiverPrt.getValue().split(",")).toList();
     }

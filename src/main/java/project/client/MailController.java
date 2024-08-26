@@ -9,6 +9,7 @@ import project.utilities.requests.*;
 import java.io.*;
 import java.net.Socket;
 import java.time.*;
+import java.util.*;
 
 /** Controller used to bind "model" and "view" for a single mail. */
 public class MailController {
@@ -77,6 +78,49 @@ public class MailController {
         }
     }
 
+    /** --- FORWARD ---<br>
+     * This function modifies the actual Mail-view (resetting Model) to correctly fill some fields. */
+    @FXML
+    protected void forwardMail() {
+        Email emailToForward = new Email(model.getUserAddress(), new ArrayList<>(), model.valueOfSubjectPrt(),
+                model.valueOfBodyPrt(), LocalDateTime.now());
+        model = new MailModel(model.getUserAddress(), emailToForward);
+        mailPropertyBinding();
+        setDisableResponseButton(true);
+        sendBtn.setDisable(false);
+        receiversField.setEditable(true);   // Setting editable fields (the others will remain as in "read-mode")
+        ((Stage) forwardBtn.getScene().getWindow()).setTitle("Mail - Forward: \"" + model.valueOfSubjectPrt() + "\"");
+    }
+
+    /** --- REPLY ---<br>
+     * This function modifies the actual Mail-view (resetting Model) to correctly fill some fields. */
+    @FXML
+    protected void replyMail() {
+        Email emailToReply = new Email(model.getUserAddress(), Collections.singletonList(model.valueOfSenderPrt()),
+                model.valueOfSubjectPrt(), "", LocalDateTime.now());
+        model = new MailModel(model.getUserAddress(), emailToReply);
+        mailPropertyBinding();
+        setDisableResponseButton(true);
+        sendBtn.setDisable(false);
+        receiversField.setEditable(true);   // Setting editable fields (the others will remain as in "read-mode")
+        ((Stage) forwardBtn.getScene().getWindow()).setTitle("Mail - Reply: \"" + model.valueOfSubjectPrt() + "\"");
+    }
+
+    /** --- REPLY ALL ---<br>
+     * This function modifies the actual Mail-view (resetting Model) to correctly fill some fields. */
+    @FXML
+    protected void replyAllMail() {
+        Email emailToReply = new Email(model.getUserAddress(), Arrays.asList(model.valueOfSenderPrt(),
+                model.valueOfReceiverPrt()), model.valueOfSubjectPrt(), "", LocalDateTime.now());
+        model = new MailModel(model.getUserAddress(), emailToReply);
+        mailPropertyBinding();
+        setDisableResponseButton(true);
+        sendBtn.setDisable(false);
+        receiversField.setEditable(true);   // Setting editable fields (the others will remain as in "read-mode")
+        ((Stage) forwardBtn.getScene().getWindow()).setTitle("Mail - Reply: \"" + model.valueOfSubjectPrt() + "\"");
+    }
+
+    /** Function that binds the client-view fields to the model variables. */
     private void mailPropertyBinding() {
         sender.textProperty().bindBidirectional(model.getSenderPrt());
         receiversField.textProperty().bindBidirectional(model.getReceiverPrt());
@@ -85,8 +129,7 @@ public class MailController {
     }
 
     /** Method called when a New Mail has to be written. It disables the "response" buttons.
-     * @param userAddress The sender of the Email
-     */
+     * @param userAddress The sender of the Email */
     public void startNewMailView(String userAddress) {
         model = new MailModel(userAddress);
         mailPropertyBinding();
