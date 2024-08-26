@@ -102,7 +102,7 @@ public class MailController {
         mailPropertyBinding();
         setDisableResponseButton(true);
         sendBtn.setDisable(false);
-        receiversField.setEditable(true);   // Setting editable fields (the others will remain as in "read-mode")
+        mailText.setEditable(true);   // Setting editable fields (the others will remain as in "read-mode")
         ((Stage) forwardBtn.getScene().getWindow()).setTitle("Mail - Reply: \"" + model.valueOfSubjectPrt() + "\"");
     }
 
@@ -116,7 +116,7 @@ public class MailController {
         mailPropertyBinding();
         setDisableResponseButton(true);
         sendBtn.setDisable(false);
-        receiversField.setEditable(true);   // Setting editable fields (the others will remain as in "read-mode")
+        mailText.setEditable(true);   // Setting editable fields (the others will remain as in "read-mode")
         ((Stage) forwardBtn.getScene().getWindow()).setTitle("Mail - Reply: \"" + model.valueOfSubjectPrt() + "\"");
     }
 
