@@ -1,17 +1,14 @@
 package project.client;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import project.utilities.*;
-import project.utilities.requests.FetchMail;
-import project.utilities.requests.SendMail;
-
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
+import project.utilities.requests.*;
+import java.io.*;
 import java.net.Socket;
-import java.time.LocalDateTime;
+import java.time.*;
 
 /** Controller used to bind "model" and "view" for a single mail. */
 public class MailController {
@@ -35,6 +32,12 @@ public class MailController {
     private Button sendBtn;
 
     private MailModel model;
+
+    @FXML
+    private void initialize() {
+        // Used to remove the automatic cursor selection of the subjectField.
+        Platform.runLater(() -> sendBtn.getScene().getRoot().requestFocus());
+    }
 
     /** Function that sets the response button to "disabled".
      * @Note: The 3 response buttons are:<br>
