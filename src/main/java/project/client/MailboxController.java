@@ -111,8 +111,8 @@ public class MailboxController {
     @FXML
     public void sendRefreshRequest () {
         if (model.sendRefreshRequest()) {
-            setErrorText("New Mails arrived!", "#0000fa");
-            System.out.println("New Mails arrived!");
+            setErrorText("New email arrived!", "#0000fa");
+            System.out.println("New email arrived!");
         }
     }
 

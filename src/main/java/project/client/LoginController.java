@@ -37,8 +37,6 @@ public class LoginController {
         }
     }
 
-
-
     /** Function that opens up the mailbox view. Called if login check is passed.
      * @param emailName The string representing the formatted email of the user. */
     private void openMailboxView(String emailName){
