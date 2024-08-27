@@ -110,14 +110,17 @@ public class MailController {
      * This function modifies the actual Mail-view (resetting Model) to correctly fill some fields. */
     @FXML
     protected void replyAllMail() {
-        Email emailToReply = new Email(model.getUserAddress(), Arrays.asList(model.valueOfSenderPrt(),
-                model.valueOfReceiverPrt()), model.valueOfSubjectPrt(), "", LocalDateTime.now());
+        ArrayList<String> receiversList = new ArrayList<>(model.getReceiversList());
+        receiversList.remove(model.getUserAddress());
+        receiversList.add(model.valueOfSenderPrt());
+
+        Email emailToReply = new Email(model.getUserAddress(), receiversList, model.valueOfSubjectPrt(), "", LocalDateTime.now());
         model = new MailModel(model.getUserAddress(), emailToReply);
         mailPropertyBinding();
         setDisableResponseButton(true);
         sendBtn.setDisable(false);
         mailText.setEditable(true);   // Setting editable fields (the others will remain as in "read-mode")
-        ((Stage) forwardBtn.getScene().getWindow()).setTitle("Mail - Reply: \"" + model.valueOfSubjectPrt() + "\"");
+        ((Stage) forwardBtn.getScene().getWindow()).setTitle("Mail - Reply All: \"" + model.valueOfSubjectPrt() + "\"");
     }
 
     /** Function that binds the client-view fields to the model variables. */
