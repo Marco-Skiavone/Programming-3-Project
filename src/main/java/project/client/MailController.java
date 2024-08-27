@@ -83,7 +83,7 @@ public class MailController {
     @FXML
     protected void forwardMail() {
         Email emailToForward = new Email(model.getUserAddress(), new ArrayList<>(), model.valueOfSubjectPrt(),
-                model.valueOfBodyPrt(), LocalDateTime.now());
+                "--->>> Forward <<<---\n\n" + model.valueOfBodyPrt(), LocalDateTime.now());
         model = new MailModel(model.getUserAddress(), emailToForward);
         mailPropertyBinding();
         setDisableResponseButton(true);
@@ -97,7 +97,7 @@ public class MailController {
     @FXML
     protected void replyMail() {
         Email emailToReply = new Email(model.getUserAddress(), Collections.singletonList(model.valueOfSenderPrt()),
-                model.valueOfSubjectPrt(), "", LocalDateTime.now());
+                model.valueOfSubjectPrt(), "Reply To:\n" + model.valueOfBodyPrt() + "\n-------\n\n", LocalDateTime.now());
         model = new MailModel(model.getUserAddress(), emailToReply);
         mailPropertyBinding();
         setDisableResponseButton(true);
@@ -114,7 +114,8 @@ public class MailController {
         receiversList.remove(model.getUserAddress());
         receiversList.add(model.valueOfSenderPrt());
 
-        Email emailToReply = new Email(model.getUserAddress(), receiversList, model.valueOfSubjectPrt(), "", LocalDateTime.now());
+        Email emailToReply = new Email(model.getUserAddress(), receiversList, model.valueOfSubjectPrt(), "Reply To:\n"
+                + model.valueOfBodyPrt() + "\n-------\n\n", LocalDateTime.now());
         model = new MailModel(model.getUserAddress(), emailToReply);
         mailPropertyBinding();
         setDisableResponseButton(true);
