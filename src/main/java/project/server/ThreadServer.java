@@ -39,7 +39,7 @@ public class ThreadServer implements Runnable
             // Correct output requires a final "true" + flush() for DELETE and SEND_MAIL
         } catch (Exception e) {
             controller.writeOnLog("Exception caught: " + e.getMessage());
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 }

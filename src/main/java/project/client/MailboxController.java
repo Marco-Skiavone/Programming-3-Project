@@ -13,6 +13,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import project.utilities.*;
+import javafx.application.Platform;
 
 public class MailboxController {
     @FXML
@@ -94,6 +95,7 @@ public class MailboxController {
     /** Function called when "Delete" button is pressed. */
     @FXML
     public void deleteMails() {
+        //@todo: target = model.getSelectedHeaders();
         // 1. group all the headers selected in a Collection
         // 2. send a DELETE request
         // 3. shows a feedback to the client -> setErrorText(...)
@@ -110,7 +112,7 @@ public class MailboxController {
     @FXML
     public void sendRefreshRequest () {
         if (model.sendRefreshRequest()) {
-            setErrorText("New email arrived!", "#0000fa");
+            Platform.runLater(() -> setErrorText("New email arrived!", "#0000fa"));
             System.out.println("New email arrived!");
         }
     }
@@ -170,7 +172,7 @@ public class MailboxController {
         try {
             if (refreshScheduler == null || refreshScheduler.isShutdown())
                 refreshScheduler = Executors.newSingleThreadScheduledExecutor();
-            refreshScheduler.scheduleWithFixedDelay(this::sendRefreshRequest, 2, 2, TimeUnit.MINUTES);
+            refreshScheduler.scheduleWithFixedDelay(this::sendRefreshRequest, 5, 5, TimeUnit.SECONDS);
         } catch (Exception e) {
             setErrorText("Cannot refresh automatically.", null);
         }
