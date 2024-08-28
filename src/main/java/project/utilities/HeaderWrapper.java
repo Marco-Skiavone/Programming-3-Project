@@ -55,5 +55,15 @@ public class HeaderWrapper implements Serializable, Comparable<HeaderWrapper> {
         return wrappedList;
     }
 
-
+    /** Function used to unwrap {@link HeaderWrapper}s into MailHeaders, to easily handle them.
+     * @param headersWrapped The List of HeaderWrapper to unwrap in this record.
+     * @return A {@link ArrayList<MailHeader>} Where each element is the {@link MailHeader} contained into an element
+     * in headerWrapped. */
+    public static ArrayList<MailHeader> toHeaderList(Collection<HeaderWrapper> headersWrapped) {
+        ArrayList<MailHeader> headers = new ArrayList<>();
+        for(HeaderWrapper hw : headersWrapped) {
+            headers.add(hw.getHeader());
+        }
+        return headers;
+    }
 }

@@ -82,11 +82,15 @@ public class MailboxModel {
         }
     }
 
+    /** Function that sends a {@link project.utilities.requests.DeleteMail} request and updates client lists
+     * @param selectedHeaders an ArrayList of selectedHeaders through the view
+     * @return true if everything is ok, false otherwise
+     */
     public boolean sendDeleteRequest (ArrayList<HeaderWrapper> selectedHeaders) {
         try (Socket clientSocket = new Socket("127.0.0.1", Utilities.PORT)) {
             ObjectOutputStream output = new ObjectOutputStream(clientSocket.getOutputStream());
             ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
-            output.writeObject(new DeleteMail(userMail, getHeadersByWrappedCollection(selectedHeaders)));
+            output.writeObject(new DeleteMail(userMail, HeaderWrapper.toHeaderList(selectedHeaders)));
             output.flush();
             boolean result = input.readBoolean();
             if (result)
@@ -99,19 +103,15 @@ public class MailboxModel {
         return false;
     }
 
+    /**
+     *
+     * @return an ArrayList of SeleteHeaders through the view
+     */
     public ArrayList<HeaderWrapper> getSelectedHeaders() {
         ArrayList<HeaderWrapper> headers = new ArrayList<>();
         for( HeaderWrapper hw : headersList) {
             if(hw.isSelected())
                 headers.add(hw);
-        }
-        return headers;
-    }
-
-    private static ArrayList<MailHeader> getHeadersByWrappedCollection(Collection<HeaderWrapper> headersWrapper) {
-        ArrayList<MailHeader> headers = new ArrayList<>();
-        for(HeaderWrapper hw : headersWrapper) {
-            headers.add(hw.getHeader());
         }
         return headers;
     }
