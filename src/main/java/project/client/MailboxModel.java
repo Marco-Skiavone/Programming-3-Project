@@ -61,8 +61,8 @@ public class MailboxModel {
             output.flush();
             List<MailHeader> refreshedHeaders = (List<MailHeader>) input.readObject();
             if (!refreshedHeaders.isEmpty()) {
-                refreshedHeaders.sort(Comparator.comparing(MailHeader::timestamp));
-                Platform.runLater(() -> headersList.addAll(HeaderWrapper.toWrappedList(refreshedHeaders)));
+                refreshedHeaders.sort(Comparator.comparing(MailHeader::timestamp).reversed());
+                Platform.runLater(() -> headersList.addAll(0, HeaderWrapper.toWrappedList(refreshedHeaders)));
                 return true;
             }
         } catch (Exception e) {
