@@ -172,7 +172,7 @@ public class MailboxController {
         try {
             if (refreshScheduler == null || refreshScheduler.isShutdown())
                 refreshScheduler = Executors.newSingleThreadScheduledExecutor();
-            refreshScheduler.scheduleWithFixedDelay(this::sendRefreshRequest, 5, 5, TimeUnit.SECONDS);
+            refreshScheduler.scheduleWithFixedDelay(this::sendRefreshRequest, 40, 40, TimeUnit.SECONDS);
         } catch (Exception e) {
             setErrorText("Cannot refresh automatically.", null);
         }
