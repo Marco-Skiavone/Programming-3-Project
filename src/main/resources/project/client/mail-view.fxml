@@ -29,17 +29,17 @@
                      <children>
                         <Label fx:id="errorText" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="140.0" textAlignment="CENTER" textFill="RED" />
                      </children></FlowPane>
-                  <Button fx:id="replyBtn" mnemonicParsing="false" text="Reply" textAlignment="CENTER">
+                  <Button fx:id="replyBtn" onAction="#replyMail" mnemonicParsing="false" text="Reply" textAlignment="CENTER">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="replyAllBtn" mnemonicParsing="false" text="Reply All" textAlignment="CENTER">
+                  <Button fx:id="replyAllBtn" onAction="#replyAllMail" mnemonicParsing="false" text="Reply All" textAlignment="CENTER">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="forwardBtn" mnemonicParsing="false" text="Forward" textAlignment="CENTER">
+                  <Button fx:id="forwardBtn" onAction="#forwardMail" mnemonicParsing="false" text="Forward" textAlignment="CENTER">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>

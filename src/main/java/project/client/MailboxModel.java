@@ -61,8 +61,8 @@ public class MailboxModel {
             output.flush();
             List<MailHeader> refreshedHeaders = (List<MailHeader>) input.readObject();
             if (!refreshedHeaders.isEmpty()) {
-                refreshedHeaders.sort(Comparator.comparing(MailHeader::timestamp));
-                Platform.runLater(() -> headersList.addAll(HeaderWrapper.toWrappedList(refreshedHeaders)));
+                refreshedHeaders.sort(Comparator.comparing(MailHeader::timestamp).reversed());
+                Platform.runLater(() -> headersList.addAll(0, HeaderWrapper.toWrappedList(refreshedHeaders)));
                 return true;
             }
         } catch (Exception e) {
@@ -76,9 +76,43 @@ public class MailboxModel {
     private MailHeader getLastHeader() {
         try {
             // We assume the headersList is sorted whenever an element is added.
-            return headersList.get(headersList.size() - 1).getHeader();
+            return headersList.get(0).getHeader();
         } catch (Exception e) {
             return null;
         }
+    }
+
+    /** Function that sends a {@link project.utilities.requests.DeleteMail} request and updates client lists
+     * @param selectedHeaders an ArrayList of selectedHeaders through the view
+     * @return true if everything is ok, false otherwise
+     */
+    public boolean sendDeleteRequest (ArrayList<HeaderWrapper> selectedHeaders) {
+        try (Socket clientSocket = new Socket("127.0.0.1", Utilities.PORT)) {
+            ObjectOutputStream output = new ObjectOutputStream(clientSocket.getOutputStream());
+            ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
+            output.writeObject(new DeleteMail(userMail, HeaderWrapper.toHeaderList(selectedHeaders)));
+            output.flush();
+            boolean result = input.readBoolean();
+            if (result)
+                headersList.removeAll(selectedHeaders);
+            return result;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @return an ArrayList of SeleteHeaders through the view
+     */
+    public ArrayList<HeaderWrapper> getSelectedHeaders() {
+        ArrayList<HeaderWrapper> headers = new ArrayList<>();
+        for( HeaderWrapper hw : headersList) {
+            if(hw.isSelected())
+                headers.add(hw);
+        }
+        return headers;
     }
 }

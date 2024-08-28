@@ -13,6 +13,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import project.utilities.*;
+import javafx.application.Platform;
 
 public class MailboxController {
     @FXML
@@ -74,12 +75,13 @@ public class MailboxController {
             @Override
             protected void updateItem(HeaderWrapper headerWrapper, boolean empty) {
                 super.updateItem(headerWrapper, empty);
-                if (this.header == null && headerWrapper != null)
+                if (headerWrapper != null)
                     this.header = headerWrapper.getHeader();
                 if (empty || headerWrapper == null) {
                     setGraphic(null);
                 } else {
                     // bidirectional checkBox selection
+                    checkBox.setSelected(headerWrapper.isSelected());
                     checkBox.setOnAction(ev -> headerWrapper.setSelected(checkBox.isSelected()));
                     sender.setText(headerWrapper.getHeader().sender());
                     time.setText((headerWrapper.getHeader().timestamp().toLocalDateTime()
@@ -94,9 +96,16 @@ public class MailboxController {
     /** Function called when "Delete" button is pressed. */
     @FXML
     public void deleteMails() {
-        // 1. group all the headers selected in a Collection
-        // 2. send a DELETE request
-        // 3. shows a feedback to the client -> setErrorText(...)
+        ArrayList<HeaderWrapper> selectedHeaders =  model.getSelectedHeaders();
+        if (!selectedHeaders.isEmpty()) {
+            if (model.sendDeleteRequest(selectedHeaders)) {
+                Platform.runLater(() -> {setErrorText("Mails deleted successfully", "#0000fa");});
+                System.out.println("Mails deleted successfully");
+            }
+        } else {
+            Platform.runLater(() -> {setErrorText("No email selected", null);});
+            System.out.println("Attempted delete mail request but no headers were selected");
+        }
     }
 
     /** Function called when "New Mail" button is pressed. */
@@ -110,7 +119,7 @@ public class MailboxController {
     @FXML
     public void sendRefreshRequest () {
         if (model.sendRefreshRequest()) {
-            setErrorText("New email arrived!", "#0000fa");
+            Platform.runLater(() -> setErrorText("New email arrived!", "#0000fa"));
             System.out.println("New email arrived!");
         }
     }
@@ -128,7 +137,7 @@ public class MailboxController {
             Stage stage = new Stage();
             Scene scene = new Scene(fxmlLoader.load(), 600, 400);
             stage.setScene(scene);
-            stage.setTitle("Mail - View: " + header.subject());
+            stage.setTitle("Mail - View: \"" + header.subject() + "\"");
             stage.setResizable(false);
 
             MailController mailController = fxmlLoader.getController();
@@ -170,7 +179,7 @@ public class MailboxController {
         try {
             if (refreshScheduler == null || refreshScheduler.isShutdown())
                 refreshScheduler = Executors.newSingleThreadScheduledExecutor();
-            refreshScheduler.scheduleWithFixedDelay(this::sendRefreshRequest, 2, 2, TimeUnit.MINUTES);
+            refreshScheduler.scheduleWithFixedDelay(this::sendRefreshRequest, 40, 40, TimeUnit.SECONDS);
         } catch (Exception e) {
             setErrorText("Cannot refresh automatically.", null);
         }
@@ -199,7 +208,7 @@ public class MailboxController {
             errorMsgLabel.setText(text);
             colorHex = colorHex != null ? colorHex : "#ffd400";     // "warning-yellow" if colorHex is null
             errorMsgLabel.setTextFill(Paint.valueOf(colorHex));
-            errorExecutor.schedule(() -> errorMsgLabel.setText(""), 2, TimeUnit.SECONDS);
+            errorExecutor.schedule(() -> Platform.runLater(()-> errorMsgLabel.setText("")), 2, TimeUnit.SECONDS);
         } catch (Exception e) {
             System.err.println("Error in \"errorExecutor\" scheduling: " + e.getMessage());
         } finally {

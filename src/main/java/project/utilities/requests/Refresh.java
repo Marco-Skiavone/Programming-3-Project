@@ -25,16 +25,23 @@ public class Refresh extends RequestObj {
             if (!model.checkAddress(this.getSender()))
                 throw new UnknownAddressException("Erroneous sender address: " + this.getSender());
 
-            List<MailHeader> headers = model.readHeaderFile(getSender());
+            ArrayList<MailHeader> headers = model.readHeaderFile(getSender());
             if (headers == null)
                 throw new ArrayIndexOutOfBoundsException("Invalid list of mail headers");
 
-            if (headers.isEmpty() || (headers.get(0).equals(lastHeader) && headers.size() == 1))
+            if (headers.isEmpty() || (headers.get(0).equals(lastHeader) && headers.size() == 1) ||
+                    (headers.indexOf(lastHeader) == headers.size() - 1))
                 output.writeObject(new ArrayList<MailHeader>());
             else if (lastHeader == null)
-                output.writeObject(headers);    // headers.size() > 1
-            else
-                 output.writeObject(headers.subList(headers.indexOf(lastHeader) + 1, headers.size()));
+                output.writeObject(headers);
+            else {
+                // returning the list of interest.
+                ArrayList<MailHeader> returnableList = new ArrayList<>();
+                ListIterator<MailHeader> iterator = headers.listIterator(headers.indexOf(lastHeader) + 1);
+                while (iterator.hasNext())
+                    returnableList.add(iterator.next());
+                output.writeObject(returnableList);
+            }
             output.flush();
             controller.writeOnLog("Refresh request served.");
         }  catch (Exception e) {

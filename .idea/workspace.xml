@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b3cd24a2-57f6-4f2f-b582-b6f8adc98109" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/client/MailboxController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/client/MailboxController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/utilities/Utilities.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/utilities/Utilities.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/client/MailboxModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/client/MailboxModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/utilities/HeaderWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/utilities/HeaderWrapper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,33 +44,33 @@
     <option name="showMembers" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Client.executor": "Run",
-    "Application.ClientApplication.executor": "Run",
-    "Application.Server.executor": "Run",
-    "Application.ServerApplication.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Client.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ClientApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Server.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ServerApplication.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;delete-implementation&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.Client">
     <configuration name="Client" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="project.client.ClientApplication" />
-      <module name="project" />
+      <module name="programming-3-project" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="Server" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="project.server.ServerApplication" />
-      <module name="project" />
+      <module name="programming-3-project" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -83,8 +83,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.17011.79" />
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.17011.79" />
+        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
       </set>
     </attachedChunks>
   </component>
@@ -112,6 +112,9 @@
       <workItem from="1724580363169" duration="13941000" />
       <workItem from="1724657566798" duration="1539000" />
       <workItem from="1724673204894" duration="8596000" />
+      <workItem from="1724697929162" duration="344000" />
+      <workItem from="1724739972975" duration="1628000" />
+      <workItem from="1724758525061" duration="1003000" />
     </task>
     <servers />
   </component>
