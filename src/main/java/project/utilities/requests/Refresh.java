@@ -33,8 +33,9 @@ public class Refresh extends RequestObj {
                     (headers.indexOf(lastHeader) == headers.size() - 1))
                 output.writeObject(new ArrayList<MailHeader>());
             else if (lastHeader == null)
-                output.writeObject(headers);    // headers.size() > 1
+                output.writeObject(headers);
             else {
+                // returning the list of interest.
                 ArrayList<MailHeader> returnableList = new ArrayList<>();
                 ListIterator<MailHeader> iterator = headers.listIterator(headers.indexOf(lastHeader) + 1);
                 while (iterator.hasNext())
