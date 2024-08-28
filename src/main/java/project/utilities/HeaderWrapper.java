@@ -32,9 +32,11 @@ public class HeaderWrapper implements Serializable, Comparable<HeaderWrapper> {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof HeaderWrapper headerWrapper)
+    public boolean equals(Object o) {
+        if (o instanceof HeaderWrapper headerWrapper)
             return header.equals(headerWrapper.header) && selected == headerWrapper.selected;
+        if (o instanceof MailHeader h)
+            return header.equals(h);
         return false;
     }
 
@@ -51,5 +53,17 @@ public class HeaderWrapper implements Serializable, Comparable<HeaderWrapper> {
         for (MailHeader header : headers)
             wrappedList.add(new HeaderWrapper(header));
         return wrappedList;
+    }
+
+    /** Function used to unwrap {@link HeaderWrapper}s into MailHeaders, to easily handle them.
+     * @param headersWrapped The List of HeaderWrapper to unwrap in this record.
+     * @return A {@link ArrayList<MailHeader>} Where each element is the {@link MailHeader} contained into an element
+     * in headerWrapped. */
+    public static ArrayList<MailHeader> toHeaderList(Collection<HeaderWrapper> headersWrapped) {
+        ArrayList<MailHeader> headers = new ArrayList<>();
+        for(HeaderWrapper hw : headersWrapped) {
+            headers.add(hw.getHeader());
+        }
+        return headers;
     }
 }
