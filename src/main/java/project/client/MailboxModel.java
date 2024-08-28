@@ -76,7 +76,7 @@ public class MailboxModel {
     private MailHeader getLastHeader() {
         try {
             // We assume the headersList is sorted whenever an element is added.
-            return headersList.get(headersList.size() - 1).getHeader();
+            return headersList.get(0).getHeader();
         } catch (Exception e) {
             return null;
         }

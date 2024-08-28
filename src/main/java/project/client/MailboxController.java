@@ -75,7 +75,7 @@ public class MailboxController {
             @Override
             protected void updateItem(HeaderWrapper headerWrapper, boolean empty) {
                 super.updateItem(headerWrapper, empty);
-                if (this.header == null && headerWrapper != null)
+                if (headerWrapper != null)
                     this.header = headerWrapper.getHeader();
                 if (empty || headerWrapper == null) {
                     setGraphic(null);
