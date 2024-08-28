@@ -32,9 +32,11 @@ public class HeaderWrapper implements Serializable, Comparable<HeaderWrapper> {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof HeaderWrapper headerWrapper)
+    public boolean equals(Object o) {
+        if (o instanceof HeaderWrapper headerWrapper)
             return header.equals(headerWrapper.header) && selected == headerWrapper.selected;
+        if (o instanceof MailHeader h)
+            return header.equals(h);
         return false;
     }
 
@@ -52,4 +54,6 @@ public class HeaderWrapper implements Serializable, Comparable<HeaderWrapper> {
             wrappedList.add(new HeaderWrapper(header));
         return wrappedList;
     }
+
+
 }

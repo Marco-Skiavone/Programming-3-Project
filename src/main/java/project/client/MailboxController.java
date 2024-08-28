@@ -81,6 +81,7 @@ public class MailboxController {
                     setGraphic(null);
                 } else {
                     // bidirectional checkBox selection
+                    checkBox.setSelected(headerWrapper.isSelected());
                     checkBox.setOnAction(ev -> headerWrapper.setSelected(checkBox.isSelected()));
                     sender.setText(headerWrapper.getHeader().sender());
                     time.setText((headerWrapper.getHeader().timestamp().toLocalDateTime()
@@ -95,10 +96,16 @@ public class MailboxController {
     /** Function called when "Delete" button is pressed. */
     @FXML
     public void deleteMails() {
-        //@todo: target = model.getSelectedHeaders();
-        // 1. group all the headers selected in a Collection
-        // 2. send a DELETE request
-        // 3. shows a feedback to the client -> setErrorText(...)
+        ArrayList<HeaderWrapper> selectedHeaders =  model.getSelectedHeaders();
+        if (!selectedHeaders.isEmpty()) {
+            if (model.sendDeleteRequest(selectedHeaders)) {
+                Platform.runLater(() -> {setErrorText("Mails deleted successfully", "#0000fa");});
+                System.out.println("Mails deleted successfully");
+            }
+        } else {
+            Platform.runLater(() -> {setErrorText("No email selected", null);});
+            System.out.println("Attempted delete mail request but no headers were selected");
+        }
     }
 
     /** Function called when "New Mail" button is pressed. */
@@ -201,7 +208,7 @@ public class MailboxController {
             errorMsgLabel.setText(text);
             colorHex = colorHex != null ? colorHex : "#ffd400";     // "warning-yellow" if colorHex is null
             errorMsgLabel.setTextFill(Paint.valueOf(colorHex));
-            errorExecutor.schedule(() -> errorMsgLabel.setText(""), 2, TimeUnit.SECONDS);
+            errorExecutor.schedule(() -> Platform.runLater(()-> errorMsgLabel.setText("")), 2, TimeUnit.SECONDS);
         } catch (Exception e) {
             System.err.println("Error in \"errorExecutor\" scheduling: " + e.getMessage());
         } finally {
