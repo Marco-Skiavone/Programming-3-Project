@@ -34,8 +34,13 @@ public class Refresh extends RequestObj {
                 output.writeObject(new ArrayList<MailHeader>());
             else if (lastHeader == null)
                 output.writeObject(headers);    // headers.size() > 1
-            else
-                 output.writeObject((ArrayList<MailHeader>)headers.subList(headers.indexOf(lastHeader) + 1, headers.size()));
+            else {
+                ArrayList<MailHeader> returnableList = new ArrayList<>();
+                ListIterator<MailHeader> iterator = headers.listIterator(headers.indexOf(lastHeader) + 1);
+                while (iterator.hasNext())
+                    returnableList.add(iterator.next());
+                output.writeObject(returnableList);
+            }
             output.flush();
             controller.writeOnLog("Refresh request served.");
         }  catch (Exception e) {
