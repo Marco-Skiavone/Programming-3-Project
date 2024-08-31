@@ -5,10 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3cd24a2-57f6-4f2f-b582-b6f8adc98109" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/persistence/headers/ivan.lusso@domain.com.txt" beforeDir="false" afterPath="$PROJECT_DIR$/persistence/headers/ivan.lusso@domain.com.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/persistence/headers/marco.schiavone@prog3.edu.txt" beforeDir="false" afterPath="$PROJECT_DIR$/persistence/headers/marco.schiavone@prog3.edu.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/persistence/mails/-1323532972.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/client/MailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/client/MailController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/client/MailModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/client/MailModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/client/MailboxModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/client/MailboxModel.java" afterDir="false" />
@@ -56,7 +52,7 @@
     "Application.Server.executor": "Run",
     "Application.ServerApplication.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "client-server-connection-check",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",

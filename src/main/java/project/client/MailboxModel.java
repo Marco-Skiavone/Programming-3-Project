@@ -11,11 +11,12 @@ import project.utilities.requests.*;
 public class MailboxModel {
     private final String userMail;
     private final HashMap<MailHeader, Email> mailbox;
-    private ObservableList<HeaderWrapper> headersList = FXCollections.observableArrayList();
+    private final ObservableList<HeaderWrapper> headersList = FXCollections.observableArrayList();
 
     public MailboxModel(String userMail, List<MailHeader> headers) {
         this.userMail = userMail;
         this.mailbox = new HashMap<>();
+        headers.sort(Comparator.comparing(MailHeader::timestamp).reversed());
         this.headersList.addAll(HeaderWrapper.toWrappedList(headers));
     }
 
