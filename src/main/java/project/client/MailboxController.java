@@ -99,7 +99,6 @@ public class MailboxController {
     @FXML
     public void deleteMails() {
         if (!serverOffline) {
-
             ArrayList<HeaderWrapper> selectedHeaders =  model.getSelectedHeaders();
             if (!selectedHeaders.isEmpty()) {
                 if (model.sendDeleteRequest(selectedHeaders)) {
@@ -177,6 +176,8 @@ public class MailboxController {
             });
             stage.show();
             mailController.readMail(userAddress, emailToRead);
+            if (serverOffline)
+                Platform.runLater(() -> mailController.setServerStatus(serverOffline));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -199,6 +200,8 @@ public class MailboxController {
             });
             stage.show();
             mailController.startNewMailView(userAddress);
+            if (serverOffline)
+                Platform.runLater(() -> mailController.setServerStatus(serverOffline));
         } catch (IOException e) {
             e.printStackTrace();
         }
