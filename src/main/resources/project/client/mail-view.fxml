@@ -27,19 +27,19 @@
                   <TextField fx:id="subjectField" prefHeight="26.0" prefWidth="200.0" />
                   <FlowPane prefHeight="26.0" prefWidth="9.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label fx:id="errorText" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="140.0" textAlignment="CENTER" textFill="RED" />
+                        <Label fx:id="offlineServerLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="140.0" textAlignment="CENTER" textFill="RED" />
                      </children></FlowPane>
-                  <Button fx:id="replyBtn" onAction="#replyMail" mnemonicParsing="false" text="Reply" textAlignment="CENTER">
+                  <Button fx:id="replyBtn" mnemonicParsing="false" onAction="#replyMail" text="Reply" textAlignment="CENTER">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="replyAllBtn" onAction="#replyAllMail" mnemonicParsing="false" text="Reply All" textAlignment="CENTER">
+                  <Button fx:id="replyAllBtn" mnemonicParsing="false" onAction="#replyAllMail" text="Reply All" textAlignment="CENTER">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="forwardBtn" onAction="#forwardMail" mnemonicParsing="false" text="Forward" textAlignment="CENTER">
+                  <Button fx:id="forwardBtn" mnemonicParsing="false" onAction="#forwardMail" text="Forward" textAlignment="CENTER">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
@@ -72,6 +72,10 @@
                <VBox.margin>
                   <Insets bottom="2.0" left="2.0" right="2.0" />
                </VBox.margin></TextArea>
+            <Label fx:id="errorText" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="600.0" textAlignment="CENTER" textFill="RED">
+               <VBox.margin>
+                  <Insets bottom="2.0" />
+               </VBox.margin></Label>
          </children>
       </VBox>
    </children>

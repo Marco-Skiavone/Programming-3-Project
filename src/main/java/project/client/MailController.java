@@ -3,6 +3,7 @@ package project.client;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import project.utilities.*;
 import project.utilities.requests.*;
@@ -10,6 +11,7 @@ import java.io.*;
 import java.net.Socket;
 import java.time.*;
 import java.util.*;
+import java.util.concurrent.*;
 
 /** Controller used to bind "model" and "view" for a single mail. */
 public class MailController {
@@ -22,7 +24,11 @@ public class MailController {
     @FXML
     private TextArea mailText;
     @FXML
-    private Label errorText;    // Label that pops up a red message if some fields are wrong.
+    private Label errorText;
+
+    /** Label that pops up a red message if the server is offline. */
+    @FXML
+    private Label offlineServerLabel;
     @FXML
     private Button replyBtn;
     @FXML
@@ -33,6 +39,10 @@ public class MailController {
     private Button sendBtn;
 
     private MailModel model;
+    /** Executor to make error appear and disappear after a while. */
+    private ScheduledExecutorService errorExecutor;
+    /** MailboxController can set to 'true', if the server is offline. */
+    private boolean serverOffline = false;
 
     @FXML
     private void initialize() {
@@ -55,8 +65,16 @@ public class MailController {
      * It checks all the fields calling {@link #checkFields}, then it calls the model function to FETCH a new Email. */
     @FXML
     protected void sendMail() {
-        if (!checkFields())
-            errorText.setText("Invalid Arguments");
+        if (!serverOffline)
+            directlySendMail();
+        else
+            setErrorText(errorText, "Cannot contact the server. You will be notified when server is back online.", "#fa0000");
+    }
+
+    /** It sends an email to the server, which is assumed to be online. */
+    private void directlySendMail () {
+        if (!checkFields())     // can throw a RuntimeException
+            setErrorText(errorText, "Invalid Arguments!", "#fa0000");
         else {
             Email email = new Email(sender.getText(), model.getReceiversList(), model.valueOfSubjectPrt(),
                     model.valueOfBodyPrt(), LocalDateTime.now());
@@ -66,14 +84,14 @@ public class MailController {
                 output.writeObject(new SendMail(sender.getText(), email));
                 output.flush();
                 if (input.readBoolean()) {
-                    // @todo output that is all good
                     shutdownEditor();
                 } else {
-                    // @todo warning message
+                    setErrorText(errorText, "Server is not responding.", "#fa0000");
+                    System.err.println("Server is not responding.");
                 }
             } catch (Exception e) {
+                setErrorText(errorText, "Error occurred while sending an email.", "#fa0000");
                 e.printStackTrace();
-                // @todo handle exception
             }
         }
     }
@@ -82,8 +100,10 @@ public class MailController {
      * This function modifies the actual Mail-view (resetting Model) to correctly fill some fields. */
     @FXML
     protected void forwardMail() {
+        String forwardText = "--->>> Forwarded by " + model.valueOfSenderPrt() + " <<<---\n\n" + model.valueOfBodyPrt();
+
         Email emailToForward = new Email(model.getUserAddress(), new ArrayList<>(), model.valueOfSubjectPrt(),
-                "--->>> Forward <<<---\n\n" + model.valueOfBodyPrt(), LocalDateTime.now());
+                forwardText, LocalDateTime.now());
         model = new MailModel(model.getUserAddress(), emailToForward);
         mailPropertyBinding();
         setDisableResponseButton(true);
@@ -96,8 +116,10 @@ public class MailController {
      * This function modifies the actual Mail-view (resetting Model) to correctly fill some fields. */
     @FXML
     protected void replyMail() {
+        String replyText = "Reply to " + model.valueOfSenderPrt() + ":\n\n" + model.valueOfBodyPrt() + "\n-------\n\n";
+
         Email emailToReply = new Email(model.getUserAddress(), Collections.singletonList(model.valueOfSenderPrt()),
-                model.valueOfSubjectPrt(), "Reply To:\n" + model.valueOfBodyPrt() + "\n-------\n\n", LocalDateTime.now());
+                model.valueOfSubjectPrt(), replyText, LocalDateTime.now());
         model = new MailModel(model.getUserAddress(), emailToReply);
         mailPropertyBinding();
         setDisableResponseButton(true);
@@ -114,8 +136,12 @@ public class MailController {
         receiversList.remove(model.getUserAddress());
         receiversList.add(model.valueOfSenderPrt());
 
-        Email emailToReply = new Email(model.getUserAddress(), receiversList, model.valueOfSubjectPrt(), "Reply To:\n"
-                + model.valueOfBodyPrt() + "\n-------\n\n", LocalDateTime.now());
+        String replyText = receiversList.toString();
+        replyText = "Reply to " + replyText.substring(1, replyText.length()-1) + ":\n\n" + model.valueOfBodyPrt() +
+                "\n-------\n\n";
+
+        Email emailToReply = new Email(model.getUserAddress(), receiversList, model.valueOfSubjectPrt(), replyText,
+                LocalDateTime.now());
         model = new MailModel(model.getUserAddress(), emailToReply);
         mailPropertyBinding();
         setDisableResponseButton(true);
@@ -155,7 +181,7 @@ public class MailController {
      * (it also contacts the server through the model) */
     private boolean checkFields() {
         boolean condition = !subjectField.getText().isBlank() && !receiversField.getText().isBlank() &&
-        !mailText.getText().isBlank();
+                !mailText.getText().isBlank();
         if (!condition) return false;
         for (String field : receiversField.getText().split(",")) {
             String adr = field.trim();
@@ -165,9 +191,47 @@ public class MailController {
         return true;
     }
 
+    /** Synchronized function used to show error messages to the client view, as feedback
+     * of the operations requested by the user.
+     * @param text The error to show in the client view (in yellow).
+     * @param colorHex It has to be a string formatted as "#xxxxxx", where the "x" are hexadecimal values.
+     * If {@code colorHex == null}, then the color picked is the "default" warning yellow. (something went wrong) */
+    private synchronized void setErrorText(Label label, String text, String colorHex) {
+        try {
+            errorExecutor = Executors.newSingleThreadScheduledExecutor();
+            colorHex = colorHex != null ? colorHex : "#ffd400";     // "warning-yellow" if colorHex is null
+            label.setTextFill(Paint.valueOf(colorHex));
+            Platform.runLater(() -> label.setText(text));
+            errorExecutor.schedule(() -> Platform.runLater(()-> label.setText("")), 3, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            System.err.println("Error in \"errorExecutor\" scheduling: " + e.getMessage());
+        } finally {
+            if (errorExecutor != null && !errorExecutor.isShutdown())
+                errorExecutor.shutdown();
+        }
+    }
+
+    /** Method called by the MailboxController. It modifies the server status, making the MailController to output
+     * messages to the view, in base of {@link #offlineServerLabel} value.
+     * @param offline Is a boolean which sets the {@link #serverOffline} value of the controller.
+     *                If true, the "send" requests should not be sent. */
+    public void setServerStatus(boolean offline) {
+        serverOffline = offline;
+        if (offline) {
+            // Setting error without timeout, to make the message be there until the server is back online.
+            offlineServerLabel.setTextFill(Paint.valueOf("#fa0000"));
+            offlineServerLabel.setText("Server offline.");
+            setErrorText(errorText, "Server is offline! Emails will NOT be sent!", null);
+        } else {
+            setErrorText(offlineServerLabel, "Server online.", "#0000fa");
+            setErrorText(errorText, "Server is now online!", "#0000fa");
+        }
+    }
+
     /** Function that closes the window, without saving the email, if it is in "write-mode". */
     public void shutdownEditor() {
-        // @todo add the shutdown of the schedulers !
+        if (errorExecutor != null && !errorExecutor.isShutdown())
+            errorExecutor.shutdown();
         ((Stage) subjectField.getScene().getWindow()).close();
     }
 }

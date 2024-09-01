@@ -11,11 +11,12 @@ import project.utilities.requests.*;
 public class MailboxModel {
     private final String userMail;
     private final HashMap<MailHeader, Email> mailbox;
-    private ObservableList<HeaderWrapper> headersList = FXCollections.observableArrayList();
+    private final ObservableList<HeaderWrapper> headersList = FXCollections.observableArrayList();
 
     public MailboxModel(String userMail, List<MailHeader> headers) {
         this.userMail = userMail;
         this.mailbox = new HashMap<>();
+        headers.sort(Comparator.comparing(MailHeader::timestamp).reversed());
         this.headersList.addAll(HeaderWrapper.toWrappedList(headers));
     }
 
@@ -53,7 +54,7 @@ public class MailboxModel {
 
     /** Functions used to send a REFRESH request to the server and get back any received Email.
      * @return 'true' if something new is arrived in the mailbox, 'false' otherwise. */
-    public boolean sendRefreshRequest () {
+    public boolean sendRefreshRequest () throws Exception {
         try (Socket clientSocket = new Socket("127.0.0.1", Utilities.PORT)) {
             ObjectOutputStream output = new ObjectOutputStream(clientSocket.getOutputStream());
             ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
@@ -67,6 +68,7 @@ public class MailboxModel {
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            throw e;
         }
         return false;
     }
