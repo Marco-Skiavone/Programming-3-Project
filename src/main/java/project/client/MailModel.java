@@ -105,8 +105,4 @@ public class MailModel {
             return false;
         }
     }
-
-    public boolean serverCheck() {
-        return checkAddress(userAddress);
-    }
 }

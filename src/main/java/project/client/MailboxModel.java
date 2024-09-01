@@ -54,7 +54,7 @@ public class MailboxModel {
 
     /** Functions used to send a REFRESH request to the server and get back any received Email.
      * @return 'true' if something new is arrived in the mailbox, 'false' otherwise. */
-    public boolean sendRefreshRequest () {
+    public boolean sendRefreshRequest () throws Exception {
         try (Socket clientSocket = new Socket("127.0.0.1", Utilities.PORT)) {
             ObjectOutputStream output = new ObjectOutputStream(clientSocket.getOutputStream());
             ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
@@ -68,6 +68,7 @@ public class MailboxModel {
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            throw e;
         }
         return false;
     }

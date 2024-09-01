@@ -27,7 +27,7 @@
                   <TextField fx:id="subjectField" prefHeight="26.0" prefWidth="200.0" />
                   <FlowPane prefHeight="26.0" prefWidth="9.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="140.0" textAlignment="CENTER" textFill="RED" />
+                        <Label fx:id="offlineServerLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="140.0" textAlignment="CENTER" textFill="RED" />
                      </children></FlowPane>
                   <Button fx:id="replyBtn" mnemonicParsing="false" onAction="#replyMail" text="Reply" textAlignment="CENTER">
                      <HBox.margin>

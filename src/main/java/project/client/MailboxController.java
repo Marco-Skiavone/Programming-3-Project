@@ -25,6 +25,8 @@ public class MailboxController {
     /** List of controllers to let the Mailbox handle all the opened mails. */
     private final List<MailController> mailsList = new ArrayList<>();
     private MailboxModel model;
+    /** Used to know when the server has been offline and notify the MailControllers when it gets back online. */
+    private boolean serverOffline = false;
 
     /** Used to loop RefreshRequests towards the server. */
     private ScheduledExecutorService refreshScheduler;
@@ -96,15 +98,20 @@ public class MailboxController {
     /** Function called when "Delete" button is pressed. */
     @FXML
     public void deleteMails() {
-        ArrayList<HeaderWrapper> selectedHeaders =  model.getSelectedHeaders();
-        if (!selectedHeaders.isEmpty()) {
-            if (model.sendDeleteRequest(selectedHeaders)) {
-                Platform.runLater(() -> {setErrorText("Mails deleted successfully", "#0000fa");});
-                System.out.println("Mails deleted successfully");
+        if (!serverOffline) {
+
+            ArrayList<HeaderWrapper> selectedHeaders =  model.getSelectedHeaders();
+            if (!selectedHeaders.isEmpty()) {
+                if (model.sendDeleteRequest(selectedHeaders)) {
+                    Platform.runLater(() -> {setErrorText("Mails deleted successfully", "#0000fa");});
+                    System.out.println("Mails deleted successfully");
+                }
+            } else {
+                Platform.runLater(() -> {setErrorText("No email selected", null);});
+                System.out.println("Attempted delete mail request but no headers were selected");
             }
         } else {
-            Platform.runLater(() -> {setErrorText("No email selected", null);});
-            System.out.println("Attempted delete mail request but no headers were selected");
+            setErrorText("Server is offline. Please wait, until it gets back online.", "#fa0000");
         }
     }
 
@@ -114,13 +121,36 @@ public class MailboxController {
         openNewMailView();
     }
 
-    /** Function called when "Refresh" button is pressed.
-     * if new mails arrived, it shows a message on the client for few seconds. */
+    /** Function called when "Refresh" button is pressed. If new mails arrived,
+     * it shows a message on the client for few seconds.
+     * This function is also responsible for the communication with mail controllers on the server status. */
     @FXML
     public void sendRefreshRequest () {
-        if (model.sendRefreshRequest()) {
-            Platform.runLater(() -> setErrorText("New email arrived!", "#0000fa"));
-            System.out.println("New email arrived!");
+        try {
+            if (model.sendRefreshRequest()) {
+                Platform.runLater(() -> setErrorText("New email arrived!", "#0000fa"));
+                System.out.println("New email arrived!");
+            }
+            // notify controllers that server is back online
+            if (!mailsList.isEmpty() && serverOffline) {
+                mailsList.forEach(controller -> Platform.runLater(() -> controller.setServerStatus(false)));
+                setErrorText("Server is now online!", "#0000fa");
+            }
+            serverOffline = false;
+        } catch (Exception e) {
+            if (e instanceof IOException){
+                serverOffline = true;
+                errorMsgLabel.setTextFill(Paint.valueOf("#fa0000"));
+                Platform.runLater(() -> errorMsgLabel.setText("Server is offline!"));
+
+                System.err.println("Server is offline. (" + e.getMessage() + ")");
+                // Notify mail-controllers that the server is offline
+                if (!mailsList.isEmpty())
+                    mailsList.forEach(controller -> Platform.runLater(() -> controller.setServerStatus(serverOffline)));
+            } else {
+                System.err.println("Unexpected Exception: " + e);
+                e.printStackTrace();
+            }
         }
     }
 
@@ -179,7 +209,7 @@ public class MailboxController {
         try {
             if (refreshScheduler == null || refreshScheduler.isShutdown())
                 refreshScheduler = Executors.newSingleThreadScheduledExecutor();
-            refreshScheduler.scheduleWithFixedDelay(this::sendRefreshRequest, 40, 40, TimeUnit.SECONDS);
+            refreshScheduler.scheduleWithFixedDelay(this::sendRefreshRequest, 10, 40, TimeUnit.SECONDS);
         } catch (Exception e) {
             setErrorText("Cannot refresh automatically.", null);
         }
@@ -205,9 +235,9 @@ public class MailboxController {
     private synchronized void setErrorText(String text, String colorHex) {
         try {
             errorExecutor = Executors.newSingleThreadScheduledExecutor();
-            errorMsgLabel.setText(text);
             colorHex = colorHex != null ? colorHex : "#ffd400";     // "warning-yellow" if colorHex is null
             errorMsgLabel.setTextFill(Paint.valueOf(colorHex));
+            Platform.runLater(() -> errorMsgLabel.setText(text));
             errorExecutor.schedule(() -> Platform.runLater(()-> errorMsgLabel.setText("")), 2, TimeUnit.SECONDS);
         } catch (Exception e) {
             System.err.println("Error in \"errorExecutor\" scheduling: " + e.getMessage());

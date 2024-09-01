@@ -24,7 +24,11 @@ public class MailController {
     @FXML
     private TextArea mailText;
     @FXML
-    private Label errorText;    // Label that pops up a red message if some fields are wrong.
+    private Label errorText;
+
+    /** Label that pops up a red message if the server is offline. */
+    @FXML
+    private Label offlineServerLabel;
     @FXML
     private Button replyBtn;
     @FXML
@@ -37,8 +41,8 @@ public class MailController {
     private MailModel model;
     /** Executor to make error appear and disappear after a while. */
     private ScheduledExecutorService errorExecutor;
-    /** Executor to send the requests even if the server is offline. It will start a cycle of sending. */
-    private ScheduledExecutorService sendRequestScheduler;
+    /** MailboxController can set to 'true', if the server is offline. */
+    private boolean serverOffline = false;
 
     @FXML
     private void initialize() {
@@ -61,18 +65,16 @@ public class MailController {
      * It checks all the fields calling {@link #checkFields}, then it calls the model function to FETCH a new Email. */
     @FXML
     protected void sendMail() {
-        if (model.serverCheck())
+        if (!serverOffline)
             directlySendMail();
-        else {
-            setErrorText("Cannot contact the server. \"Send Schedule\" started. (Do not close this tab)", null);
-            scheduledSendMail();
-        }
+        else
+            setErrorText(errorText, "Cannot contact the server. You will be notified when server is back online.", "#fa0000");
     }
 
     /** It sends an email to the server, which is assumed to be online. */
     private void directlySendMail () {
         if (!checkFields())     // can throw a RuntimeException
-            setErrorText("Invalid Arguments!", "#fa0000");
+            setErrorText(errorText, "Invalid Arguments!", "#fa0000");
         else {
             Email email = new Email(sender.getText(), model.getReceiversList(), model.valueOfSubjectPrt(),
                     model.valueOfBodyPrt(), LocalDateTime.now());
@@ -84,29 +86,13 @@ public class MailController {
                 if (input.readBoolean()) {
                     shutdownEditor();
                 } else {
-                    setErrorText("Server is not responding.", "#fa0000");
+                    setErrorText(errorText, "Server is not responding.", "#fa0000");
                     System.err.println("Server is not responding.");
                 }
             } catch (Exception e) {
-                setErrorText("Error occurred while sending an email.", "#fa0000");
+                setErrorText(errorText, "Error occurred while sending an email.", "#fa0000");
                 e.printStackTrace();
             }
-        }
-    }
-
-    /** Triggers a scheduler to send an email. */
-    private void scheduledSendMail () {
-        try {
-            if (sendRequestScheduler == null || sendRequestScheduler.isShutdown())
-                sendRequestScheduler = Executors.newSingleThreadScheduledExecutor();
-
-            sendRequestScheduler.scheduleWithFixedDelay(() -> {
-                if (model.serverCheck() && !sendRequestScheduler.isShutdown())
-                    directlySendMail();
-            }, 20, 20, TimeUnit.SECONDS);
-        } catch(Exception e) {
-            setErrorText("Error occurred while scheduling the email send.", "#fa0000");
-            e.printStackTrace();
         }
     }
 
@@ -195,7 +181,7 @@ public class MailController {
      * (it also contacts the server through the model) */
     private boolean checkFields() {
         boolean condition = !subjectField.getText().isBlank() && !receiversField.getText().isBlank() &&
-        !mailText.getText().isBlank();
+                !mailText.getText().isBlank();
         if (!condition) return false;
         for (String field : receiversField.getText().split(",")) {
             String adr = field.trim();
@@ -210,13 +196,13 @@ public class MailController {
      * @param text The error to show in the client view (in yellow).
      * @param colorHex It has to be a string formatted as "#xxxxxx", where the "x" are hexadecimal values.
      * If {@code colorHex == null}, then the color picked is the "default" warning yellow. (something went wrong) */
-    private synchronized void setErrorText(String text, String colorHex) {
+    private synchronized void setErrorText(Label label, String text, String colorHex) {
         try {
             errorExecutor = Executors.newSingleThreadScheduledExecutor();
             colorHex = colorHex != null ? colorHex : "#ffd400";     // "warning-yellow" if colorHex is null
-            errorText.setTextFill(Paint.valueOf(colorHex));
-            errorText.setText(text);
-            errorExecutor.schedule(() -> Platform.runLater(()-> errorText.setText("")), 2, TimeUnit.SECONDS);
+            label.setTextFill(Paint.valueOf(colorHex));
+            Platform.runLater(() -> label.setText(text));
+            errorExecutor.schedule(() -> Platform.runLater(()-> label.setText("")), 3, TimeUnit.SECONDS);
         } catch (Exception e) {
             System.err.println("Error in \"errorExecutor\" scheduling: " + e.getMessage());
         } finally {
@@ -225,10 +211,25 @@ public class MailController {
         }
     }
 
+    /** Method called by the MailboxController. It modifies the server status, making the MailController to output
+     * messages to the view, in base of {@link #offlineServerLabel} value.
+     * @param offline Is a boolean which sets the {@link #serverOffline} value of the controller.
+     *                If true, the "send" requests should not be sent. */
+    public void setServerStatus(boolean offline) {
+        serverOffline = offline;
+        if (offline) {
+            // Setting error without timeout, to make the message be there until the server is back online.
+            offlineServerLabel.setTextFill(Paint.valueOf("#fa0000"));
+            offlineServerLabel.setText("Server offline.");
+            setErrorText(errorText, "Server is offline! Emails will NOT be sent!", null);
+        } else {
+            setErrorText(offlineServerLabel, "Server online.", "#0000fa");
+            setErrorText(errorText, "Server is now online!", "#0000fa");
+        }
+    }
+
     /** Function that closes the window, without saving the email, if it is in "write-mode". */
     public void shutdownEditor() {
-        if (sendRequestScheduler != null && !sendRequestScheduler.isShutdown())
-            sendRequestScheduler.shutdown();
         if (errorExecutor != null && !errorExecutor.isShutdown())
             errorExecutor.shutdown();
         ((Stage) subjectField.getScene().getWindow()).close();
