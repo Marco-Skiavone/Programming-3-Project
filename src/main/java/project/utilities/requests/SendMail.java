@@ -20,7 +20,7 @@ public class SendMail extends RequestObj {
      * @param output The output stream where the feedback will be written
      * @param model The model containing the server's methods
      * @param controller The calling controller
-     * @throws Exception when sender or receivers aren't an eligible account name, or... @todo: verificare quali altre eccezioni possono verificarsi nei thread e nella write EmailFile
+     * @throws Exception when sender or receivers aren't an eligible account name, etc.
      */
     @Override
     public void resolve(ObjectOutputStream output, ServerModel model, ServerController controller) throws Exception {
@@ -63,7 +63,7 @@ public class SendMail extends RequestObj {
      * Support method which is executed by every thread
      * @param receiver a String containing the username corresponding to the headerFile name which will be updated
      * @param model the model containing the server's methods
-     * @throws Exception @todo check updateHeaderFile exeptions
+     * @throws Exception Check out {@link ServerModel#updateHeaderFile} Exceptions
      */
     private void updateReceiversHeaders(String receiver, ServerModel model) throws Exception {
         model.updateHeaderFile(receiver, Collections.singletonList(mail.getHeader()), false);
