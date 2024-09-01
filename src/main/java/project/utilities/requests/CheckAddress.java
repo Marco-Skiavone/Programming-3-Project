@@ -3,8 +3,8 @@ package project.utilities.requests;
 import project.server.*;
 import java.io.*;
 
+/** Request used to ask the server whether an email address is valid or not. */
 public class CheckAddress extends RequestObj {
-
     public CheckAddress(String address) {
         super(address);
     }

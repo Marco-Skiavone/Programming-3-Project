@@ -5,6 +5,7 @@ import project.utilities.*;
 import java.io.*;
 import java.util.*;
 
+/** Request used to notify the server about a client wanting to delete some emails. */
 public class DeleteMail extends RequestObj {
     private final Collection<MailHeader> headers;
 

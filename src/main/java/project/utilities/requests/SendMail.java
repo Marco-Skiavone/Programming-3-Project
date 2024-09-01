@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import project.utilities.*;
 
+/** Request used to notify the server about a client sending an email. */
 public class SendMail extends RequestObj {
     public final Email mail;
 

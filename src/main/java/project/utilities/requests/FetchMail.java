@@ -4,6 +4,7 @@ import project.server.*;
 import project.utilities.*;
 import java.io.*;
 
+/** Request used to require to the server an email to let the client read it. */
 public class FetchMail extends RequestObj {
     public final MailHeader header;
     public FetchMail(String sender, MailHeader header) {

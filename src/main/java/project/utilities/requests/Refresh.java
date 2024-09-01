@@ -5,6 +5,7 @@ import project.utilities.*;
 import java.io.*;
 import java.util.*;
 
+/** Request that ask the server for new emails to the client. It returns missing MailHeaders. */
 public class Refresh extends RequestObj {
     private final MailHeader lastHeader;
 

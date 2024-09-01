@@ -3,6 +3,7 @@ package project.utilities.requests;
 import project.server.*;
 import java.io.*;
 
+/** Request used to require login approval to the server. */
 public class LogIn extends RequestObj {
     public LogIn(String sender) {
         super(sender);
