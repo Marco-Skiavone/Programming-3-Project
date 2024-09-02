@@ -21,6 +21,8 @@ public class ServerController {
     @FXML
     public void initialize() {
         logList.setItems(logMsgList);
+        // Used to remove the automatic cursor selection of the first listView element.
+        Platform.runLater(() -> logList.getScene().getRoot().requestFocus());
     }
 
     public ServerController() {
