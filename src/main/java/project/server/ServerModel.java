@@ -187,7 +187,7 @@ public class ServerModel {
             File emailFile = new File("persistence/mails/" + header.hashCode() + ".txt");
             if (!emailFile.delete())
                 throw new SecurityException("Can't delete " + emailFile.getAbsolutePath());
-            fileLocks.remove("persistence/mails/" + header.hashCode() + ".txt"); // @todo maybe it needs of a synchronized ?
+            fileLocks.remove("persistence/mails/" + header.hashCode() + ".txt");
         } else
             try (FileOutputStream fileOutput = new FileOutputStream("persistence/mails/" + header.hashCode() + ".txt")) {
                 ObjectOutputStream output = new ObjectOutputStream(fileOutput);
