@@ -104,6 +104,9 @@ public class MailboxController {
                 if (model.sendDeleteRequest(selectedHeaders)) {
                     Platform.runLater(() -> {setErrorText("Mails deleted successfully", "#0000fa");});
                     System.out.println("Mails deleted successfully");
+                } else {
+                    Platform.runLater(() -> {setErrorText("Failed to delete selected emails", "#fa0000");});
+                    System.out.println("Failed to delete selected emails");
                 }
             } else {
                 Platform.runLater(() -> {setErrorText("No email selected", null);});
