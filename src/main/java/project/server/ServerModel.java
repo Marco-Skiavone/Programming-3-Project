@@ -125,9 +125,10 @@ public class ServerModel {
         try (FileInputStream fileInput = new FileInputStream("persistence/mails/" + header.hashCode() + ".txt")) {
             ObjectInputStream input = new ObjectInputStream(fileInput);
             Object inObject = input.readObject();
-            rwl.readLock().unlock();
 
             return Utilities.castToEmail(inObject);
+        } finally {
+            rwl.readLock().unlock();
         }
     }
 
