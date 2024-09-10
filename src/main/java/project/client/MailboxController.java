@@ -140,7 +140,7 @@ public class MailboxController {
             }
             serverOffline = false;
         } catch (Exception e) {
-            if (e instanceof IOException){
+            if (!serverOffline && e instanceof IOException){
                 serverOffline = true;
                 errorMsgLabel.setTextFill(Paint.valueOf("#fa0000"));
                 Platform.runLater(() -> errorMsgLabel.setText("Server is offline!"));

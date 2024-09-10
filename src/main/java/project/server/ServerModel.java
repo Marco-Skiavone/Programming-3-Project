@@ -149,8 +149,9 @@ public class ServerModel {
             ObjectOutputStream output = new ObjectOutputStream(fileOutput);
             output.writeObject(email);
             output.flush();
+        } finally {
+            rwl.writeLock().unlock();
         }
-        rwl.writeLock().unlock();
     }
 
     /** Function called to retrieve a lock about a persistence file.
@@ -183,6 +184,10 @@ public class ServerModel {
 
             email = Utilities.castToEmail(inObject);
             email.decreaseReferencesCounter();
+        } catch(Exception e) {
+            e.printStackTrace();
+            rwl.writeLock().unlock();
+            throw e;
         }
         if (email.getReferencesCounter() <= 0) {
             File emailFile = new File("persistence/mails/" + header.hashCode() + ".txt");
@@ -194,6 +199,10 @@ public class ServerModel {
                 ObjectOutputStream output = new ObjectOutputStream(fileOutput);
                 output.writeObject(email);
                 output.flush();
+            } catch(Exception e) {
+                e.printStackTrace();
+                rwl.writeLock().unlock();
+                throw e;
             }
         rwl.writeLock().unlock();
     }
