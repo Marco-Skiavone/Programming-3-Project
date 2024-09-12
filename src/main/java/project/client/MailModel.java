@@ -54,7 +54,11 @@ public class MailModel {
     }
 
     public List<String> getReceiversList() {
-        return Arrays.stream(receiverPrt.getValue().split(",")).toList();
+        String[] recList = receiverPrt.getValue().split(",");
+        for (int i = 0; i < recList.length; i++)
+            recList[i] = recList[i].trim();
+        System.out.println("recList is : " + Arrays.stream(recList).toList());
+        return Arrays.stream(recList).toList();
     }
 
     public SimpleStringProperty getSenderPrt() {
@@ -93,6 +97,7 @@ public class MailModel {
      * @param adr The address to make the server check.
      * @return a boolean in base of the response from the server. */
     public boolean checkAddress(String adr) {
+        System.out.println("\"" + adr + "\"");
         try (Socket clientSocket = new Socket("127.0.0.1", Utilities.PORT)) {
             if ( adr == null || adr.isBlank())
                 throw new RuntimeException("Invalid \"To:\" field.");

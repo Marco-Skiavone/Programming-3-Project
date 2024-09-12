@@ -26,11 +26,11 @@ public class SendMail extends RequestObj {
     public void resolve(ObjectOutputStream output, ServerModel model, ServerController controller) throws Exception {
         try {
             if (!model.checkAddress(this.getSender()))
-                throw new UnknownAddressException("Erroneous sender address: " + this.getSender());
+                throw new UnknownAddressException("Erroneous sender address: \"" + this.getSender() + "\"");
 
             for (String receiver : mail.getReceivers())
                 if (!model.checkAddress(receiver))
-                    throw new UnknownAddressException("Erroneous receiver address: " + receiver);
+                    throw new UnknownAddressException("Erroneous receiver address: \"" + receiver + "\"");
 
             // Writes the eMail in the file
             model.writeEmailFile(mail);

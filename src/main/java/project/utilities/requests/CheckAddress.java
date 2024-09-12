@@ -7,6 +7,7 @@ import java.io.*;
 public class CheckAddress extends RequestObj {
     public CheckAddress(String address) {
         super(address);
+        System.out.println(address);
     }
 
     /** It checks if the address passed via constructor is a valid email address for the server.

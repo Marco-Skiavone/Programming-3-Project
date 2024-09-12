@@ -6,8 +6,4 @@ public class UnknownAddressException extends RuntimeException {
     public UnknownAddressException(String message) {
         super(message);
     }
-    @Override
-    public String getMessage() {
-        return "UnknownAddressException occurred due to unknown address trying to send a request.";
-    }
 }

@@ -183,9 +183,13 @@ public class MailController {
         boolean condition = !subjectField.getText().isBlank() && !receiversField.getText().isBlank() &&
                 !mailText.getText().isBlank();
         if (!condition) return false;
-        for (String field : receiversField.getText().split(",")) {
-            String adr = field.trim();
-            if (!Utilities.checkSyntax(adr) || !model.checkAddress(adr))
+        String[] recList = receiversField.getText().trim().split(",");
+        System.out.println(recList);
+        for (String field : recList) {
+            System.out.println(field + ": before");
+            String field2 = field.trim();
+            System.out.println(field2 + ": after");
+            if (!Utilities.checkSyntax(field2) || !model.checkAddress(field2))
                 return false;
         }
         return true;
