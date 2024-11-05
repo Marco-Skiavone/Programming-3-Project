@@ -73,8 +73,9 @@ public class MailController {
 
     /** It sends an email to the server, which is assumed to be online. */
     private void directlySendMail () {
-        if (!checkFields())     // can throw a RuntimeException
-            setErrorText(errorText, "Invalid Arguments!", "#fa0000");
+        String checkValue = checkFields();
+        if (!checkValue.equals("OK"))     // can throw a RuntimeException
+            setErrorText(errorText, checkValue, "#fa0000");
         else {
             Email email = new Email(sender.getText(), model.getReceiversList(), model.valueOfSubjectPrt(),
                     model.valueOfBodyPrt(), LocalDateTime.now());
@@ -179,20 +180,22 @@ public class MailController {
     /** Function that checks the input fields of an email.
      * @return 'true' - If the fields are filled and the receivers are correct.
      * (it also contacts the server through the model) */
-    private boolean checkFields() {
+    private String checkFields() {
         boolean condition = !subjectField.getText().isBlank() && !receiversField.getText().isBlank() &&
                 !mailText.getText().isBlank();
-        if (!condition) return false;
+        if (!condition) return "Fill in each field";
         String[] recList = receiversField.getText().trim().split(",");
         System.out.println(recList);
         for (String field : recList) {
             System.out.println(field + ": before");
             String field2 = field.trim();
             System.out.println(field2 + ": after");
-            if (!Utilities.checkSyntax(field2) || !model.checkAddress(field2))
-                return false;
+            if (!Utilities.checkSyntax(field2))
+                return "Erroneous address syntax";
+            if(!model.checkAddress(field2))
+                return "Recipient address not found";
         }
-        return true;
+        return "OK";
     }
 
     /** Synchronized function used to show error messages to the client view, as feedback
